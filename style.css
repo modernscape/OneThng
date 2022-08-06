@@ -5,6 +5,17 @@
   padding: 0;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+table td {
+  border: 1px solid #fff;
+}
+
+
+/* ******************************* */
+
 body {
   background: rgb(51, 51, 51);
   color: #eee;

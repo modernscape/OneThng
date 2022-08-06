@@ -1,45 +1,123 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
+
     <title>One Thing</title>
+    <style>
+        input {
+            background-color: rgba(0, 0, 0, 0);
+            color: #fff;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .plusBtn {
+            text-align: center;
+            border: 0;
+            font-weight: bold;
+            color: aqua;
+            cursor: pointer;
+        }
+
+        .plus_item {
+            padding: 5px 0;
+        }
+
+        .plus_category {
+            padding: 0 10px;
+        }
+
+        .container,
+        #txt,
+        #textMetrics {
+            font: inherit;
+        }
+
+        #textMetrics {
+            display: inline-block;
+            position: absolute;
+            height: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+        }
+    </style>
 </head>
+
 <body>
     <div id="app">
-        <div id="header">
-            <!-- 表示領域 -->
-            <div id="display">
-                <div id="display-title"></div>
-                <div id="display-date"></div>
-                <div id="display-body"></div>
-                <div id="display-icon"></div>
-            </div>
-        </div>
-        <!-- リスト表示領域 -->
-        <div id="list">
-            <ul id="items" style="list-style-type: none">
-                <li v-for="item in items" :class="item.category" :key="item.id"
-                    :data-id="item.id">
+        <!-- <div id="list"> -->
+        <table>
+            <tr class="center">
+                <td>実行</td>
+                <td>日付</td>
+                <td></td>
+                <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">{{ cat.title }}</td>
+                <td class="plusBtn plus_category" onclick="addCategory()">＋</td>
+            </tr>
+            <tr>
+                <td colspan="2">ツールコンテンツ</td>
+                <td></td>
+                <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id"></td>
+            </tr>
+            <tr v-for="item in items" :class="item.category" :key="item.id" :data-id="item.id">
+                <td class="center"><input type="checkbox" name="" id="" :checked=item.done></td>
+                <td>{{ item.date }}</td>
+                <td>{{ item.evaluation }}</td>
+                <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
+                    <div class="container" v-if="cat.id == item.cat">
+                        <input id="txt" type="text" :value=item.title>
+                        <span id="textMetrics" aria-hidden="true"></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td :colspan="categories.length + 3" class="plusBtn plus_item" onclick="addItem()">＋</td>
+            </tr>
+        </table>
+
+
+
+
+
+        <!-- <ul id="items" style="list-style-type: none">
+                <li v-for="item in items" :class="item.category" :key="item.id" :data-id="item.id">
                     <div class="item-title">{{ item.title }}</div>
                     <div class="item-body">
-                        <img v-for="path in item.imgPaths"
-                            :src='"./img/"+path' />
+                        <img v-for="path in item.imgPaths" :src='"./img/"+path' />
                         <br />
-                        <a v-for="url in item.urls" :href="url"
-                            target="_blank">click to open</a>
+                        <a v-for="url in item.urls" :href="url" target="_blank">click to open</a>
                     </div>
                 </li>
-            </ul>
-        </div>
+            </ul> -->
+        <!-- </div> -->
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
     <script src="./data.js"></script>
     <script src="./main.js"></script>
-    
+    <script>
+        function textMetrics() {
+            const span = document.getElementById("textMetrics");
+            const input = document.getElementById("txt");
+
+            span.textContent = input.value;
+            input.style.width = `${span.clientWidth}px`;
+        }
+
+        document.addEventListener("DOMContentLoaded", textMetrics);
+        document.getElementById("txt").addEventListener("input", textMetrics);
+    </script>
 </body>
+
 </html>
