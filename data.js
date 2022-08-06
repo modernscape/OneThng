@@ -3,7 +3,7 @@ var exItems = [
     id: 0,
     cat: 0,
     done: true,
-    date: "22-08-05",
+    date: "2022-08-05",
     evaluation: '◎',
     title: "レバレッジ・リーディング"
   },
@@ -11,7 +11,7 @@ var exItems = [
     id: 1,
     cat: 1,
     done: false,
-    date: "22-08-06",
+    date: "2022-08-05",
     evaluation: '○',
     title: "ブログを書く"
   },
@@ -19,7 +19,7 @@ var exItems = [
     id: 2,
     cat: 2,
     done: false,
-    date: "22-08-07",
+    date: "2022-08-06",
     evaluation: '○',
     title: "記事を書く（note）"
   },
