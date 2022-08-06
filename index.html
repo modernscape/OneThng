@@ -38,12 +38,12 @@
         }
 
         .container,
-        #txt,
-        #textMetrics {
+        .txt,
+        .textMetrics {
             font: inherit;
         }
 
-        #textMetrics {
+        .textMetrics {
             display: inline-block;
             position: absolute;
             height: 0;
@@ -57,14 +57,13 @@
 
 <body>
     <div id="app">
-        <!-- <div id="list"> -->
         <table>
             <tr class="center">
                 <td>実行</td>
                 <td>日付</td>
                 <td></td>
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">{{ cat.title }}</td>
-                <td class="plusBtn plus_category" onclick="addCategory()">＋</td>
+                <td class="plusBtn plus_category" v-on:click="addCategory">＋</td>
             </tr>
             <tr>
                 <td colspan="2">ツールコンテンツ</td>
@@ -77,57 +76,26 @@
                 <td style="padding: 0 3px;">{{ item.evaluation }}</td>
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
                     <div class="container" v-if="cat.id == item.cat">
-                        <input id="txt" type="text" :value=item.title>
-                        <span id="textMetrics" aria-hidden="true"></span>
+                        <input class="txt" type="text" :value=item.title v-on:input="inputHundler"
+                            v-on:change="inputHundler">
+                        <span class="textMetrics" aria-hidden="true"></span>
                     </div>
                 </td>
             </tr>
             <tr>
-                <td :colspan="categories.length + 3" class="plusBtn plus_item" onclick="addItem()">＋</td>
+                <td :colspan="categories.length + 3" class="plusBtn plus_item" v-on:click="addItem">＋</td>
             </tr>
         </table>
-
-
-
-
-
-        <!-- <ul id="items" style="list-style-type: none">
-                <li v-for="item in items" :class="item.category" :key="item.id" :data-id="item.id">
-                    <div class="item-title">{{ item.title }}</div>
-                    <div class="item-body">
-                        <img v-for="path in item.imgPaths" :src='"./img/"+path' />
-                        <br />
-                        <a v-for="url in item.urls" :href="url" target="_blank">click to open</a>
-                    </div>
-                </li>
-            </ul> -->
-        <!-- </div> -->
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
-    <script src="./data.js"></script>
-    <script src="./main.js"></script>
-
-    <script>
-        function textMetrics() {
-            const span = document.getElementById("textMetrics");
-            const input = document.getElementById("txt");
-            span.textContent = input.value;
-            input.style.width = `${span.clientWidth}px`;
-        }
-
-        document.addEventListener("DOMContentLoaded", textMetrics);
-        document.getElementById("txt").addEventListener("input", textMetrics);
-    </script>
-
-    <!-- databaseURL: "https://onething-2eb31-default-rtdb.firebaseio.com", -->
 
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-analytics.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
-        // import { getDatabase } from "firebase/database"; 
+
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -145,37 +113,91 @@
             databaseURL: "https://onething-2eb31-default-rtdb.firebaseio.com"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const database = getDatabase(app);
+        const app_firebase = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app_firebase);
+        const database = getDatabase(app_firebase);
 
         const starCountRef = ref(database, '/');
-        onValue(starCountRef, (snapshot) => {
-            const data = snapshot.val();
-            app_content.loadData(data.items);
-        });
 
-        let app_content = new Vue({
+        let app = new Vue({
             el: "#app",
             data: {
-                items: exItems,
-                categories: exCategories
+                items: [
+                    {
+                        "cat": 0,
+                        "date": "",
+                        "done": false,
+                        "evaluation": "",
+                        "id": 0,
+                        "title": ""
+                    }
+                ],
+                categories: [
+                    {
+                        id: 0,
+                        title: ""
+                    }
+                ]
             },
             methods: {
-                loadData: function (ary) {
-                    console.log(ary);
-                    this.items = ary;
+                loadData: function (ary0, ary1) {
+                    this.items = ary0;
+                    this.categories = ary1;
+                },
+                saveData: function () {
+                    console.log(this.items);
+                },
+                textMetrics: function () {
+                    // const span = document.getElementById("textMetrics");
+                    // const input = document.getElementById("txt");
+                    // span.textContent = input.value;
+                    // console.log('input.value： ' + input.value);
+                    // input.style.width = `${span.clientWidth}px`;
+                    // console.log(`${span.clientWidth}px`);
+                },
+                addItem: function () {
+                    confirm('アイテム追加！');
+                },
+                addCategory: function () {
+                    confirm('カテゴリー追加！');
+                },
+                inputHundler: function (e) {
+                    console.log('inputHundler!');
+                    const input = e.target;
+                    const span = e.target.nextElementSibling;
+                    span.textContent = input.value;
+                    input.style.width = `${span.clientWidth}px`;
                 }
+            },
+            created: function () {
+                console.log('created!');
+            },
+            mounted: function () {
+                console.log('mounted!');
             }
         });
 
-        function addItem() {
-            confirm('アイテム追加！');
-        }
+        onValue(starCountRef, (snapshot) => {
+            const data = snapshot.val();
+            app.loadData(data.items, data.categories);
+            // console.log('タイトル： ' + data.items[0].title);
+            app.textMetrics();
+            // updateInputsWidth();
+        });
 
-        function addCategory() {
-            confirm('カテゴリー追加！');
-        }
+
+
+
+        // function updateInputsWidth() {
+        //     var ary = document.getElementsByClassName("txt");
+        //     console.log(ary.length);
+        //     var inputs = Array.prototype.slice.call(ary);
+        //     inputs.forEach(function (item) {
+        //         console.log(item);
+        //     });
+        // }
+
+
 
     </script>
 </body>

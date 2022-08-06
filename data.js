@@ -1,26 +1,28 @@
 var exItems = [
-     {
-      "cat": 0,
-      "date": "",
-      "done": false,
-      "evaluation": "",
-      "id": 0,
-      "title": "レバレッジ・リーディング"
-    }
+    //  {
+    //   "cat": 0,
+    //   "date": "",
+    //   "done": false,
+    //   "evaluation": "",
+    //   "id": 0,
+    //   "title": ""
+    // }
 ];
 
 
 var exCategories = [
-  {
-    id: 0,
-    title: "ビジネス書"
-  },
-  {
-    id: 1,
-    title: "ブログビジネス"
-  },
-  {
-    id: 2,
-    title: "執筆"
-  },
+  // {
+  //   id: 0,
+  //   title: "ビジネス書"
+  // },
+  // {
+  //   id: 1,
+  //   title: "ブログビジネス"
+  // },
+  // {
+  //   id: 2,
+  //   title: "執筆"
+  // },
 ]
+
+
