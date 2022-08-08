@@ -86,8 +86,13 @@
             padding: 0 3px;
         }
 
+        .txt {
+            color: rgb(83, 170, 251);
+        }
+
         .active {
-            color: rgb(214, 5, 106);
+            color: rgb(201, 1, 98);
+            font-weight: bold;
         }
     </style>
 </head>
@@ -115,8 +120,8 @@
                 <td>{{ item.evaluation }}</td>
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
                     <div class="container" v-if="true">
-                        <input class="txt" type="text" :value='cat.id==item.cat ? item.title : " "'
-                            v-on:change="inputHundler">
+                        <input type="text" :value='cat.id==item.cat ? item.title : " "' v-on:change="inputHundler"
+                            :class="{ active: item.date != '' }" class="txt">
                         <span class="textMetrics" aria-hidden="true"></span>
                     </div>
                 </td>
