@@ -63,6 +63,18 @@
             padding: 0 5px;
             color: #f00;
             cursor: pointer;
+
+        }
+
+        .deleteBtn img {
+            width: 20px;
+            height: 20px;
+            padding: 3px;
+            vertical-align: middle;
+        }
+
+        .deleteBtn img:hover {
+            opacity: 0.3;
         }
 
         table {
@@ -104,7 +116,7 @@
                         <span class="textMetrics" aria-hidden="true"></span>
                     </div>
                 </td>
-                <td v-on:click="deleteItem" class="deleteBtn">X</td>
+                <td v-on:click="deleteItem" class="deleteBtn"><img src="img/remove-button.png"></td>
             </tr>
             <tr>
                 <td :colspan="categories.length + 3" class="plusBtn plus_item" v-on:click="addItem">＋</td>
