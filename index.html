@@ -15,6 +15,7 @@
             background-color: rgba(0, 0, 0, 0);
             color: #fff;
             padding: 0 5px;
+            border: 0;
         }
 
         .center {
@@ -27,6 +28,10 @@
             font-weight: bold;
             color: aqua;
             cursor: pointer;
+        }
+
+        .plusBtn:hover {
+            color: rgb(247, 223, 3);
         }
 
         .plus_item {
@@ -52,12 +57,19 @@
             clip: rect(0 0 0 0);
             clip-path: inset(50%);
         }
+
+        .deleteBtn {
+            border: 0;
+            padding: 0 5px;
+            color: #f00;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
     <div id="app">
-        <table>
+        <table id="table">
             <tr class="center">
                 <td>実行</td>
                 <td>日付</td>
@@ -71,16 +83,20 @@
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id"></td>
             </tr>
             <tr v-for="item in items" :class="item.category" :key="item.id" :data-id="item.id">
-                <td class="center"><input type="checkbox" name="" id="" :checked=item.done></td>
-                <td><input type="date" :value="item.date"></td>
+                <td class="center"><input type="checkbox" name="" id="" :checked=item.done v-on:change="updateDone"
+                        class="doneBtn">
+                </td>
+                <td><input type="date" :value="item.date" v-on:change="updateDate" class="dateField"></td>
                 <td style="padding: 0 3px;">{{ item.evaluation }}</td>
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
-                    <div class="container" v-if="cat.id == item.cat">
-                        <input class="txt" type="text" :value=item.title v-on:input="inputHundler"
+                    <div class="container" v-if="true">
+                        <input class="txt" type="text" :value='cat.id==item.cat ? item.title : " "'
                             v-on:change="inputHundler">
+                        <!-- v-on:input="inputHundler" -->
                         <span class="textMetrics" aria-hidden="true"></span>
                     </div>
                 </td>
+                <td v-on:click="deleteItem" class="deleteBtn">X</td>
             </tr>
             <tr>
                 <td :colspan="categories.length + 3" class="plusBtn plus_item" v-on:click="addItem">＋</td>
@@ -94,7 +110,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-analytics.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
 
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
@@ -117,7 +133,9 @@
         const analytics = getAnalytics(app_firebase);
         const database = getDatabase(app_firebase);
 
-        const starCountRef = ref(database, '/');
+        const oneThingRef = ref(database, '/');
+
+        const table = document.getElementById('table');
 
         let app = new Vue({
             el: "#app",
@@ -144,9 +162,6 @@
                     this.items = ary0;
                     this.categories = ary1;
                 },
-                saveData: function () {
-                    console.log(this.items);
-                },
                 textMetrics: function () {
                     // const span = document.getElementById("textMetrics");
                     // const input = document.getElementById("txt");
@@ -156,17 +171,93 @@
                     // console.log(`${span.clientWidth}px`);
                 },
                 addItem: function () {
-                    confirm('アイテム追加！');
+                    const result = prompt("追加するタスクは？", "task");
+                    if (result) {
+                        let l = this.items.length;
+                        const item =
+                        {
+                            "cat": 0,
+                            "date": "2022-08-05",
+                            "done": false,
+                            "evaluation": "",
+                            "id": l,
+                            "title": result
+                        }
+                        this.items.push(item);
+                        writeItems();
+                    }
                 },
                 addCategory: function () {
-                    confirm('カテゴリー追加！');
+                    const result = prompt("追加するカテゴリーは？", "category");
+                    if (result) {
+                        let l = this.categories.length;
+                        const cat =
+                        {
+                            id: l,
+                            title: result
+                        }
+                        this.categories.push(cat);
+                        writeCategories();
+                    }
                 },
                 inputHundler: function (e) {
-                    console.log('inputHundler!');
-                    const input = e.target;
+                    //　編集したところ以外を消す、catを編集したinoutのidにする
+                    var cat = 0;
+                    const curInput = e.target;
+                    const tr = curInput.parentNode.parentNode.parentNode;
+
+                    var elements = document.getElementsByTagName("tr");
+                    elements = [].slice.call(elements);
+                    var itemIndex = elements.indexOf(tr);
+                    const item = app.items[itemIndex - 2];
+
+                    var inputArray = [];
+                    for (let index = 0; index < this.categories.length; index++) {
+                        const td = tr.children[index + 3];
+                        const input = td.firstElementChild.firstElementChild;
+                        inputArray.push(input);
+                        if (input == curInput) {
+                            cat = index;
+                        } else {
+                            input.value = '';
+                        }
+                        item.title = curInput.value;
+                    }
                     const span = e.target.nextElementSibling;
-                    span.textContent = input.value;
-                    input.style.width = `${span.clientWidth}px`;
+                    span.textContent = curInput.value;
+                    curInput.style.width = `${span.clientWidth}px`;
+                    item.cat = cat;
+                    writeItems();
+                },
+                deleteItem: function (e) {
+                    var result = window.confirm('この行を削除しますか？');
+                    if (result) {
+                        var btn = e.target;
+                        var elements = document.getElementsByClassName('deleteBtn');
+                        elements = [].slice.call(elements);
+                        var itemIndex = elements.indexOf(btn);
+                        const item = app.items[itemIndex - 2];
+                        app.items.splice(itemIndex, 1);
+                        writeItems();
+                    }
+                },
+                updateDone: function (e) {
+                    var btn = e.target;
+                    var elements = document.getElementsByClassName('doneBtn');
+                    elements = [].slice.call(elements);
+                    var itemIndex = elements.indexOf(btn);
+                    const item = app.items[itemIndex];
+                    item.done = !item.done;
+                    writeItems();
+                },
+                updateDate: function (e) {
+                    var btn = e.target;
+                    var elements = document.getElementsByClassName('dateField');
+                    elements = [].slice.call(elements);
+                    var itemIndex = elements.indexOf(btn);
+                    const item = app.items[itemIndex];
+                    item.date = btn.value;
+                    writeItems();
                 }
             },
             created: function () {
@@ -177,7 +268,7 @@
             }
         });
 
-        onValue(starCountRef, (snapshot) => {
+        onValue(oneThingRef, (snapshot) => {
             const data = snapshot.val();
             app.loadData(data.items, data.categories);
             // console.log('タイトル： ' + data.items[0].title);
@@ -185,8 +276,15 @@
             // updateInputsWidth();
         });
 
+        function writeItems() {
+            console.log('writeItems!');
+            set(ref(database, '/items/'), app.items);
+        }
 
-
+        function writeCategories() {
+            console.log('writeCategories!');
+            set(ref(database, '/categories/'), app.categories);
+        }
 
         // function updateInputsWidth() {
         //     var ary = document.getElementsByClassName("txt");
