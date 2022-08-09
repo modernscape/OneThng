@@ -103,7 +103,7 @@
             <tr class="center">
                 <td>実行</td>
                 <td>日付</td>
-                <td></td>
+                <td>評価</td>
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">{{ cat.title }}</td>
                 <td class="plusBtn plus_category" v-on:click="addCategory">列＋</td>
             </tr>
@@ -117,7 +117,18 @@
                         class="doneBtn">
                 </td>
                 <td><input type="date" :value="item.date" v-on:change="updateDate" class="dateField"></td>
-                <td>{{ item.evaluation }}</td>
+                <td><select class="evaluationSelect" name="" id="" v-on:change="updateEvaluation"
+                        :value="item.evaluation">
+                        <option value="◉"> </option>
+                        <option value="◉">◉</option>
+                        <option value="◎">◎</option>
+                        <option value="○">○</option>
+                        <option value="△">△</option>
+                        <option value="x">x</option>
+                    </select>
+
+                    <!-- {{ item.evaluation }} -->
+                </td>
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
                     <div class="container" v-if="true">
                         <input type="text" :value='cat.id==item.cat ? item.title : " "' v-on:change="inputHundler"
@@ -291,6 +302,13 @@
                     this.sort();
                     writeItems();
                 },
+                updateEvaluation: function (e) {
+                    var select = e.target;
+                    var item = this.itemForElement('evaluationSelect', e)
+                    console.log(select.value);
+                    item.evaluation = select.value;
+                    writeItems();
+                },
                 sort: function (e) {
                     app.items.sort(function (x, y) {
                         var firstDate = new Date(x.date),
@@ -302,6 +320,14 @@
                     });
 
                     console.log(app.items);
+                },
+                itemForElement: function (className, e) {
+                    var btn = e.target;
+                    var elements = document.getElementsByClassName(className);
+                    elements = [].slice.call(elements);
+                    var index = elements.indexOf(btn);
+                    var item = app.items[index];
+                    return item;
                 }
             },
             created: function () {
@@ -332,6 +358,14 @@
             console.log('writeCategories!');
             set(ref(database, '/categories/'), app.categories);
         }
+
+        // function indexOfElement(className, e) {
+        //     var btn = e.target;
+        //     var elements = document.getElementsByClassName(className);
+        //     elements = [].slice.call(elements);
+        //     var itemIndex = elements.indexOf(btn);
+        //     return itemIndex;
+        // }
 
         // function updateInputsWidth() {
         //     var ary = document.getElementsByClassName("txt");
