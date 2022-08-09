@@ -62,9 +62,7 @@
         .deleteBtn {
             border: 0;
             padding: 0 5px;
-            color: #f00;
             cursor: pointer;
-
         }
 
         .deleteBtn img {
@@ -82,8 +80,9 @@
             margin: 0 auto;
         }
 
-        td {
-            padding: 0 3px;
+        table td {
+            /* padding: 0 3px; */
+            border-color: rgb(95, 95, 95);
         }
 
         .txt {
@@ -93,16 +92,58 @@
         .active {
             color: rgb(201, 1, 98);
             font-weight: bold;
+            background-color: rgb(251, 206, 225);
+        }
+
+        .note {
+            color: rgb(161, 161, 161);
+        }
+
+        #contextmenu,
+        #contextmenu_out {
+            display: none;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 200px;
+            /* height: 100px; */
+            border: 0;
+            background-color: rgba(41, 41, 41, 0.832);
+            padding: 3px 10px;
+        }
+
+        #contextmenu li,
+        #contextmenu_out li {
+            cursor: pointer;
+            list-style-type: none;
+            color: #fff;
         }
     </style>
 </head>
 
-<body>
+<body onContextmenu="return false;">
+
+    <h1>　頭がいっぱいにならない「ひとつのこと」しぼりこみシート</h1>
     <div id="app">
+        <div id="contextmenu">
+            <ul>
+                <!-- <li v-on:click="addItem">タスクを追加</li> -->
+                <li v-on:click="addItemPrev">行を追加（上）</li>
+                <li v-on:click="deleteItem">行を削除</li>
+                <li v-on:click="addCategoryPrev">カテゴリーを追加（左）</li>
+                <li v-on:click="deleteCategory">カテゴリーを削除</li>
+            </ul>
+        </div>
+        <div id="contextmenu_out">
+            <ul>
+                <li v-on:click="addItem">タスクを追加</li>
+                <li v-on:click="addCategory">カテゴリーを追加</li>
+            </ul>
+        </div>
         <table id="table">
             <tr class="center">
                 <td>実行</td>
-                <td>日付</td>
+                <td>実施する日</td>
                 <td>評価</td>
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">{{ cat.title }}</td>
                 <td class="plusBtn plus_category" v-on:click="addCategory">列＋</td>
@@ -112,7 +153,7 @@
                 <td></td>
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id"></td>
             </tr>
-            <tr v-for="item in items" :key="item.id" :data-id="item.id">
+            <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
                 <td class="center"><input type="checkbox" name="" id="" :checked=item.done v-on:change="updateDone"
                         class="doneBtn">
                 </td>
@@ -131,19 +172,25 @@
                 </td>
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
                     <div class="container" v-if="true">
-                        <input type="text" :value='cat.id==item.cat ? item.title : " "' v-on:change="inputHundler"
-                            :class="{ active: item.date != '' }" class="txt">
+                        <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:change="inputHundler"
+                            :class="{ active: item.date != '' && cat.id==item.cat }" class="txt"
+                            v-on:focus="activateCat(cat.id, $event)">
                         <span class="textMetrics" aria-hidden="true"></span>
                     </div>
                 </td>
-                <td v-on:click="deleteItem" class="deleteBtn"><img src="img/remove-button.png"></td>
+                <td v-on:click="deleteItemWithBtn" class="deleteBtn"><img src="img/remove-button.png"></td>
             </tr>
             <tr>
-                <!-- <td :colspan="categories.length + 3" class="plusBtn plus_item" v-on:click="addItem">行＋</td> -->
                 <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">行＋</td>
             </tr>
         </table>
     </div>
+    <br>
+    <p class="note">
+        ＊ それぞれのカテゴリーで実施する行動を追加。<br>
+        ＊ 1行に1ヶ所しか入れられません。<br>
+        ＊ 実施する日を設定すると自動ソートされます。
+    </p>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
 
@@ -178,6 +225,9 @@
 
         const table = document.getElementById('table');
 
+        var activeCat = 0;
+        var activeInput;
+
         let app = new Vue({
             el: "#app",
             data: {
@@ -194,8 +244,8 @@
                 ],
                 categories: [
                     {
-                        id: 0,
-                        title: ""
+                        "id": 0,
+                        "title": ""
                     }
                 ]
             },
@@ -212,22 +262,40 @@
                     // input.style.width = `${span.clientWidth}px`;
                     // console.log(`${span.clientWidth}px`);
                 },
-                addItem: function () {
-                    const result = prompt("追加するタスクは？", "task");
-                    if (result) {
-                        let l = this.items.length;
-                        const item =
-                        {
-                            "cat": 0,
-                            "date": "",
-                            "done": false,
-                            "evaluation": "",
-                            "id": l,
-                            "title": result
-                        }
-                        this.items.push(item);
-                        writeItems();
+                addItem: function (e) {
+                    document.getElementById('contextmenu').style.display = "none";
+                    // const result = prompt("タスク名", "task");
+                    let l = this.items.length;
+                    const item =
+                    {
+                        "cat": 0,
+                        "date": "",
+                        "done": false,
+                        "evaluation": "",
+                        "id": l,
+                        "title": ""
                     }
+                    this.items.push(item);
+                    writeItems();
+                },
+                addItemPrev: function (e) {
+                    document.getElementById('contextmenu').style.display = "none";
+                    var elements = document.getElementsByClassName('itemRow');
+                    elements = [].slice.call(elements);
+                    let tr = activeInput.parentNode.parentNode.parentNode
+                    var itemIndex = elements.indexOf(tr);
+                    let l = this.items.length;
+                    const item =
+                    {
+                        "cat": 0,
+                        "date": "",
+                        "done": false,
+                        "evaluation": "",
+                        "id": l,
+                        "title": ""
+                    }
+                    this.items.splice(itemIndex, 0, item);
+                    writeItems();
                 },
                 addCategory: function () {
                     const result = prompt("追加するカテゴリーは？", "category");
@@ -235,15 +303,54 @@
                         let l = this.categories.length;
                         const cat =
                         {
-                            id: l,
-                            title: result
+                            "id": l,
+                            "title": result
                         }
                         this.categories.push(cat);
                         writeCategories();
                     }
                 },
+                addCategoryPrev: function () {
+                    // 未
+                    console.log(activeCat);
+                    const result = prompt("追加するカテゴリーは？", "category");
+
+                    if (result) {
+                        let l = this.categories.length;
+                        console.log(l);
+                        const category =
+                        {
+                            "id": l,
+                            "title": result
+                        }
+                        this.categories.splice(activeCat, 0, category);
+                        console.log(this.categories.length);
+                        this.updateCategoryOrder();
+                        writeCategories();
+                        this.shiftItemCat(activeCat);
+                        writeItems();
+                    }
+                },
+                updateCategoryOrder: function () {
+                    for (let index = 0; index < this.categories.length; index++) {
+                        const cat = this.categories[index];
+                        cat.id = index;
+                    }
+                },
+                shiftItemCat: function (after) {
+                    // itemのcatがafterより大きい場合1大きく
+                    for (let index = 0; index < this.items.length; index++) {
+                        const item = this.items[index];
+                        if (item.cat >= after) {
+                            item.cat++;
+                        }
+                    }
+                },
+                deleteCategory: function (e) {
+                    // 未
+                    console.log(activeCat);
+                },
                 inputHundler: function (e) {
-                    //　編集したところ以外を消す、catを編集したinoutのidにする
                     var cat = 0;
                     const curInput = e.target;
                     const tr = curInput.parentNode.parentNode.parentNode;
@@ -271,7 +378,20 @@
                     item.cat = cat;
                     writeItems();
                 },
+                activateCat: function (cat, e) {
+                    activeCat = cat;
+                    activeInput = e.target;
+                },
                 deleteItem: function (e) {
+                    var elements = document.getElementsByClassName('itemRow');
+                    elements = [].slice.call(elements);
+                    let tr = activeInput.parentNode.parentNode.parentNode
+                    var itemIndex = elements.indexOf(tr);
+                    console.log(itemIndex);
+                    app.items.splice(itemIndex, 1);
+                    writeItems();
+                },
+                deleteItemWithBtn: function (e) {
                     var result = window.confirm('この行を削除しますか？');
                     if (result) {
                         var btn = e.target;
@@ -328,7 +448,13 @@
                     var index = elements.indexOf(btn);
                     var item = app.items[index];
                     return item;
+                },
+                removeRow: function () {
+                    this.items.pop();
+                    writeItems();
                 }
+
+
             },
             created: function () {
                 console.log('created!');
@@ -347,8 +473,6 @@
 
         });
 
-
-
         function writeItems() {
             console.log('writeItems!');
             set(ref(database, '/items/'), app.items);
@@ -358,6 +482,8 @@
             console.log('writeCategories!');
             set(ref(database, '/categories/'), app.categories);
         }
+
+
 
         // function indexOfElement(className, e) {
         //     var btn = e.target;
@@ -375,9 +501,18 @@
         //         console.log(item);
         //     });
         // }
-
-
-
+        window.onload = function () {
+            document.body.addEventListener('contextmenu', function (e) {
+                var str = (e.target.className == 'txt') ? 'contextmenu' : 'contextmenu_out';
+                document.getElementById(str).style.left = e.pageX + "px";
+                document.getElementById(str).style.top = e.pageY + "px";
+                document.getElementById(str).style.display = "block";
+            });
+            document.body.addEventListener('click', function (e) {
+                document.getElementById('contextmenu').style.display = "none";
+                document.getElementById('contextmenu_out').style.display = "none";
+            });
+        }
     </script>
 </body>
 
