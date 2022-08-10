@@ -93,9 +93,13 @@
             background-color: rgb(251, 206, 225);
         }
 
-        .note {
+        p.note {
             color: rgb(161, 161, 161);
             padding: 1em 2em;
+            position: fixed;
+            bottom: 0;
+            pointer-events: none;
+            width: 100%;
         }
 
         #contextmenu,
@@ -158,12 +162,23 @@
         .txt-half {
             color: rgb(174, 174, 174);
         }
+
+        h1.title {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        #app {
+            margin-top: 50px;
+            margin-bottom: 70px;
+        }
     </style>
 </head>
 
 <body onContextmenu="return false;">
 
-    <h1 class="center">　頭がいっぱいにならない「ひとつのこと」をしぼりこむシート</h1>
+    <h1 class="title center">　頭がいっぱいにならない「ひとつのこと」をしぼりこむシート</h1>
     <div id="app">
         <div id="contextmenu">
             <ul>
@@ -236,10 +251,10 @@
         </div>
     </div>
     <br>
-    <p class="note">
-        ＊ それぞれのカテゴリーで実施する行動を追加。<br>
-        ＊ 1行に1ヶ所しか入れられません。<br>
-        ＊ 実施する日を設定すると自動ソートされます。
+    <p class="note center">
+        ＊ それぞれのカテゴリーで実施する行動を追加<br>
+        ＊ 1行に1ヶ所しか入れられません<br>
+        ＊ 実施する日を設定すると自動ソートされます
     </p>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
