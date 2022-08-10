@@ -154,12 +154,16 @@
             overflow: auto;
             padding: 1em;
         }
+
+        .txt-half {
+            color: rgb(174, 174, 174);
+        }
     </style>
 </head>
 
 <body onContextmenu="return false;">
 
-    <h1>　頭がいっぱいにならない「ひとつのこと」をしぼりこむシート</h1>
+    <h1 class="center">　頭がいっぱいにならない「ひとつのこと」をしぼりこむシート</h1>
     <div id="app">
         <div id="contextmenu">
             <ul>
@@ -179,9 +183,9 @@
         <div class="content">
             <table id="table">
                 <tr class="center">
-                    <td>実行</td>
-                    <td>実施する日</td>
-                    <td>評価</td>
+                    <td class="txt-half">実行</td>
+                    <td class="txt-half">実施する日</td>
+                    <td class="txt-half">評価</td>
                     <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id"
                         class="td_category">
                         <input type="text" v-model="cat.title" v-on:change="writeCategories_app"
@@ -191,7 +195,7 @@
                     <td class="plusBtn plus_category" v-on:click="addCategory">列を追加 ＋</td>
                 </tr>
                 <tr style="height:60px">
-                    <td colspan="2">ツール<br>コンテンツ</td>
+                    <td colspan="2" class="txt-half">ツール<br>コンテンツ</td>
                     <td></td>
                     <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center ">
                         <textarea v-model="cat.tool" v-on:change="writeCategories_app"
