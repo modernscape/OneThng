@@ -80,7 +80,6 @@
         }
 
         table td {
-            /* padding: 0 3px; */
             border-color: rgb(95, 95, 95);
         }
 
@@ -105,7 +104,7 @@
             position: fixed;
             left: 0px;
             top: 0px;
-            width: 200px;
+            /* width: 200px; */
             border: 0;
             background-color: rgba(41, 41, 41, 0.832);
             padding: 3px 10px;
@@ -165,10 +164,10 @@
         <div id="contextmenu">
             <ul>
                 <!-- <li v-on:click="addItem">タスクを追加</li> -->
-                <li v-on:click="addItemPrev">行を追加（上に）</li>
-                <li v-on:click="deleteItemWithMenu">行を削除</li>
-                <li v-on:click="addCategoryPrev">カテゴリーを追加（左に）</li>
-                <li v-on:click="deleteCategoryWithMenu">カテゴリーを削除</li>
+                <li v-on:click="addItemPrev">＋ 行を追加（上に）</li>
+                <li v-on:click="deleteItemWithMenu">ー 行を削除</li>
+                <li v-on:click="addCategoryPrev">＋ 列を追加（左に）</li>
+                <li v-on:click="deleteCategoryWithMenu">ー 列を削除</li>
             </ul>
         </div>
         <div id="contextmenu_out">
@@ -609,8 +608,9 @@
         window.onload = function () {
             document.body.addEventListener('contextmenu', function (e) {
                 var str = (e.target.className == 'txt') ? 'contextmenu' : 'contextmenu_out';
+                var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
                 document.getElementById(str).style.left = e.pageX + "px";
-                document.getElementById(str).style.top = e.pageY + "px";
+                document.getElementById(str).style.top = e.pageY - scrollY + "px";
                 document.getElementById(str).style.display = "block";
             });
             document.body.addEventListener('click', function (e) {
