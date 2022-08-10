@@ -88,9 +88,9 @@
         }
 
         .active {
-            color: rgb(201, 1, 98);
+            color: rgb(255, 0, 123);
             font-weight: bold;
-            background-color: rgb(251, 206, 225);
+            background-color: rgb(251, 186, 232);
         }
 
         p.note {
@@ -125,19 +125,23 @@
             position: relative;
         }
 
-
         .input_category {
             width: 100%;
             height: 60px;
             box-sizing: border-box;
+            font-weight: bold;
+            font-size: 110%;
         }
 
         textarea {
             background-color: #ff000000;
-            color: #fff;
+            color: rgb(153, 171, 162);
             resize: none;
             border: 0;
             vertical-align: bottom;
+            width: 100%;
+            height: 60px;
+            box-sizing: border-box;
         }
 
         .catDeleteBtn {
@@ -164,21 +168,32 @@
         }
 
         h1.title {
-            position: fixed;
-            top: 0;
+            /* position: fixed; */
+            /* top: 0; */
             width: 100%;
         }
 
         #app {
-            margin-top: 50px;
+            /* margin-top: 50px; */
             margin-bottom: 70px;
+        }
+
+        .hasItem {
+            background-color: rgba(0, 170, 255, 0.49);
+        }
+
+        .evaluationSelect {
+            font-size: 120%;
+            background-color: #ff000000;
+            color: #fff;
+            border: 0;
         }
     </style>
 </head>
 
 <body onContextmenu="return false;">
 
-    <h1 class="title center">　頭がいっぱいにならない「ひとつのこと」をしぼりこむシート</h1>
+    <h1 class="title center">頭がいっぱいにならない「ひとつのこと」シート</h1>
     <div id="app">
         <div id="contextmenu">
             <ul>
@@ -214,14 +229,12 @@
                     <td></td>
                     <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center ">
                         <textarea v-model="cat.tool" v-on:change="writeCategories_app"
-                            class="input_category center">{{ cat.tool }}</textarea>
-                        <!-- <input type="text" v-model="cat.tool" v-on:change="writeCategories_app"
-                        class="input_category center"> -->
+                            class="center">{{ cat.tool }}</textarea>
                     </td>
                 </tr>
                 <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
-                    <td class="center"><input type="checkbox" name="" id="" :checked=item.done v-on:change="updateDone"
-                            class="doneBtn">
+                    <td :class="{ hasItem: item.title != '' }" class="center"><input type="checkbox" name="" id=""
+                            :checked=item.done v-on:change="updateDone" class="doneBtn">
                     </td>
                     <td><input type="date" :value="item.date" v-on:change="updateDate" class="dateField"></td>
                     <td><select class="evaluationSelect" name="" id="" v-on:change="updateEvaluation"
@@ -553,11 +566,16 @@
                 },
                 sort: function (e) {
                     app.items.sort(function (x, y) {
-                        var firstDate = new Date(x.date),
-                            SecondDate = new Date(y.date);
+                        // var firstDate = new Date(x.date),
+                        //     SecondDate = new Date(y.date);
+                        var firstDate = x.date,
+                            SecondDate = y.date;
 
+                        if (firstDate == '') return 1;
+                        if (SecondDate == '') return -1;
                         if (firstDate < SecondDate) return -1;
                         if (firstDate > SecondDate) return 1;
+
                         return 0;
                     });
                 },
