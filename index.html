@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
     <link rel="shortcut icon" href="favicon.ico" />
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
 
     <title>One Thing</title>
     <style>
@@ -155,7 +154,7 @@
 
 <body onContextmenu="return false;">
 
-    <h1>　頭がいっぱいにならない「ひとつのこと」しぼりこみシート</h1>
+    <h1>　頭がいっぱいにならない「ひとつのこと」をしぼりこむシート</h1>
     <div id="app">
         <div id="contextmenu">
             <ul>
@@ -182,7 +181,7 @@
                         class="input_category center">
                     <img src="img/remove-button.png" class="catDeleteBtn" @click="deleteCategoryWithBtn">
                 </td>
-                <td class="plusBtn plus_category" v-on:click="addCategory">列＋</td>
+                <td class="plusBtn plus_category" v-on:click="addCategory">列を追加 ＋</td>
             </tr>
             <tr style="height:60px">
                 <td colspan="2">ツール<br>コンテンツ</td>
@@ -220,7 +219,7 @@
                 <td v-on:click="deleteItemWithBtn" class="deleteBtn"><img src="img/remove-button.png"></td>
             </tr>
             <tr>
-                <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">行＋</td>
+                <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">行を追加 ＋</td>
             </tr>
         </table>
     </div>
