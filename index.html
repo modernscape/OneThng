@@ -106,7 +106,6 @@
             left: 0px;
             top: 0px;
             width: 200px;
-            /* height: 100px; */
             border: 0;
             background-color: rgba(41, 41, 41, 0.832);
             padding: 3px 10px;
@@ -118,6 +117,39 @@
             list-style-type: none;
             color: #fff;
         }
+
+        .td_category {
+            position: relative;
+        }
+
+
+        .input_category {
+            width: 100%;
+            height: 60px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            background-color: #ff000000;
+            color: #fff;
+            resize: none;
+            border: 0;
+            vertical-align: bottom;
+        }
+
+        .catDeleteBtn {
+            display: none;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        td:hover .catDeleteBtn {
+            display: inline;
+        }
     </style>
 </head>
 
@@ -128,10 +160,10 @@
         <div id="contextmenu">
             <ul>
                 <!-- <li v-on:click="addItem">タスクを追加</li> -->
-                <li v-on:click="addItemPrev">行を追加（上）</li>
-                <li v-on:click="deleteItem">行を削除</li>
-                <li v-on:click="addCategoryPrev">カテゴリーを追加（左）</li>
-                <li v-on:click="deleteCategory">カテゴリーを削除</li>
+                <li v-on:click="addItemPrev">行を追加（上に）</li>
+                <li v-on:click="deleteItemWithMenu">行を削除</li>
+                <li v-on:click="addCategoryPrev">カテゴリーを追加（左に）</li>
+                <li v-on:click="deleteCategoryWithMenu">カテゴリーを削除</li>
             </ul>
         </div>
         <div id="contextmenu_out">
@@ -145,13 +177,22 @@
                 <td>実行</td>
                 <td>実施する日</td>
                 <td>評価</td>
-                <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">{{ cat.title }}</td>
+                <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id" class="td_category">
+                    <input type="text" v-model="cat.title" v-on:change="writeCategories_app"
+                        class="input_category center">
+                    <img src="img/remove-button.png" class="catDeleteBtn" @click="deleteCategoryWithBtn">
+                </td>
                 <td class="plusBtn plus_category" v-on:click="addCategory">列＋</td>
             </tr>
-            <tr>
-                <td colspan="2">ツールコンテンツ</td>
+            <tr style="height:60px">
+                <td colspan="2">ツール<br>コンテンツ</td>
                 <td></td>
-                <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id"></td>
+                <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center ">
+                    <textarea v-model="cat.tool" v-on:change="writeCategories_app"
+                        class="input_category center">{{ cat.tool }}</textarea>
+                    <!-- <input type="text" v-model="cat.tool" v-on:change="writeCategories_app"
+                        class="input_category center"> -->
+                </td>
             </tr>
             <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
                 <td class="center"><input type="checkbox" name="" id="" :checked=item.done v-on:change="updateDone"
@@ -167,8 +208,6 @@
                         <option value="△">△</option>
                         <option value="x">x</option>
                     </select>
-
-                    <!-- {{ item.evaluation }} -->
                 </td>
                 <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
                     <div class="container" v-if="true">
@@ -245,7 +284,8 @@
                 categories: [
                     {
                         "id": 0,
-                        "title": ""
+                        "title": "",
+                        "tool": ""
                     }
                 ]
             },
@@ -310,24 +350,24 @@
                         writeCategories();
                     }
                 },
+                updateItemOrder: function () {
+                    for (let index = 0; index < this.items.length; index++) {
+                        const item = this.items[index];
+                        item.id = index;
+                    }
+                },
                 addCategoryPrev: function () {
-                    // 未
-                    console.log(activeCat);
                     const result = prompt("追加するカテゴリーは？", "category");
-
                     if (result) {
                         let l = this.categories.length;
-                        console.log(l);
                         const category =
                         {
                             "id": l,
                             "title": result
                         }
                         this.categories.splice(activeCat, 0, category);
-                        console.log(this.categories.length);
-                        this.updateCategoryOrder();
                         writeCategories();
-                        this.shiftItemCat(activeCat);
+                        this.shiftRightItemCat(activeCat);
                         writeItems();
                     }
                 },
@@ -337,8 +377,8 @@
                         cat.id = index;
                     }
                 },
-                shiftItemCat: function (after) {
-                    // itemのcatがafterより大きい場合1大きく
+                shiftRightItemCat: function (after) {
+                    // itemのcatがafter以上場合1大きく
                     for (let index = 0; index < this.items.length; index++) {
                         const item = this.items[index];
                         if (item.cat >= after) {
@@ -346,9 +386,48 @@
                         }
                     }
                 },
-                deleteCategory: function (e) {
-                    // 未
-                    console.log(activeCat);
+                shiftLeftItemCat: function (after) {
+                    // itemのcatがafter以上場合1小さく
+                    for (let index = 0; index < this.items.length; index++) {
+                        const item = this.items[index];
+                        if (item.cat >= after) {
+                            item.cat--;
+                        }
+                    }
+                },
+                deleteCategoryWithMenu: function (e) {
+                    var result = window.confirm('このカテゴリーを削除しますか？');
+                    if (result) {
+                        this.deleteCategory(activeCat);
+                    }
+                },
+                deleteCategoryWithBtn: function (e) {
+                    var btn = e.target;
+                    var elements = document.getElementsByClassName('catDeleteBtn');
+                    elements = [].slice.call(elements);
+                    var catIndex = elements.indexOf(btn);
+                    const cat = app.categories[catIndex];
+                    var result = window.confirm('〔 ' + cat.title + ' 〕を削除しますか？');
+                    if (result) {
+                        this.deleteCategory(catIndex);
+                    }
+                },
+                deleteCategory: function (index) {
+                    // 該当の行（item.cat == index）となる全ての行を削除
+                    var itemsToDelete = [];
+                    for (let j = 0; j < app.items.length; j++) {
+                        const item = app.items[j];
+                        if (item.cat == index) {
+                            itemsToDelete.push(item)
+                        }
+                    }
+
+                    app.deleteItems(itemsToDelete);
+                    this.shiftLeftItemCat(index);
+                    writeItems();
+
+                    this.categories.splice(index, 1);
+                    writeCategories();
                 },
                 inputHundler: function (e) {
                     var cat = 0;
@@ -382,14 +461,12 @@
                     activeCat = cat;
                     activeInput = e.target;
                 },
-                deleteItem: function (e) {
+                deleteItemWithMenu: function (e) {
                     var elements = document.getElementsByClassName('itemRow');
                     elements = [].slice.call(elements);
                     let tr = activeInput.parentNode.parentNode.parentNode
                     var itemIndex = elements.indexOf(tr);
-                    console.log(itemIndex);
-                    app.items.splice(itemIndex, 1);
-                    writeItems();
+                    app.deleteItem(itemIndex);
                 },
                 deleteItemWithBtn: function (e) {
                     var result = window.confirm('この行を削除しますか？');
@@ -399,9 +476,27 @@
                         elements = [].slice.call(elements);
                         var itemIndex = elements.indexOf(btn);
                         const item = app.items[itemIndex - 2];
-                        app.items.splice(itemIndex, 1);
-                        writeItems();
+                        app.deleteItem(itemIndex);
                     }
+                },
+                deleteItem: function (index) {
+                    app.items.splice(index, 1);
+                    writeItems();
+                },
+                deleteItems: function (ary) {
+
+
+                    console.log(ary);
+                    // filterを使う
+                    const newSource = app.items.filter((val) => {
+                        return !ary.includes(val);
+                    });
+
+                    console.log(newSource);
+                    app.items = newSource;
+
+                    // app.items.splice(index, 1);
+                    writeItems();
                 },
                 updateDone: function (e) {
                     var btn = e.target;
@@ -425,7 +520,6 @@
                 updateEvaluation: function (e) {
                     var select = e.target;
                     var item = this.itemForElement('evaluationSelect', e)
-                    console.log(select.value);
                     item.evaluation = select.value;
                     writeItems();
                 },
@@ -438,8 +532,6 @@
                         if (firstDate > SecondDate) return 1;
                         return 0;
                     });
-
-                    console.log(app.items);
                 },
                 itemForElement: function (className, e) {
                     var btn = e.target;
@@ -452,9 +544,13 @@
                 removeRow: function () {
                     this.items.pop();
                     writeItems();
+                },
+                writeItems_app: function () {
+                    writeItems();
+                },
+                writeCategories_app: function () {
+                    writeCategories();
                 }
-
-
             },
             created: function () {
                 console.log('created!');
@@ -467,7 +563,6 @@
         onValue(oneThingRef, (snapshot) => {
             const data = snapshot.val();
             app.loadData(data.items, data.categories);
-            // console.log('タイトル： ' + data.items[0].title);
             app.textMetrics();
             // updateInputsWidth();
 
@@ -475,11 +570,13 @@
 
         function writeItems() {
             console.log('writeItems!');
+            app.updateItemOrder();
             set(ref(database, '/items/'), app.items);
         }
 
         function writeCategories() {
             console.log('writeCategories!');
+            app.updateCategoryOrder();
             set(ref(database, '/categories/'), app.categories);
         }
 
