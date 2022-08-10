@@ -144,7 +144,8 @@
             box-sizing: border-box;
         }
 
-        .catDeleteBtn {
+        .catDeleteBtn,
+        .catMoveBtn {
             display: none;
             width: 20px;
             height: 20px;
@@ -154,8 +155,17 @@
             transform: translateY(-50%);
         }
 
-        td:hover .catDeleteBtn {
+        .catMoveBtn {
+            left: 5px;
+        }
+
+        td:hover .catDeleteBtn,
+        td:hover .catMoveBtn {
             display: inline;
+        }
+
+        td:hover .firstCat {
+            display: none;
         }
 
         .content {
@@ -168,13 +178,10 @@
         }
 
         h1.title {
-            /* position: fixed; */
-            /* top: 0; */
             width: 100%;
         }
 
         #app {
-            /* margin-top: 50px; */
             margin-bottom: 70px;
         }
 
@@ -220,6 +227,8 @@
                         class="td_category">
                         <input type="text" v-model="cat.title" v-on:change="writeCategories_app"
                             class="input_category center">
+                        <img src="img/arrow.png" :class="{ firstCat: cat.id == 0 }" @click="moveCategory"
+                            class="catMoveBtn">
                         <img src="img/remove-button.png" class="catDeleteBtn" @click="deleteCategoryWithBtn">
                     </td>
                     <td class="plusBtn plus_category" v-on:click="addCategory">列を追加 ＋</td>
@@ -467,6 +476,34 @@
 
                     this.categories.splice(index, 1);
                     writeCategories();
+                },
+                moveCategory: function (e) {
+                    var btn = e.target;
+                    var elements = document.getElementsByClassName('catMoveBtn');
+                    elements = [].slice.call(elements);
+                    var catIndex = elements.indexOf(btn);
+                    const from = catIndex;
+                    const to = catIndex - 1;
+                    if (to < 0) {
+                        return
+                    }
+                    const value = app.categories[from];
+                    const tail = app.categories.slice(from + 1);
+                    app.categories.splice(from);
+                    Array.prototype.push.apply(app.categories, tail);
+                    app.categories.splice(to, 0, value);
+                    writeCategories();
+
+                    // 全てのitemのitem.catも入れ替える
+                    for (let index = 0; index < app.items.length; index++) {
+                        const item = app.items[index];
+                        if (item.cat == to) {
+                            item.cat = from
+                        } else if (item.cat == from) {
+                            item.cat = to;
+                        }
+                    }
+                    writeItems();
                 },
                 inputHundler: function (e) {
                     var cat = 0;
