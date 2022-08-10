@@ -96,6 +96,7 @@
 
         .note {
             color: rgb(161, 161, 161);
+            padding: 1em 2em;
         }
 
         #contextmenu,
@@ -149,6 +150,11 @@
         td:hover .catDeleteBtn {
             display: inline;
         }
+
+        .content {
+            overflow: auto;
+            padding: 1em;
+        }
     </style>
 </head>
 
@@ -171,57 +177,60 @@
                 <li v-on:click="addCategory">カテゴリーを追加</li>
             </ul>
         </div>
-        <table id="table">
-            <tr class="center">
-                <td>実行</td>
-                <td>実施する日</td>
-                <td>評価</td>
-                <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id" class="td_category">
-                    <input type="text" v-model="cat.title" v-on:change="writeCategories_app"
-                        class="input_category center">
-                    <img src="img/remove-button.png" class="catDeleteBtn" @click="deleteCategoryWithBtn">
-                </td>
-                <td class="plusBtn plus_category" v-on:click="addCategory">列を追加 ＋</td>
-            </tr>
-            <tr style="height:60px">
-                <td colspan="2">ツール<br>コンテンツ</td>
-                <td></td>
-                <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center ">
-                    <textarea v-model="cat.tool" v-on:change="writeCategories_app"
-                        class="input_category center">{{ cat.tool }}</textarea>
-                    <!-- <input type="text" v-model="cat.tool" v-on:change="writeCategories_app"
+        <div class="content">
+            <table id="table">
+                <tr class="center">
+                    <td>実行</td>
+                    <td>実施する日</td>
+                    <td>評価</td>
+                    <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id"
+                        class="td_category">
+                        <input type="text" v-model="cat.title" v-on:change="writeCategories_app"
+                            class="input_category center">
+                        <img src="img/remove-button.png" class="catDeleteBtn" @click="deleteCategoryWithBtn">
+                    </td>
+                    <td class="plusBtn plus_category" v-on:click="addCategory">列を追加 ＋</td>
+                </tr>
+                <tr style="height:60px">
+                    <td colspan="2">ツール<br>コンテンツ</td>
+                    <td></td>
+                    <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center ">
+                        <textarea v-model="cat.tool" v-on:change="writeCategories_app"
+                            class="input_category center">{{ cat.tool }}</textarea>
+                        <!-- <input type="text" v-model="cat.tool" v-on:change="writeCategories_app"
                         class="input_category center"> -->
-                </td>
-            </tr>
-            <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
-                <td class="center"><input type="checkbox" name="" id="" :checked=item.done v-on:change="updateDone"
-                        class="doneBtn">
-                </td>
-                <td><input type="date" :value="item.date" v-on:change="updateDate" class="dateField"></td>
-                <td><select class="evaluationSelect" name="" id="" v-on:change="updateEvaluation"
-                        :value="item.evaluation">
-                        <option value=" "> </option>
-                        <option value="◉">◉</option>
-                        <option value="◎">◎</option>
-                        <option value="○">○</option>
-                        <option value="△">△</option>
-                        <option value="x">x</option>
-                    </select>
-                </td>
-                <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
-                    <div class="container" v-if="true">
-                        <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:change="inputHundler"
-                            :class="{ active: item.date != '' && cat.id==item.cat }" class="txt"
-                            v-on:focus="activateCat(cat.id, $event)">
-                        <span class="textMetrics" aria-hidden="true"></span>
-                    </div>
-                </td>
-                <td v-on:click="deleteItemWithBtn" class="deleteBtn"><img src="img/remove-button.png"></td>
-            </tr>
-            <tr>
-                <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">行を追加 ＋</td>
-            </tr>
-        </table>
+                    </td>
+                </tr>
+                <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
+                    <td class="center"><input type="checkbox" name="" id="" :checked=item.done v-on:change="updateDone"
+                            class="doneBtn">
+                    </td>
+                    <td><input type="date" :value="item.date" v-on:change="updateDate" class="dateField"></td>
+                    <td><select class="evaluationSelect" name="" id="" v-on:change="updateEvaluation"
+                            :value="item.evaluation">
+                            <option value=" "> </option>
+                            <option value="◉">◉</option>
+                            <option value="◎">◎</option>
+                            <option value="○">○</option>
+                            <option value="△">△</option>
+                            <option value="x">x</option>
+                        </select>
+                    </td>
+                    <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
+                        <div class="container" v-if="true">
+                            <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:change="inputHundler"
+                                :class="{ active: item.date != '' && cat.id==item.cat }" class="txt"
+                                v-on:focus="activateCat(cat.id, $event)">
+                            <span class="textMetrics" aria-hidden="true"></span>
+                        </div>
+                    </td>
+                    <td v-on:click="deleteItemWithBtn" class="deleteBtn"><img src="img/remove-button.png"></td>
+                </tr>
+                <tr>
+                    <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">行を追加 ＋</td>
+                </tr>
+            </table>
+        </div>
     </div>
     <br>
     <p class="note">
