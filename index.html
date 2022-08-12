@@ -431,7 +431,7 @@
                     }
                 },
                 addCategoryPrev: function () {
-                    const result = prompt("追加するカテゴリーは？", "category");
+                    const result = prompt("追加するカテゴリーは？", "");
                     if (result) {
                         let l = this.categories.length;
                         const category =
@@ -768,24 +768,6 @@
             localStorage[key_categories] = categories;
         }
 
-
-
-        // function indexOfElement(className, e) {
-        //     var btn = e.target;
-        //     var elements = document.getElementsByClassName(className);
-        //     elements = [].slice.call(elements);
-        //     var itemIndex = elements.indexOf(btn);
-        //     return itemIndex;
-        // }
-
-        // function updateInputsWidth() {
-        //     var ary = document.getElementsByClassName("txt");
-        //     console.log(ary.length);
-        //     var inputs = Array.prototype.slice.call(ary);
-        //     inputs.forEach(function (item) {
-        //         console.log(item);
-        //     });
-        // }
         window.onload = function () {
             document.body.addEventListener('contextmenu', function (e) {
                 var str = (e.target.className == 'txt') ? 'contextmenu' : 'contextmenu_out';
