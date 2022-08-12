@@ -85,12 +85,17 @@
 
         .txt {
             color: rgb(83, 170, 251);
+            /* background-color: rgba(85, 85, 85, 0.172); */
         }
 
         .active {
             color: rgb(255, 0, 123);
             font-weight: bold;
             background-color: rgb(251, 186, 232);
+        }
+
+        .inactive {
+            background-color: rgba(251, 186, 231, 0);
         }
 
         p.note {
@@ -226,7 +231,7 @@
                     <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id"
                         class="td_category">
                         <input type="text" v-model="cat.title" v-on:change="writeCategories_app"
-                            class="input_category center">
+                            class="input_category center" placeholder="カテゴリー">
                         <img src="img/arrow.png" :class="{ firstCat: cat.id == 0 }" @click="moveCategory"
                             class="catMoveBtn">
                         <img src="img/remove-button.png" class="catDeleteBtn" @click="deleteCategoryWithBtn">
@@ -258,9 +263,9 @@
                     </td>
                     <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
                         <div class="container" v-if="true">
-                            <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:change="inputHundler"
-                                :class="{ active: item.date != '' && cat.id==item.cat }" class="txt"
-                                v-on:focus="activateCat(cat.id, $event)">
+                            <input type="text" :value='cat.id==item.cat ? item.title : " "' v-on:change="inputHundler"
+                                :class="{ active: item.date != '' && cat.id==item.cat , inactive: item.date == '' && cat.id==item.cat}"
+                                class="txt" v-on:focus="activateCat(cat.id, $event)" placeholder="行動">
                             <span class="textMetrics" aria-hidden="true"></span>
                         </div>
                     </td>
