@@ -263,9 +263,10 @@
                     </td>
                     <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
                         <div class="container" v-if="true">
-                            <input type="text" :value='cat.id==item.cat ? item.title : " "' v-on:change="inputHundler"
+                            <input type="text" :value='cat.id==item.cat ? item.title : " "' v-on:input="inputHundler"
                                 :class="{ active: item.date != '' && cat.id==item.cat , inactive: item.date == '' && cat.id==item.cat}"
-                                class="txt" v-on:focus="activateCat(cat.id, $event)" placeholder="行動">
+                                class="txt" v-on:focus="activateCat(cat.id, $event)" placeholder="行動"
+                                :style="styles(item)">
                             <span class="textMetrics" aria-hidden="true"></span>
                         </div>
                     </td>
@@ -319,6 +320,8 @@
 
         var activeCat = 0;
         var activeInput;
+        const defaultWidth = 217;
+        // const defaultWidth = 0;
 
         let key_items = 'OneThing_key_items';
         let key_categories = 'OneThing_key_categories';
@@ -335,7 +338,8 @@
                         "evaluation": "",
                         "id": 0,
                         "title": "ブログを書く",
-                        "active": false
+                        "active": false,
+                        "width": 0
                     }
                 ],
                 categories: [
@@ -346,20 +350,23 @@
                     }
                 ]
             },
+            computed: {
+                styles() {
+                    return (item) => {
+                        let w = 0;
+                        if (item.width != undefined) w = item.width;
+                        if (w <= defaultWidth) w = defaultWidth;
+                        // return "width:" + ((item.width == undefined) ? '217px' : item.width + 'px')
+                        return 'width:' + w + 'px'
+                    }
+                }
+            },
             methods: {
                 loadData: function (ary0, ary1) {
                     this.items = ary0;
                     console.log(this.items[0]);
                     this.categories = ary1;
                     console.log(this.categories[0]);
-                },
-                textMetrics: function () {
-                    // const span = document.getElementById("textMetrics");
-                    // const input = document.getElementById("txt");
-                    // span.textContent = input.value;
-                    // console.log('input.value： ' + input.value);
-                    // input.style.width = `${span.clientWidth}px`;
-                    // console.log(`${span.clientWidth}px`);
                 },
                 addItem: function (e) {
                     document.getElementById('contextmenu').style.display = "none";
@@ -531,8 +538,8 @@
 
                     var elements = document.getElementsByTagName("tr");
                     elements = [].slice.call(elements);
-                    var itemIndex = elements.indexOf(tr);
-                    const item = app.items[itemIndex - 2];
+                    var itemIndex = elements.indexOf(tr) - 2;
+                    const item = app.items[itemIndex];
 
                     var inputArray = [];
                     for (let index = 0; index < this.categories.length; index++) {
@@ -548,11 +555,32 @@
                     }
                     const span = e.target.nextElementSibling;
                     span.textContent = curInput.value;
-                    curInput.style.width = `${span.clientWidth}px`;
+                    let w = Math.max(span.clientWidth, defaultWidth);
+                    // curInput.style.width = `${span.clientWidth}px`;
+                    curInput.style.width = `${w}px`;
+                    item.width = w;//span.clientWidth;
                     item.cat = cat;
                     // writeItems();
                     saveData();
                 },
+                // alltextMetrics: function () {
+                //     var inputs = document.getElementsByClassName('txt');
+                //     inputs = [].slice.call(inputs);
+                //     console.log(inputs);
+                //     for (let index = 0; index < app.items.length; index++) {
+                //         console.log(index);
+                //         const item = app.items[index];
+                //         let input = inputs[index];
+                //         console.log(input);
+                //         console.log(item.width);
+                //         if (item.width == undefined) {
+                //             console.log('widthなし！');
+                //             item.width = defaultWidth;
+                //             console.log(item.width);
+                //         }
+                //         input.style.width = `${item.width}px`;
+                //     }
+                // },
                 activateCat: function (cat, e) {
                     activeCat = cat;
                     activeInput = e.target;
@@ -679,17 +707,20 @@
 
         document.addEventListener('DOMContentLoaded', function (e) {
 
+            // loadData
             if (localStorage[key_written] == 'done') {
-                let items = localStorage[key_items];
-                app.items = JSON.parse(items);
-                console.log(app.items[0]);
-
-                let categories = localStorage[key_categories];
-                console.log(app.items[0]);
-                app.categories = JSON.parse(categories);
+                loadData();
+                // app.alltextMetrics();
             }
 
         }, false)
+
+        function loadData() {
+            let items = localStorage[key_items];
+            app.items = JSON.parse(items);
+            let categories = localStorage[key_categories];
+            app.categories = JSON.parse(categories);
+        }
 
         function saveData() {
             writeItems();
