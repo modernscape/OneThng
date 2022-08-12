@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
     <link rel="shortcut icon" href="favicon.ico" />
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
 
     <title>One Thing</title>
     <style>
@@ -106,6 +109,8 @@
             bottom: 5px;
             pointer-events: none;
             border: 1px solid rgb(161, 161, 161);
+            width: 90%;
+            text-align: center;
         }
 
         #contextmenu,
@@ -250,7 +255,8 @@
                     <td :class="{ hasItem: item.title != '' }" class="center"><input type="checkbox" name="" id=""
                             :checked=item.done v-on:change="updateDone" class="doneBtn">
                     </td>
-                    <td><input type="date" :value="item.date" v-on:change="updateDate" class="dateField"></td>
+                    <td><input type="date" :value="item.date" v-on:change="updateDate" class="dateField datepicker">
+                    </td>
                     <td><select class="evaluationSelect" name="" id="" v-on:change="updateEvaluation"
                             :value="item.evaluation">
                             <option value=" "> </option>
@@ -276,14 +282,14 @@
                     <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">行を追加 ＋</td>
                 </tr>
             </table>
+            <p class="note">
+                ① カテゴリーに実施する行動を追加<br>
+                ② 行動は1行に1つのみ<br>
+                ③ 実施する日を設定すると自動ソートされます
+            </p>
         </div>
     </div>
-    <br>
-    <p class="note">
-        ① カテゴリーに実施する行動を追加<br>
-        ② 行動は1行に1つのみ<br>
-        ③ 実施する日を設定すると自動ソートされます
-    </p>
+
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
 
@@ -793,7 +799,27 @@
                 document.getElementById('contextmenu_out').style.display = "none";
             });
         }
+
+
     </script>
+    <!-- 
+    <script>
+        $(() => {
+            $("input.datepicker").datepicker();
+        });
+
+        $(() => {
+            if (is_iOS == false) {
+                console.log('not!');
+                $("input[type=date]").attr('type', 'text');
+                $("input.datepicker").datepicker();
+            }
+        });
+
+        function is_iOS() {
+            (navigator.userAgent.indexOf('iPhone;') > -1 || navigator.standalone != undefined) ? true : false;
+        }
+    </script> -->
 </body>
 
 </html>
