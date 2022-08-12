@@ -315,6 +315,10 @@
         var activeCat = 0;
         var activeInput;
 
+        let key_items = 'OneThing_key_items';
+        let key_categories = 'OneThing_key_categories';
+        let key_written = 'OneThing_key_written';
+
         let app = new Vue({
             el: "#app",
             data: {
@@ -325,22 +329,24 @@
                         "done": false,
                         "evaluation": "",
                         "id": 0,
-                        "title": "",
+                        "title": "ブログを書く",
                         "active": false
                     }
                 ],
                 categories: [
                     {
                         "id": 0,
-                        "title": "",
-                        "tool": ""
+                        "title": "ビジネス",
+                        "tool": "ブログ"
                     }
                 ]
             },
             methods: {
                 loadData: function (ary0, ary1) {
                     this.items = ary0;
+                    console.log(this.items[0]);
                     this.categories = ary1;
+                    console.log(this.categories[0]);
                 },
                 textMetrics: function () {
                     // const span = document.getElementById("textMetrics");
@@ -364,7 +370,7 @@
                         "title": ""
                     }
                     this.items.push(item);
-                    writeItems();
+                    saveData();
                 },
                 addItemPrev: function (e) {
                     document.getElementById('contextmenu').style.display = "none";
@@ -383,7 +389,8 @@
                         "title": ""
                     }
                     this.items.splice(itemIndex, 0, item);
-                    writeItems();
+                    // writeItems();
+                    saveData();
                 },
                 addCategory: function () {
                     const result = prompt("追加するカテゴリーは？", "category");
@@ -395,7 +402,8 @@
                             "title": result
                         }
                         this.categories.push(cat);
-                        writeCategories();
+                        // writeCategories();
+                        saveData();
                     }
                 },
                 updateItemOrder: function () {
@@ -414,9 +422,11 @@
                             "title": result
                         }
                         this.categories.splice(activeCat, 0, category);
-                        writeCategories();
+                        // writeCategories();
+                        saveData();
                         this.shiftRightItemCat(activeCat);
-                        writeItems();
+                        // writeItems();
+                        saveData();
                     }
                 },
                 updateCategoryOrder: function () {
@@ -472,10 +482,12 @@
 
                     app.deleteItems(itemsToDelete);
                     this.shiftLeftItemCat(index);
-                    writeItems();
+                    // writeItems();
+                    saveData();
 
                     this.categories.splice(index, 1);
-                    writeCategories();
+                    // writeCategories();
+                    saveData();
                 },
                 moveCategory: function (e) {
                     var btn = e.target;
@@ -492,7 +504,8 @@
                     app.categories.splice(from);
                     Array.prototype.push.apply(app.categories, tail);
                     app.categories.splice(to, 0, value);
-                    writeCategories();
+                    // writeCategories();
+                    saveData();
 
                     // 全てのitemのitem.catも入れ替える
                     for (let index = 0; index < app.items.length; index++) {
@@ -503,7 +516,8 @@
                             item.cat = to;
                         }
                     }
-                    writeItems();
+                    // writeItems();
+                    saveData();
                 },
                 inputHundler: function (e) {
                     var cat = 0;
@@ -531,7 +545,8 @@
                     span.textContent = curInput.value;
                     curInput.style.width = `${span.clientWidth}px`;
                     item.cat = cat;
-                    writeItems();
+                    // writeItems();
+                    saveData();
                 },
                 activateCat: function (cat, e) {
                     activeCat = cat;
@@ -557,7 +572,8 @@
                 },
                 deleteItem: function (index) {
                     app.items.splice(index, 1);
-                    writeItems();
+                    // writeItems();
+                    saveData();
                 },
                 deleteItems: function (ary) {
 
@@ -572,7 +588,8 @@
                     app.items = newSource;
 
                     // app.items.splice(index, 1);
-                    writeItems();
+                    // writeItems();
+                    saveData();
                 },
                 updateDone: function (e) {
                     var btn = e.target;
@@ -591,7 +608,8 @@
                     const item = app.items[itemIndex];
                     item.date = btn.value;
                     this.sort();
-                    writeItems();
+                    // writeItems();
+                    saveData();
 
                     // 日付が空の時の処理
                 },
@@ -599,7 +617,8 @@
                     var select = e.target;
                     var item = this.itemForElement('evaluationSelect', e)
                     item.evaluation = select.value;
-                    writeItems();
+                    // writeItems();
+                    saveData();
                 },
                 sort: function (e) {
                     app.items.sort(function (x, y) {
@@ -626,13 +645,15 @@
                 },
                 removeRow: function () {
                     this.items.pop();
-                    writeItems();
+                    // writeItems();
+                    saveData();
                 },
                 writeItems_app: function () {
-                    writeItems();
+                    saveData();
                 },
                 writeCategories_app: function () {
-                    writeCategories();
+                    // writeCategories();
+                    saveData();
                 }
             },
             created: function () {
@@ -643,24 +664,66 @@
             }
         });
 
-        onValue(oneThingRef, (snapshot) => {
-            const data = snapshot.val();
-            app.loadData(data.items, data.categories);
-            app.textMetrics();
-            // updateInputsWidth();
+        // onValue(oneThingRef, (snapshot) => {
+        //     const data = snapshot.val();
+        //     app.loadData(data.items, data.categories);
+        //     app.textMetrics();
 
-        });
+
+        // });
+
+        document.addEventListener('DOMContentLoaded', function (e) {
+
+            if (localStorage[key_written] == 'done') {
+                let items = localStorage[key_items];
+                app.items = JSON.parse(items);
+                console.log(app.items[0]);
+
+                let categories = localStorage[key_categories];
+                console.log(app.items[0]);
+                app.categories = JSON.parse(categories);
+            }
+
+        }, false)
+
+        function saveData() {
+            writeItems();
+            writeCategories();
+            localStorage[key_written] = 'done'
+        }
 
         function writeItems() {
             console.log('writeItems!');
             app.updateItemOrder();
-            set(ref(database, '/items/'), app.items);
+            let json = JSON.stringify(app.items, undefined, 1);
+            localStorage[key_items] = json;
         }
 
         function writeCategories() {
             console.log('writeCategories!');
             app.updateCategoryOrder();
-            set(ref(database, '/categories/'), app.categories);
+            let json = JSON.stringify(app.categories, undefined, 1);
+            localStorage[key_categories] = json;
+        }
+
+        function writeDefaultData() {
+            let items = [{
+                "cat": 0,
+                "date": "",
+                "done": false,
+                "evaluation": "",
+                "id": 0,
+                "title": "ブログを書く",
+                "active": false
+            }];
+            let categories = [{
+                "id": 0,
+                "title": "ビジネス",
+                "tool": "ブログ"
+            }];
+
+            localStorage[key_items] = items;
+            localStorage[key_categories] = categories;
         }
 
 
