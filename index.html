@@ -100,12 +100,15 @@
 
         p.note {
             color: rgb(161, 161, 161);
-            padding: 1em 0;
+            padding: 5px 1em;
             position: fixed;
-            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 5px;
             pointer-events: none;
-            width: 100%;
+            /* width: 80%; */
             /* font-size: 2vw; */
+            border: 1px solid #fff;
         }
 
         #contextmenu,
@@ -279,10 +282,10 @@
         </div>
     </div>
     <br>
-    <p class="note center">
-        ＊ それぞれのカテゴリーで実施する行動を追加<br>
-        ＊ 1行に1ヶ所しか入れられません<br>
-        ＊ 実施する日を設定すると自動ソートされます
+    <p class="note">
+        ① カテゴリーに実施する行動を追加<br>
+        ② 行動は1行に1つのみ<br>
+        ③ 実施する日を設定すると自動ソートされます
     </p>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
