@@ -205,6 +205,10 @@
             color: #fff;
             border: 0;
         }
+
+        .inputDone {
+            text-decoration: line-through;
+        }
     </style>
 </head>
 
@@ -246,7 +250,7 @@
                 <tr style="height:60px">
                     <td colspan="2" class="txt-half">ツール<br>コンテンツ</td>
                     <td></td>
-                    <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center ">
+                    <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center">
                         <textarea v-model="cat.tool" v-on:change="writeCategories_app"
                             class="center">{{ cat.tool }}</textarea>
                     </td>
@@ -269,10 +273,11 @@
                     </td>
                     <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
                         <div class="container" v-if="true">
-                            <input type="text" :value='cat.id==item.cat ? item.title : " "' v-on:input="inputHundler"
-                                :class="{ active: item.date != '' && cat.id==item.cat , inactive: item.date == '' && cat.id==item.cat}"
-                                class="txt" v-on:focus="activateCat(cat.id, $event)" placeholder="行動"
-                                :style="styles(item)">
+                            <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:input="inputHundler"
+                                :class="{ active: item.date != '' && cat.id==item.cat,
+                                 inactive: item.date == '' && cat.id==item.cat,
+                                inputDone: item.done }" class="txt" v-on:focus="activateCat(cat.id, $event)"
+                                :placeholder="item.title != '' ? '' : '行動' " :style="styles(item)">
                             <span class="textMetrics" aria-hidden="true"></span>
                         </div>
                     </td>
