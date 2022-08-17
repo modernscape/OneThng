@@ -11,218 +11,233 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
 
-    <title>One Thing</title>
-    <style>
-        input {
-            background-color: rgba(0, 0, 0, 0);
-            color: #fff;
-            padding: 0 5px;
-            border: 0;
-        }
+    <!-- ※基本共通設定 -->
 
-        .center {
-            text-align: center;
-        }
+    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+        <title>ページのタイトル</title>
+        <meta property="og:title" content="ひとつのことシート" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://modernscape.github.io/OneThng/" />
+        <meta property="og:image" content="https://modernscape.github.io/OneThng/img/manual.png" />
+        <meta property="og:site_name" content="ひとつのことシート" />
+        <meta property="og:description"
+            content="ひとつのことシート,マインドフルネス,集中,OneThing,シングルタスク,マルチタスク,Win Win,自己啓発,夢,タスク管理,ひとつのこと" />
 
-        .plusBtn {
-            text-align: center;
-            border: 0;
-            font-weight: bold;
-            color: aqua;
-            cursor: pointer;
-        }
+        <!-- ※Twitter共通設定 -->
+        <meta name="twitter:card" content="summary_large_image" />
 
-        .plusBtn:hover {
-            color: rgb(247, 223, 3);
-        }
+        <title>ひとつのことシート</title>
+        <style>
+            input {
+                background-color: rgba(0, 0, 0, 0);
+                color: #fff;
+                padding: 0 5px;
+                border: 0;
+            }
 
-        .plus_item {
-            padding: 5px 0;
-            text-align: right;
-        }
+            .center {
+                text-align: center;
+            }
 
-        .plus_category {
-            padding: 0 10px;
-        }
+            .plusBtn {
+                text-align: center;
+                border: 0;
+                font-weight: bold;
+                color: aqua;
+                cursor: pointer;
+            }
 
-        .container,
-        .txt,
-        .textMetrics {
-            font: inherit;
-        }
+            .plusBtn:hover {
+                color: rgb(247, 223, 3);
+            }
 
-        .textMetrics {
-            display: inline-block;
-            position: absolute;
-            height: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            clip: rect(0 0 0 0);
-            clip-path: inset(50%);
-        }
+            .plus_item {
+                padding: 5px 0;
+                text-align: right;
+            }
 
-        .deleteBtn {
-            border: 0;
-            padding: 0 5px;
-            cursor: pointer;
-        }
+            .plus_category {
+                padding: 0 10px;
+            }
 
-        .deleteBtn img {
-            width: 20px;
-            height: 20px;
-            padding: 3px;
-            vertical-align: middle;
-        }
+            .container,
+            .txt,
+            .textMetrics {
+                font: inherit;
+            }
 
-        .deleteBtn img:hover {
-            opacity: 0.3;
-        }
+            .textMetrics {
+                display: inline-block;
+                position: absolute;
+                height: 0;
+                overflow: hidden;
+                white-space: nowrap;
+                clip: rect(0 0 0 0);
+                clip-path: inset(50%);
+            }
 
-        table {
-            margin: 0 auto;
-        }
+            .deleteBtn {
+                border: 0;
+                padding: 0 5px;
+                cursor: pointer;
+            }
 
-        table td {
-            border-color: rgb(95, 95, 95);
-        }
+            .deleteBtn img {
+                width: 20px;
+                height: 20px;
+                padding: 3px;
+                vertical-align: middle;
+            }
 
-        .txt {
-            color: rgb(83, 170, 251);
-        }
+            .deleteBtn img:hover {
+                opacity: 0.3;
+            }
 
-        .active {
-            color: rgb(255, 0, 123);
-            font-weight: bold;
-            background-color: rgb(251, 186, 232);
-        }
+            table {
+                margin: 0 auto;
+            }
 
-        .inactive {
-            background-color: rgba(251, 186, 231, 0);
-        }
+            table td {
+                border-color: rgb(95, 95, 95);
+            }
 
-        p.note {
-            color: rgb(161, 161, 161);
-            padding: 5px 1em;
-            position: fixed;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 5px;
-            pointer-events: none;
-            border: 1px solid rgb(161, 161, 161);
-            width: 90%;
-            text-align: center;
-        }
+            .txt {
+                color: rgb(83, 170, 251);
+            }
 
-        #contextmenu,
-        #contextmenu_out {
-            display: none;
-            position: fixed;
-            left: 0px;
-            top: 0px;
-            border: 0;
-            background-color: rgba(41, 41, 41, 0.832);
-            padding: 3px 10px;
-        }
+            .active {
+                color: rgb(255, 0, 123);
+                font-weight: bold;
+                background-color: rgb(251, 186, 232);
+            }
 
-        #contextmenu li,
-        #contextmenu_out li {
-            cursor: pointer;
-            list-style-type: none;
-            color: #fff;
-        }
+            .inactive {
+                background-color: rgba(251, 186, 231, 0);
+            }
 
-        .td_category {
-            position: relative;
-        }
+            p.note {
+                color: rgb(161, 161, 161);
+                padding: 5px 1em;
+                position: fixed;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 5px;
+                pointer-events: none;
+                border: 1px solid rgb(161, 161, 161);
+                width: 90%;
+                text-align: center;
+            }
 
-        .input_category {
-            width: 100%;
-            height: 60px;
-            box-sizing: border-box;
-            font-weight: bold;
-            font-size: 110%;
-        }
+            #contextmenu,
+            #contextmenu_out {
+                display: none;
+                position: fixed;
+                left: 0px;
+                top: 0px;
+                border: 0;
+                background-color: rgba(41, 41, 41, 0.832);
+                padding: 3px 10px;
+            }
 
-        textarea {
-            background-color: #ff000000;
-            color: rgb(153, 171, 162);
-            resize: none;
-            border: 0;
-            vertical-align: bottom;
-            width: 100%;
-            height: 60px;
-            box-sizing: border-box;
-        }
+            #contextmenu li,
+            #contextmenu_out li {
+                cursor: pointer;
+                list-style-type: none;
+                color: #fff;
+            }
 
-        .catDeleteBtn,
-        .catMoveBtn {
-            display: none;
-            width: 20px;
-            height: 20px;
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
+            .td_category {
+                position: relative;
+            }
 
-        .catMoveBtn {
-            left: 5px;
-        }
+            .input_category {
+                width: 100%;
+                height: 60px;
+                box-sizing: border-box;
+                font-weight: bold;
+                font-size: 110%;
+            }
 
-        td:hover .catDeleteBtn,
-        td:hover .catMoveBtn {
-            display: inline;
-        }
+            textarea {
+                background-color: #ff000000;
+                color: rgb(153, 171, 162);
+                resize: none;
+                border: 0;
+                vertical-align: bottom;
+                width: 100%;
+                height: 60px;
+                box-sizing: border-box;
+            }
 
-        td:hover .firstCat {
-            display: none;
-        }
+            .catDeleteBtn,
+            .catMoveBtn {
+                display: none;
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                right: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
 
-        .content {
-            overflow: auto;
-            padding: 1em;
-        }
+            .catMoveBtn {
+                left: 5px;
+            }
 
-        .txt-half {
-            color: rgb(174, 174, 174);
-        }
+            td:hover .catDeleteBtn,
+            td:hover .catMoveBtn {
+                display: inline;
+            }
 
-        h1.title {
-            width: 100%;
-        }
+            td:hover .firstCat {
+                display: none;
+            }
 
-        #app {
-            margin-bottom: 120px;
-        }
+            .content {
+                overflow: auto;
+                padding: 1em;
+            }
 
-        .hasItem {
-            background-color: rgba(0, 170, 255, 0.49);
-        }
+            .txt-half {
+                color: rgb(174, 174, 174);
+            }
 
-        .evaluationSelect {
-            font-size: 120%;
-            background-color: #ff000000;
-            color: #fff;
-            border: 0;
-        }
+            h1.title {
+                width: 100%;
+            }
 
-        .inputDone {
-            text-decoration: line-through;
-        }
+            #app {
+                margin-bottom: 120px;
+            }
 
-        .manual {
-            position: fixed;
-            top: 5px;
-            right: 10px;
-            /* border: 1px solid #ccc; */
-            text-decoration: none;
-            padding: 2px 7px;
-            color: #000;
-            background-color: #ccc;
-            border-radius: 3px;
-        }
-    </style>
-</head>
+            .hasItem {
+                background-color: rgba(0, 170, 255, 0.49);
+            }
+
+            .evaluationSelect {
+                font-size: 120%;
+                background-color: #ff000000;
+                color: #fff;
+                border: 0;
+            }
+
+            .inputDone {
+                text-decoration: line-through;
+            }
+
+            .manual {
+                position: fixed;
+                top: 5px;
+                right: 10px;
+                /* border: 1px solid #ccc; */
+                text-decoration: none;
+                padding: 2px 7px;
+                color: #000;
+                background-color: #ccc;
+                border-radius: 3px;
+            }
+        </style>
+    </head>
 
 <body onContextmenu="return false;">
 
