@@ -15,231 +15,231 @@
 
     <!-- 基本共通設定 -->
 
-    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
-        <title>ページのタイトル</title>
-        <meta property="og:title" content="ひとつのことシート" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://modernscape.github.io/OneThng/" />
-        <meta property="og:image" content="https://modernscape.github.io/OneThng/img/manual.png" />
-        <meta property="og:site_name" content="ひとつのことシート" />
-        <meta property="og:description"
-            content="マインドフルネス,集中力,OneThing,シングルタスク,マルチタスク,Win Win,自己啓発,夢,タスク管理,ひとつのこと,集中,ビジネススキル,google,瞑想,webツール" />
+    <!-- <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#"> -->
+    <title>ページのタイトル</title>
+    <meta property="og:title" content="ひとつのことシート" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://modernscape.github.io/OneThng/" />
+    <meta property="og:image" content="https://modernscape.github.io/OneThng/img/manual.png" />
+    <meta property="og:site_name" content="ひとつのことシート" />
+    <meta property="og:description"
+        content="マインドフルネス,集中力,OneThing,シングルタスク,マルチタスク,Win Win,自己啓発,夢,タスク管理,ひとつのこと,集中,ビジネススキル,google,瞑想,webツール" />
 
-        <!-- Twitter共通設定 -->
-        <meta name="twitter:card" content="summary_large_image" />
+    <!-- Twitter共通設定 -->
+    <meta name="twitter:card" content="summary_large_image" />
 
-        <title>ひとつのことシート</title>
-        <style>
-            input {
-                background-color: rgba(0, 0, 0, 0);
-                color: #fff;
-                padding: 0 5px;
-                border: 0;
-            }
+    <title>ひとつのことシート</title>
+    <style>
+        input {
+            background-color: rgba(0, 0, 0, 0);
+            color: #fff;
+            padding: 0 5px;
+            border: 0;
+        }
 
-            .center {
-                text-align: center;
-            }
+        .center {
+            text-align: center;
+        }
 
-            .plusBtn {
-                text-align: center;
-                border: 0;
-                font-weight: bold;
-                color: aqua;
-                cursor: pointer;
-            }
+        .plusBtn {
+            text-align: center;
+            border: 0;
+            font-weight: bold;
+            color: aqua;
+            cursor: pointer;
+        }
 
-            .plusBtn:hover {
-                color: rgb(247, 223, 3);
-            }
+        .plusBtn:hover {
+            color: rgb(247, 223, 3);
+        }
 
-            .plus_item {
-                padding: 5px 0;
-                text-align: right;
-            }
+        .plus_item {
+            padding: 5px 0;
+            text-align: right;
+        }
 
-            .plus_category {
-                padding: 0 10px;
-            }
+        .plus_category {
+            padding: 0 10px;
+        }
 
-            .container,
-            .txt,
-            .textMetrics {
-                font: inherit;
-            }
+        .container,
+        .txt,
+        .textMetrics {
+            font: inherit;
+        }
 
-            .textMetrics {
-                display: inline-block;
-                position: absolute;
-                height: 0;
-                overflow: hidden;
-                white-space: nowrap;
-                clip: rect(0 0 0 0);
-                clip-path: inset(50%);
-            }
+        .textMetrics {
+            display: inline-block;
+            position: absolute;
+            height: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+        }
 
-            .deleteBtn {
-                border: 0;
-                padding: 0 5px;
-                cursor: pointer;
-            }
+        .deleteBtn {
+            border: 0;
+            padding: 0 5px;
+            cursor: pointer;
+        }
 
-            .deleteBtn img {
-                width: 20px;
-                height: 20px;
-                padding: 3px;
-                vertical-align: middle;
-            }
+        .deleteBtn img {
+            width: 20px;
+            height: 20px;
+            padding: 3px;
+            vertical-align: middle;
+        }
 
-            .deleteBtn img:hover {
-                opacity: 0.3;
-            }
+        .deleteBtn img:hover {
+            opacity: 0.3;
+        }
 
-            table {
-                margin: 0 auto;
-            }
+        table {
+            margin: 0 auto;
+        }
 
-            table td {
-                border-color: rgb(95, 95, 95);
-            }
+        table td {
+            border-color: rgb(95, 95, 95);
+        }
 
-            .txt {
-                color: rgb(83, 170, 251);
-            }
+        .txt {
+            color: rgb(83, 170, 251);
+        }
 
-            .active {
-                color: rgb(255, 0, 123);
-                font-weight: bold;
-                background-color: rgb(251, 186, 232);
-            }
+        .active {
+            color: rgb(255, 0, 123);
+            font-weight: bold;
+            background-color: rgb(251, 186, 232);
+        }
 
-            .inactive {
-                background-color: rgba(251, 186, 231, 0);
-            }
+        .inactive {
+            background-color: rgba(251, 186, 231, 0);
+        }
 
-            p.note {
-                color: rgb(161, 161, 161);
-                padding: 5px 1em;
-                position: fixed;
-                left: 50%;
-                transform: translateX(-50%);
-                bottom: 5px;
-                pointer-events: none;
-                border: 1px solid rgb(161, 161, 161);
-                width: 90%;
-                text-align: center;
-            }
+        p.note {
+            color: rgb(161, 161, 161);
+            padding: 5px 1em;
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 5px;
+            pointer-events: none;
+            border: 1px solid rgb(161, 161, 161);
+            width: 90%;
+            text-align: center;
+        }
 
-            #contextmenu,
-            #contextmenu_out {
-                display: none;
-                position: fixed;
-                left: 0px;
-                top: 0px;
-                border: 0;
-                background-color: rgba(41, 41, 41, 0.832);
-                padding: 3px 10px;
-            }
+        #contextmenu,
+        #contextmenu_out {
+            display: none;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            border: 0;
+            background-color: rgba(41, 41, 41, 0.832);
+            padding: 3px 10px;
+        }
 
-            #contextmenu li,
-            #contextmenu_out li {
-                cursor: pointer;
-                list-style-type: none;
-                color: #fff;
-            }
+        #contextmenu li,
+        #contextmenu_out li {
+            cursor: pointer;
+            list-style-type: none;
+            color: #fff;
+        }
 
-            .td_category {
-                position: relative;
-            }
+        .td_category {
+            position: relative;
+        }
 
-            .input_category {
-                width: 100%;
-                height: 60px;
-                box-sizing: border-box;
-                font-weight: bold;
-                font-size: 110%;
-            }
+        .input_category {
+            width: 100%;
+            height: 60px;
+            box-sizing: border-box;
+            font-weight: bold;
+            font-size: 110%;
+        }
 
-            textarea {
-                background-color: #ff000000;
-                color: rgb(153, 171, 162);
-                resize: none;
-                border: 0;
-                vertical-align: bottom;
-                width: 100%;
-                height: 60px;
-                box-sizing: border-box;
-            }
+        textarea {
+            background-color: #ff000000;
+            color: rgb(153, 171, 162);
+            resize: none;
+            border: 0;
+            vertical-align: bottom;
+            width: 100%;
+            height: 60px;
+            box-sizing: border-box;
+        }
 
-            .catDeleteBtn,
-            .catMoveBtn {
-                display: none;
-                width: 20px;
-                height: 20px;
-                position: absolute;
-                right: 5px;
-                top: 50%;
-                transform: translateY(-50%);
-            }
+        .catDeleteBtn,
+        .catMoveBtn {
+            display: none;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
-            .catMoveBtn {
-                left: 5px;
-            }
+        .catMoveBtn {
+            left: 5px;
+        }
 
-            td:hover .catDeleteBtn,
-            td:hover .catMoveBtn {
-                display: inline;
-            }
+        td:hover .catDeleteBtn,
+        td:hover .catMoveBtn {
+            display: inline;
+        }
 
-            td:hover .firstCat {
-                display: none;
-            }
+        td:hover .firstCat {
+            display: none;
+        }
 
-            .content {
-                overflow: auto;
-                padding: 1em;
-            }
+        .content {
+            overflow: auto;
+            padding: 1em;
+        }
 
-            .txt-half {
-                color: rgb(174, 174, 174);
-            }
+        .txt-half {
+            color: rgb(174, 174, 174);
+        }
 
-            h1.title {
-                width: 100%;
-            }
+        h1.title {
+            width: 100%;
+        }
 
-            #app {
-                margin-bottom: 120px;
-            }
+        #app {
+            margin-bottom: 120px;
+        }
 
-            .hasItem {
-                background-color: rgba(0, 170, 255, 0.49);
-            }
+        .hasItem {
+            background-color: rgba(0, 170, 255, 0.49);
+        }
 
-            .evaluationSelect {
-                font-size: 120%;
-                background-color: #ff000000;
-                color: #fff;
-                border: 0;
-            }
+        .evaluationSelect {
+            font-size: 120%;
+            background-color: #ff000000;
+            color: #fff;
+            border: 0;
+        }
 
-            .inputDone {
-                text-decoration: line-through;
-            }
+        .inputDone {
+            text-decoration: line-through;
+        }
 
-            .manual {
-                position: fixed;
-                top: 5px;
-                right: 10px;
-                /* border: 1px solid #ccc; */
-                text-decoration: none;
-                padding: 2px 7px;
-                color: #000;
-                background-color: #ccc;
-                border-radius: 3px;
-            }
-        </style>
-    </head>
+        .manual {
+            position: fixed;
+            top: 5px;
+            right: 10px;
+            /* border: 1px solid #ccc; */
+            text-decoration: none;
+            padding: 2px 7px;
+            color: #000;
+            background-color: #ccc;
+            border-radius: 3px;
+        }
+    </style>
+</head>
 
 <body onContextmenu="return false;">
 
