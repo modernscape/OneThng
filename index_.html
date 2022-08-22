@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="description"
         content="マインドフルネス,集中力,OneThing,シングルタスク,マルチタスク,Win Win,自己啓発,夢,タスク管理,ひとつのこと,集中,ビジネススキル,google,瞑想,webツール">
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -231,79 +230,12 @@
             position: fixed;
             top: 5px;
             right: 10px;
+            /* border: 1px solid #ccc; */
             text-decoration: none;
             padding: 2px 7px;
             color: #000;
             background-color: #ccc;
             border-radius: 3px;
-        }
-
-        /* ハンバーガーメニュー */
-        .menu-btn {
-            position: fixed;
-            top: 5px;
-            right: 10px;
-            z-index: 2;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #333;
-            color: #fff;
-            cursor: pointer;
-            border: 0;
-        }
-
-        .menu-btn:hover {
-            opacity: 0.8;
-        }
-
-        .menu {
-            position: fixed;
-            top: 50px;
-            right: 0;
-            z-index: 3;
-            width: 150px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 248, 244, 0.516);
-            display: none;
-        }
-
-        .menu__item {
-            width: 100%;
-            height: auto;
-            padding: .5em 1em;
-            text-align: center;
-            color: #fff;
-            box-sizing: border-box;
-        }
-
-        .menu__item:hover {
-            opacity: 0.3;
-            cursor: pointer;
-        }
-
-        .menu__item a {
-            text-decoration: none;
-        }
-
-        .menu.is-active {
-            display: block;
-        }
-
-        .overlay {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            z-index: 2;
-            background: rgba(0, 153, 255, 0.6);
         }
     </style>
 </head>
@@ -311,15 +243,7 @@
 <body onContextmenu="return false;">
 
     <h1 class="title center">頭がいっぱいにならない「ひとつのことシート」</h1>
-    <button type="button" class="menu-btn">
-        <i class="fa fa-bars" aria-hidden="true"></i>
-    </button>
-    <div class="menu">
-        <div class="menu__item"><a href="img/manual.png" target="manual">使い方</a></div>
-        <div class="menu__item">Export</div>
-        <div class="menu__item">Import</div>
-    </div>
-    <!-- <div><a href="img/manual.png" target="manual" class="manual">使い方</a></div> -->
+    <div><a href="img/manual.png" target="manual" class="manual">使い方</a></div>
     <div id="app">
         <div id="contextmenu">
             <ul>
@@ -863,25 +787,26 @@
             });
         }
 
-        $(function () {
-            $('.menu-btn').on('click', function () {
-                $('.menu').toggleClass('is-active');
-                console.log('btn!');
-                $('body').append('<p class="overlay"></p>');
-            });
-        }());
-
-        //閉じる用クリックイベント
-        $('body').on('click', '.overlay', function () {
-
-            $('p.overlay').remove();
-            $('.menu').removeClass('is-active');
-        });
 
     </script>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
-        </script>
+    <!-- 
+    <script>
+        $(() => {
+            $("input.datepicker").datepicker();
+        });
+
+        $(() => {
+            if (is_iOS == false) {
+                console.log('not!');
+                $("input[type=date]").attr('type', 'text');
+                $("input.datepicker").datepicker();
+            }
+        });
+
+        function is_iOS() {
+            (navigator.userAgent.indexOf('iPhone;') > -1 || navigator.standalone != undefined) ? true : false;
+        }
+    </script> -->
 </body>
 
 </html>
