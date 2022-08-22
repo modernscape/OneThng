@@ -867,11 +867,9 @@
         $(function () {
             var reader;
             function onChange(event) {
-                console.log('onChange!');
                 reader.readAsText(event.target.files[0]);
             }
             function onLoad(event) {
-                console.log('onLoad!');
                 var json;
                 try {
                     json = JSON.parse(event.target.result);
@@ -886,62 +884,20 @@
             $('input[type="file"]').on('change', onChange);
         });
 
-
-
         $('#export').on('click', function () {
             exportJSON();
         });
 
         function expandJSON(json) {
             // 読みこんだjsonデータを検証
-
-            
             console.log(json.categories);
             console.log(json.items);
             app.items = json.items;
             app.categories = json.categories;
+            saveData();
         }
 
-        // function loadData_sample() {
-        //     let items = localStorage[key_items];
-        //     app.items = JSON.parse(items);
-        //     let categories = localStorage[key_categories];
-        //     app.categories = JSON.parse(categories);
-        // }
-        // inputFile.addEventListener('change', () => {
-        //     let files = inputFile.files;
-        //     var file = files[0];
-        //     var reader = new FileReader();
-        //     reader.onload = function (event) {
-        //         console.log(event.target.result);
-        //         var parsed = parseDataURL(event.target.result); //dataにjsonのデータを入れたい。
-        //         var json;
-        //         try {
-        //             json = JSON.parse(parsed.isBase64
-        //                 ? bota(parsed.data)
-        //                 : decodeURIComponent(parsed.data)
-        //             );
-        //         } catch (e) {
-        //             // DataURLはJSONでなかった場合（ノーテーションのミスなど）
-        //         };
-        //         console.log(json);
-        //     }
-        //     reader.readAsDataURL(file);
-
-        // let files = inputFile.files;
-        // for (let index = 0; index < files.length; index++) {
-        //     const file = files[index];
-        //     console.log(file);
-        //     try {
-        //         var jsonObject = JSON.parse(file);
-        //         console.log(jsonObject);
-        //     } catch (error) {
-        //         console.log('JSONでない！');
-        //         console.log(error);
-        //     }
-        // }
-
-        // });
+     
 
         // ハンバーガーメニュー
         $(function () {
@@ -967,11 +923,7 @@
             // データをJSON形式の文字列に変換する。
             const data_items = JSON.stringify(app.items);
             const data_categories = JSON.stringify(app.categories);
-            // const totalData = app.items;
-
-            // const data = JSON.stringify(totalData);
-            // console.log(data);
-
+ 
             // HTMLのリンク要素を生成する。
             const link = document.createElement('a');
 
@@ -979,18 +931,14 @@
             const prefix = '{"categories":';
             const suffix = '}';
             const dataContent = prefix + encodeURIComponent(data_categories) + ',"items":' + encodeURIComponent(data_items) + suffix;
-            console.log(dataContent);
 
             link.href = "data:text/plain," + dataContent;
-
 
             // 保存するJSONファイルの名前をリンクに設定する。
             link.download = fileName;
 
             // ファイルを保存する。
             link.click();
-
-            console.log('exportJSON!');
         }
     </script>
 
