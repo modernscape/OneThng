@@ -274,7 +274,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 248, 244, 0.516);
+            background: rgba(58, 34, 136, 0.954);
             display: none;
         }
 
@@ -316,8 +316,6 @@
 <body onContextmenu="return false;">
 
     <h1 class="title center">頭がいっぱいにならない「ひとつのことシート」</h1>
-
-    <!-- <div><a href="img/manual.png" target="manual" class="manual">使い方</a></div> -->
     <div id="app">
         <button type="button" class="menu-btn">
             <i class="fa fa-bars" aria-hidden="true"></i>
@@ -325,7 +323,9 @@
         <div class="menu">
             <div class="menu__item"><a href="img/manual.png" target="manual">使い方</a></div>
             <div class="menu__item" id="export">Export</div>
-            <div class="menu__item">Import<input id="file" type="file" name="file"></div>
+            <!-- <div class="menu__item">Import<input id="file" type="file" name="file"></div> -->
+            <div class="menu__item"><label><input id="file" type="file" style="display:none;">Import</label></div>
+
         </div>
         <div id="contextmenu">
             <ul>
@@ -872,6 +872,7 @@
             function onLoad(event) {
                 var json;
                 try {
+                    closeMenu();
                     json = JSON.parse(event.target.result);
                     expandJSON(json)
                 } catch (error) {
@@ -885,19 +886,16 @@
         });
 
         $('#export').on('click', function () {
+            closeMenu();
             exportJSON();
         });
 
         function expandJSON(json) {
-            // 読みこんだjsonデータを検証
-            console.log(json.categories);
-            console.log(json.items);
+            // 読みこんだjsonデータを検証（未）
             app.items = json.items;
             app.categories = json.categories;
             saveData();
         }
-
-     
 
         // ハンバーガーメニュー
         $(function () {
@@ -909,9 +907,13 @@
 
         //閉じる用クリックイベント
         $('body').on('click', '.overlay', function () {
+            closeMenu();
+        });
+
+        function closeMenu() {
             $('p.overlay').remove();
             $('.menu').removeClass('is-active');
-        });
+        }
 
         // jsonファイル
         function exportJSON() {
@@ -923,7 +925,7 @@
             // データをJSON形式の文字列に変換する。
             const data_items = JSON.stringify(app.items);
             const data_categories = JSON.stringify(app.categories);
- 
+
             // HTMLのリンク要素を生成する。
             const link = document.createElement('a');
 
