@@ -321,7 +321,7 @@
             <i class="fa fa-bars" aria-hidden="true"></i>
         </button>
         <div class="menu">
-            <div class="menu__item"><a href="img/manual.png" target="manual">使い方</a></div>
+            <div class="menu__item"><a href="img/manual.png" target="manual" id="manual">使い方</a></div>
             <div class="menu__item" id="export">Export</div>
             <!-- <div class="menu__item">Import<input id="file" type="file" name="file"></div> -->
             <div class="menu__item"><label><input id="file" type="file" style="display:none;">Import</label></div>
@@ -903,12 +903,16 @@
                 $('.menu').toggleClass('is-active');
                 $('body').append('<p class="overlay"></p>');
             });
-        }());
 
-        //閉じる用クリックイベント
-        $('body').on('click', '.overlay', function () {
-            closeMenu();
-        });
+            //閉じる用クリックイベント
+            $('body').on('click', '.overlay', function () {
+                closeMenu();
+            });
+
+            $('#manual').on('click', function () {
+                closeMenu();
+            });
+        }());
 
         function closeMenu() {
             $('p.overlay').remove();
@@ -919,7 +923,10 @@
         function exportJSON() {
 
             // 保存するJSONファイルの名前
-            const date = '22-08-17';
+
+            let d = new Date();
+            // console.log(d.toString());
+            const date = d.toLocaleString();
             const fileName = date + "_export.json";
 
             // データをJSON形式の文字列に変換する。
