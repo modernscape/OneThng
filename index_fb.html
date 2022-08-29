@@ -455,7 +455,9 @@
     const analytics = getAnalytics(app_firebase);
     const database = getDatabase(app_firebase);
 
-    const oneThingRef = ref(database, "/");
+    const user_me = 'hosoi/'
+
+    const oneThingRef = ref(database, "/" + user_me);
 
     //////////////////////////////////////////////////////////////////////////////
     // firebase用 end
