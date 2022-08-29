@@ -506,10 +506,10 @@
         },
       },
       methods: {
-        loadData: function (ary0, ary1) {
-          this.items = ary0;
-          this.categories = ary1;
-        },
+        // loadData: function (ary0, ary1) {
+        //   this.items = ary0;
+        //   this.categories = ary1;
+        // },
         addItem: function (e) {
           document.getElementById("contextmenu").style.display = "none";
           // const result = prompt("タスク名", "task");
@@ -656,7 +656,7 @@
           app.categories.splice(from);
           Array.prototype.push.apply(app.categories, tail);
           app.categories.splice(to, 0, value);
-          // writeCategories();
+
           saveData();
 
           // 全てのitemのitem.catも入れ替える
@@ -668,7 +668,7 @@
               item.cat = to;
             }
           }
-          // writeItems();
+
           saveData();
         },
         inputHundler: function (e) {
@@ -696,31 +696,12 @@
           const span = e.target.nextElementSibling;
           span.textContent = curInput.value;
           let w = Math.max(span.clientWidth, defaultWidth);
-          // curInput.style.width = `${span.clientWidth}px`;
           curInput.style.width = `${w}px`;
-          item.width = w; //span.clientWidth;
+          item.width = w;
           item.cat = cat;
-          // writeItems();
+
           saveData();
         },
-        // alltextMetrics: function () {
-        //     var inputs = document.getElementsByClassName('txt');
-        //     inputs = [].slice.call(inputs);
-        //     console.log(inputs);
-        //     for (let index = 0; index < app.items.length; index++) {
-        //         console.log(index);
-        //         const item = app.items[index];
-        //         let input = inputs[index];
-        //         console.log(input);
-        //         console.log(item.width);
-        //         if (item.width == undefined) {
-        //             console.log('widthなし！');
-        //             item.width = defaultWidth;
-        //             console.log(item.width);
-        //         }
-        //         input.style.width = `${item.width}px`;
-        //     }
-        // },
         activateCat: function (cat, e) {
           activeCat = cat;
           activeInput = e.target;
