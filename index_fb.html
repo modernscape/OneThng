@@ -865,13 +865,13 @@
     // firebase用
     function writeItems() {
       app.updateItemOrder();
-      set(ref(database, '/items/'), app.items);
+      set(ref(database, "/" + user_me + 'items/'), app.items);
     }
 
     // firebase用
     function writeCategories() {
       app.updateCategoryOrder();
-      set(ref(database, '/categories/'), app.categories);
+      set(ref(database, "/" + user_me + 'categories/'), app.categories);
     }
 
     function writeDefaultData() {
