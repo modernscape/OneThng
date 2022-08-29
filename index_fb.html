@@ -814,6 +814,12 @@
       },
     });
 
+    // firebase用
+    onValue(oneThingRef, (snapshot) => {
+      const data = snapshot.val();
+      app.loadData(data.items, data.categories);
+      // app.textMetrics();
+    });
 
     document.addEventListener(
       "DOMContentLoaded",
@@ -840,16 +846,28 @@
       localStorage[key_written] = "done";
     }
 
+    // function writeItems() {
+    //   app.updateItemOrder();
+    //   let json = JSON.stringify(app.items, undefined, 1);
+    //   localStorage[key_items] = json;
+    // }
+
+    // function writeCategories() {
+    //   app.updateCategoryOrder();
+    //   let json = JSON.stringify(app.categories, undefined, 1);
+    //   localStorage[key_categories] = json;
+    // }
+
+    // firebase用
     function writeItems() {
       app.updateItemOrder();
-      let json = JSON.stringify(app.items, undefined, 1);
-      localStorage[key_items] = json;
+      set(ref(database, '/items/'), app.items);
     }
 
+    // firebase用
     function writeCategories() {
       app.updateCategoryOrder();
-      let json = JSON.stringify(app.categories, undefined, 1);
-      localStorage[key_categories] = json;
+      set(ref(database, '/categories/'), app.categories);
     }
 
     function writeDefaultData() {
@@ -871,7 +889,6 @@
           tool: "ブログ",
         },
       ];
-
       localStorage[key_items] = items;
       localStorage[key_categories] = categories;
     }
