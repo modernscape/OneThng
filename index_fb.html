@@ -818,32 +818,33 @@
     onValue(oneThingRef, (snapshot) => {
       const data = snapshot.val();
       app.loadData(data.items, data.categories);
-      // app.textMetrics();
     });
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      function (e) {
-        if (localStorage[key_written] == "done") {
-          loadData();
-        }
-      },
-      false
-    );
+    // localStorage用
+    // document.addEventListener(
+    //   "DOMContentLoaded",
+    //   function (e) {
+    //     if (localStorage[key_written] == "done") {
+    //       loadData();
+    //     }
+    //   },
+    //   false
+    // );
 
-    // firebase（未）
-    function loadData() {
-      let items = localStorage[key_items];
-      app.items = JSON.parse(items);
-      let categories = localStorage[key_categories];
-      app.categories = JSON.parse(categories);
-    }
+    // localStorage用
+    // function loadData() {
+    //   let items = localStorage[key_items];
+    //   app.items = JSON.parse(items);
+    //   let categories = localStorage[key_categories];
+    //   app.categories = JSON.parse(categories);
+    // }
 
-    // firebase（未）
+
     function saveData() {
       writeItems();
       writeCategories();
-      localStorage[key_written] = "done";
+      // localStorage用
+      // localStorage[key_written] = "done";
     }
 
     // function writeItems() {
@@ -889,8 +890,8 @@
           tool: "ブログ",
         },
       ];
-      localStorage[key_items] = items;
-      localStorage[key_categories] = categories;
+      // localStorage[key_items] = items;
+      // localStorage[key_categories] = categories;
     }
 
     window.onload = function () {
