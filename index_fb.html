@@ -506,10 +506,11 @@
         },
       },
       methods: {
-        // loadData: function (ary0, ary1) {
-        //   this.items = ary0;
-        //   this.categories = ary1;
-        // },
+        // firebase用
+        loadData: function (ary0, ary1) {
+          this.items = ary0;
+          this.categories = ary1;
+        },
         addItem: function (e) {
           document.getElementById("contextmenu").style.display = "none";
           // const result = prompt("タスク名", "task");
