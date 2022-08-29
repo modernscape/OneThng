@@ -833,25 +833,18 @@
       },
     });
 
-    // onValue(oneThingRef, (snapshot) => {
-    //     const data = snapshot.val();
-    //     app.loadData(data.items, data.categories);
-    //     app.textMetrics();
-
-    // });
 
     document.addEventListener(
       "DOMContentLoaded",
       function (e) {
-        // loadData
         if (localStorage[key_written] == "done") {
           loadData();
-          // app.alltextMetrics();
         }
       },
       false
     );
 
+    // firebase（未）
     function loadData() {
       let items = localStorage[key_items];
       app.items = JSON.parse(items);
@@ -859,6 +852,7 @@
       app.categories = JSON.parse(categories);
     }
 
+    // firebase（未）
     function saveData() {
       writeItems();
       writeCategories();
