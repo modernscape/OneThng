@@ -349,7 +349,7 @@
         <tr class="center">
           <td class="txt-half">実行</td>
           <td class="txt-half">実施する日</td>
-          <td class="txt-half">評価</td>
+          <td class="txt-half">フラグ</td>
           <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id" class="td_category">
             <input type="text" v-model="cat.title" v-on:change="writeCategories_app" class="input_category center"
               placeholder="カテゴリー" />
