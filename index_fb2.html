@@ -389,7 +389,7 @@
           </td>
           <td>
             <!-- <input type="text" :value="item.date" v-on:change="updateDate" class="dateField datepicker" /> -->
-            <vuejs-datepicker :value="this.default" :format="DatePickerFormat"></vuejs-datepicker>
+            <vuejs-datepicker :value="this.default" :format="DatePickerFormat" :clearButton="true"></vuejs-datepicker>
 
             <!-- <input
                 type="date"
@@ -514,6 +514,8 @@
       data: {
         default: '2018-10-04',
         DatePickerFormat: 'yyyy-MM-dd',
+        clearButton: true,
+        clearButtonIcon: 'XXX',
         items: [
           {
             cat: 0,
