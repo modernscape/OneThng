@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dateSample</title>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- jQuery UI -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+    <script>
+        $(function () {
+            $('#target').datepicker({
+                defaultDate: new Date(2020, 7, 5), // 2020/8/5を表示
+                numberOfMonths: 2,                // 表示される月の数:2
+                dateFormat: 'yy年mm月dd日',      // yyyy年mm月dd日
+            });
+        });
+    </script>
+</head>
+
+<body>
+    日付を選択してください。
+    <input type="text" id="target">
+</body>
+
+</html>

@@ -33,6 +33,12 @@
   <!-- jQuery UI -->
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+
+  <script src="https://unpkg.com/vuejs-datepicker"></script>
+
+
+
 
   <title>ひとつのことシート</title>
   <style>
@@ -316,6 +322,10 @@
       z-index: 2;
       background: rgba(0, 153, 255, 0.6);
     }
+
+    div.vdp-datepicker__calendar>div {
+      background-color: rgb(47, 47, 47);
+    }
   </style>
 </head>
 
@@ -378,7 +388,8 @@
             <input type="checkbox" name="" id="" :checked="item.done" v-on:change="updateDone" class="doneBtn" />
           </td>
           <td>
-            <input type="text" :value="item.date" v-on:change="updateDate" class="dateField datepicker" />
+            <!-- <input type="text" :value="item.date" v-on:change="updateDate" class="dateField datepicker" /> -->
+            <vuejs-datepicker :value="this.default" :format="DatePickerFormat"></vuejs-datepicker>
 
             <!-- <input
                 type="date"
@@ -424,9 +435,20 @@
         ③「実施する日」設定 → <b>自動ソート</b>
       </p> -->
     </div>
+
+    <!-- <input type="text" id="target"> -->
   </div>
-  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script>
+  <!-- <script>
+    $(function () {
+      $('#target').datepicker({
+        defaultDate: new Date(2020, 7, 5), // 2020/8/5を表示
+        numberOfMonths: 2,                // 表示される月の数:2
+        dateFormat: 'yy年mm月dd日',      // yyyy年mm月dd日
+      });
+    });
+  </script> -->
+  <!-- <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script> -->
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
 
@@ -486,7 +508,12 @@
 
     let app = new Vue({
       el: "#app",
+      components: {
+        'vuejs-datepicker': vuejsDatepicker
+      },
       data: {
+        default: '2018-10-04',
+        DatePickerFormat: 'yyyy-MM-dd',
         items: [
           {
             cat: 0,
@@ -771,9 +798,14 @@
           var itemIndex = elements.indexOf(btn);
           const item = app.items[itemIndex];
           item.date = btn.value;
+          // console.log($(btn));
+          // $(btn).datepicker();
+
           this.sort();
           // writeItems();
           saveData();
+
+
 
           // 日付が空の時の処理
         },
@@ -825,6 +857,25 @@
       },
       mounted: function () {
         // console.log('mounted!');
+        // var btn = e.target;
+        // var elements = document.getElementsByClassName("dateField");
+        // console.log(elements);
+        // console.log(elements.length);
+
+
+
+
+
+        // var elements = document.getElementsByClassName("dateField");
+        // for (let index = 0; index < elements.length; index++) {
+        //   console.log(elements.length);
+        //   const element = elements[index];
+        //   console.log($(element));
+        //   $(element).datepicker();
+        // }
+
+        // console.log($(btn));
+        // $(btn).datepicker();
       },
     });
 
@@ -921,13 +972,6 @@
         document.getElementById("contextmenu").style.display = "none";
         document.getElementById("contextmenu_out").style.display = "none";
       });
-      var elements = document.getElementsByClassName("dateField");
-      console.log(elements);
-      for (let index = 0; index < elements.length; index++) {
-        const element = elements[index];
-        console.log($(element));
-        $(element).datepicker();
-      }
     };
 
     $(function () {
@@ -949,6 +993,14 @@
       reader = new FileReader();
       reader.onload = onLoad;
       $('input[type="file"]').on("change", onChange);
+
+      var elements = document.getElementsByClassName("dateField");
+      // console.log(elements.items);
+      for (let index = 0; index < elements.length; index++) {
+        const element = elements[index];
+        element.style.color = "red";
+        $(element).datepicker();
+      }
     });
 
     $("#export").on("click", function () {
