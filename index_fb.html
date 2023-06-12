@@ -1,482 +1,963 @@
 <!DOCTYPE html>
 <html lang="ja">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./style.css" />
-  <link rel="shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <meta name="description"
-    content="マインドフルネス,集中力,OneThing,シングルタスク,マルチタスク,Win Win,自己啓発,夢,タスク管理,ひとつのこと,集中,ビジネススキル,google,瞑想,webツール" />
-  <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <meta
+      name="description"
+      content="マインドフルネス,集中力,OneThing,シングルタスク,マルチタスク,Win Win,自己啓発,夢,タスク管理,ひとつのこと,集中,ビジネススキル,google,瞑想,webツール"
+    />
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
 
-  <!-- 基本共通設定 -->
+    <!-- 基本共通設定 -->
 
-  <!-- <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#"> -->
-  <meta property="og:title" content="ひとつのことシート" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://modernscape.github.io/OneThng/" />
-  <meta property="og:image" content="https://modernscape.github.io/OneThng/img/manual.png" />
-  <meta property="og:site_name" content="ひとつのことシート" />
-  <meta property="og:description"
-    content="マインドフルネス,集中力,OneThing,シングルタスク,マルチタスク,Win Win,自己啓発,夢,タスク管理,ひとつのこと,集中,ビジネススキル,google,瞑想,webツール" />
+    <!-- <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#"> -->
+    <meta property="og:title" content="ひとつのことシート" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://modernscape.github.io/OneThng/" />
+    <meta
+      property="og:image"
+      content="https://modernscape.github.io/OneThng/img/manual.png"
+    />
+    <meta property="og:site_name" content="ひとつのことシート" />
+    <meta
+      property="og:description"
+      content="マインドフルネス,集中力,OneThing,シングルタスク,マルチタスク,Win Win,自己啓発,夢,タスク管理,ひとつのこと,集中,ビジネススキル,google,瞑想,webツール"
+    />
 
-  <!-- Twitter共通設定 -->
-  <meta name="twitter:card" content="summary_large_image" />
+    <!-- Twitter共通設定 -->
+    <meta name="twitter:card" content="summary_large_image" />
 
-  <title>ひとつのことシート</title>
-  <style>
-    html,
-    body {
-      height: 100%;
-    }
+    <title>ひとつのことシート</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
 
-    input {
-      background-color: rgba(0, 0, 0, 0);
-      color: #fff;
-      padding: 0 5px;
-      border: 0;
-    }
+      input {
+        background-color: rgba(0, 0, 0, 0);
+        color: #fff;
+        padding: 0 5px;
+        border: 0;
+      }
 
-    .center {
-      text-align: center;
-    }
+      .center {
+        text-align: center;
+      }
 
-    .plusBtn {
-      text-align: center;
-      border: 0;
-      font-weight: bold;
-      color: aqua;
-      cursor: pointer;
-    }
+      .plusBtn {
+        text-align: center;
+        border: 0;
+        font-weight: bold;
+        color: aqua;
+        cursor: pointer;
+      }
 
-    .plusBtn:hover {
-      color: rgb(247, 223, 3);
-    }
+      .plusBtn:hover {
+        color: rgb(247, 223, 3);
+      }
 
-    .plus_item {
-      padding: 5px 0;
-      text-align: right;
-    }
+      .plus_item {
+        padding: 5px 0;
+        text-align: right;
+      }
 
-    .plus_category {
-      padding: 0 10px;
-    }
+      .plus_category {
+        padding: 0 10px;
+      }
 
-    .container,
-    .txt,
-    .textMetrics {
-      font: inherit;
-    }
+      .container,
+      .txt,
+      .textMetrics {
+        font: inherit;
+      }
 
-    .textMetrics {
-      display: inline-block;
-      position: absolute;
-      height: 0;
-      overflow: hidden;
-      white-space: nowrap;
-      clip: rect(0 0 0 0);
-      clip-path: inset(50%);
-    }
+      .textMetrics {
+        display: inline-block;
+        position: absolute;
+        height: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+      }
 
-    .deleteBtn {
-      border: 0;
-      padding: 0 5px;
-      cursor: pointer;
-    }
+      .deleteBtn {
+        border: 0;
+        padding: 0 5px;
+        cursor: pointer;
+      }
 
-    .deleteBtn img {
-      width: 20px;
-      height: 20px;
-      padding: 3px;
-      vertical-align: middle;
-    }
+      .deleteBtn img {
+        width: 20px;
+        height: 20px;
+        padding: 3px;
+        vertical-align: middle;
+      }
 
-    .deleteBtn img:hover {
-      opacity: 0.3;
-    }
+      .deleteBtn img:hover {
+        opacity: 0.3;
+      }
 
-    table {
-      margin: 0 auto;
-    }
+      table {
+        margin: 0 auto;
+      }
 
-    table td {
-      border-color: rgb(95, 95, 95);
-    }
+      table td {
+        border-color: rgb(95, 95, 95);
+      }
 
-    .txt {
-      color: rgb(83, 170, 251);
-    }
+      .txt {
+        color: rgb(83, 170, 251);
+      }
 
-    .active {
-      color: rgb(255, 0, 123);
-      font-weight: bold;
-      background-color: rgb(251, 186, 232);
-    }
+      .active {
+        color: rgb(255, 0, 123);
+        font-weight: bold;
+        background-color: rgba(251, 186, 232, 1);
+      }
 
-    .inactive {
-      background-color: rgba(251, 186, 231, 0);
-    }
+      .inactive {
+        background-color: rgba(251, 186, 231, 0);
+      }
 
-    p.note {
-      color: rgb(161, 161, 161);
-      padding: 5px 1em;
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 5px;
-      pointer-events: none;
-      border: 1px solid rgb(161, 161, 161);
-      width: 90%;
-      text-align: center;
-    }
+      p.note {
+        color: rgb(161, 161, 161);
+        padding: 5px 1em;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 5px;
+        pointer-events: none;
+        border: 1px solid rgb(161, 161, 161);
+        width: 90%;
+        text-align: center;
+      }
 
-    #contextmenu,
-    #contextmenu_out {
-      display: none;
-      position: fixed;
-      left: 0px;
-      top: 0px;
-      border: 0;
-      background-color: rgba(41, 41, 41, 0.832);
-      padding: 3px 10px;
-    }
+      #contextmenu,
+      #contextmenu_out {
+        display: none;
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        border: 0;
+        background-color: rgba(41, 41, 41, 0.832);
+        padding: 3px 10px;
+      }
 
-    #contextmenu li,
-    #contextmenu_out li {
-      cursor: pointer;
-      list-style-type: none;
-      color: #fff;
-    }
+      #contextmenu li,
+      #contextmenu_out li {
+        cursor: pointer;
+        list-style-type: none;
+        color: #fff;
+      }
 
-    .td_category {
-      position: relative;
-    }
+      .td_category {
+        position: relative;
+      }
 
-    .input_category {
-      width: 100%;
-      height: 60px;
-      box-sizing: border-box;
-      font-weight: bold;
-      font-size: 110%;
-    }
+      .input_category {
+        width: 100%;
+        height: 60px;
+        box-sizing: border-box;
+        font-weight: bold;
+        font-size: 110%;
+      }
 
-    textarea {
-      background-color: #ff000000;
-      color: rgb(153, 171, 162);
-      resize: none;
-      border: 0;
-      vertical-align: bottom;
-      width: 100%;
-      height: 60px;
-      box-sizing: border-box;
-    }
+      textarea {
+        background-color: #ff000000;
+        color: rgb(153, 171, 162);
+        resize: none;
+        border: 0;
+        vertical-align: bottom;
+        width: 100%;
+        height: 60px;
+        box-sizing: border-box;
+      }
 
-    .catDeleteBtn,
-    .catMoveBtn {
-      display: none;
-      width: 20px;
-      height: 20px;
-      position: absolute;
-      right: 5px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+      .catDeleteBtn,
+      .catMoveBtn {
+        display: none;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
 
-    .catMoveBtn {
-      left: 5px;
-    }
+      .catMoveBtn {
+        left: 5px;
+      }
 
-    td:hover .catDeleteBtn,
-    td:hover .catMoveBtn {
-      display: inline;
-    }
+      td:hover .catDeleteBtn,
+      td:hover .catMoveBtn {
+        display: inline;
+      }
 
-    td:hover .firstCat {
-      display: none;
-    }
+      td:hover .firstCat {
+        display: none;
+      }
 
-    .content {
-      overflow: auto;
-      padding: 1em;
-    }
+      .content {
+        overflow: auto;
+        padding: 1em;
+      }
 
-    .txt-half {
-      color: rgb(174, 174, 174);
-    }
+      .txt-half {
+        color: rgb(174, 174, 174);
+      }
 
-    h1.title {
-      width: 100%;
-    }
+      h1.title {
+        width: 100%;
+      }
 
-    #app {
-      margin-bottom: 120px;
-    }
+      #app {
+        margin-bottom: 120px;
+      }
 
-    .hasItem {
-      background-color: rgba(0, 170, 255, 0.49);
-    }
+      .hasItem {
+        background-color: rgba(0, 170, 255, 0.49);
+      }
 
-    .evaluationSelect {
-      font-size: 120%;
-      background-color: #ff000000;
-      color: #fff;
-      border: 0;
-    }
+      .evaluationSelect {
+        font-size: 120%;
+        background-color: #ff000000;
+        color: #fff;
+        border: 0;
+      }
 
-    .inputDone {
-      text-decoration: line-through;
-    }
+      .inputDone {
+        text-decoration: line-through;
+        color: green;
+      }
 
-    .manual {
-      position: fixed;
-      top: 5px;
-      right: 10px;
-      text-decoration: none;
-      padding: 2px 7px;
-      color: #000;
-      background-color: #ccc;
-      border-radius: 3px;
-    }
+      .inputDone.active {
+        background-color: transparent;
+      }
 
-    /* ハンバーガーメニュー */
-    .menu-btn {
-      position: fixed;
-      top: 5px;
-      right: 10px;
-      z-index: 2;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #333;
-      color: #fff;
-      cursor: pointer;
-      border: 0;
-    }
+      .manual {
+        position: fixed;
+        top: 5px;
+        right: 10px;
+        text-decoration: none;
+        padding: 2px 7px;
+        color: #000;
+        background-color: #ccc;
+        border-radius: 3px;
+      }
 
-    .menu-btn:hover {
-      opacity: 0.8;
-    }
+      /* ハンバーガーメニュー */
+      .menu-btn {
+        position: fixed;
+        top: 5px;
+        right: 10px;
+        z-index: 2;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #333;
+        color: #fff;
+        cursor: pointer;
+        border: 0;
+      }
 
-    .menu {
-      position: fixed;
-      top: 50px;
-      right: 0;
-      z-index: 3;
-      width: 150px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: rgba(58, 34, 136, 0.954);
-      display: none;
-    }
+      .menu-btn:hover {
+        opacity: 0.8;
+      }
 
-    .menu__item {
-      width: 100%;
-      height: auto;
-      padding: 0.5em 1em;
-      text-align: center;
-      color: #fff;
-      box-sizing: border-box;
-    }
+      .menu {
+        position: fixed;
+        top: 50px;
+        right: 0;
+        z-index: 3;
+        width: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(58, 34, 136, 0.954);
+        display: none;
+      }
 
-    .menu__item:hover {
-      opacity: 0.3;
-      cursor: pointer;
-    }
+      .menu__item {
+        width: 100%;
+        height: auto;
+        padding: 0.5em 1em;
+        text-align: center;
+        color: #fff;
+        box-sizing: border-box;
+      }
 
-    .menu__item a {
-      text-decoration: none;
-    }
+      .menu__item:hover {
+        opacity: 0.3;
+        cursor: pointer;
+      }
 
-    .menu.is-active {
-      display: block;
-    }
+      .menu__item a {
+        text-decoration: none;
+      }
 
-    .overlay {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      z-index: 2;
-      background: rgba(0, 153, 255, 0.6);
-    }
-  </style>
-</head>
+      .menu.is-active {
+        display: block;
+      }
 
-<body onContextmenu="return false;">
-  <h1 class="title center">頭がいっぱいにならない「ひとつのことシート」</h1>
-  <div id="app">
-    <button type="button" class="menu-btn">
-      <i class="fa fa-bars" aria-hidden="true"></i>
-    </button>
-    <div class="menu">
-      <div class="menu__item">
-        <a href="img/manual.png" target="manual" id="manual">使い方</a>
+      .overlay {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        z-index: 2;
+        background: rgba(0, 153, 255, 0.6);
+      }
+    </style>
+  </head>
+
+  <body onContextmenu="return false;">
+    <h1 class="title center">頭がいっぱいにならない「ひとつのことシート」</h1>
+    <div id="app">
+      <button type="button" class="menu-btn">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </button>
+      <div class="menu">
+        <div class="menu__item">
+          <a href="img/manual.png" target="manual" id="manual">使い方</a>
+        </div>
+        <div class="menu__item" id="export">Export</div>
+        <!-- <div class="menu__item">Import<input id="file" type="file" name="file"></div> -->
+        <div class="menu__item">
+          <label
+            ><input id="file" type="file" style="display: none;" />Import</label
+          >
+        </div>
       </div>
-      <div class="menu__item" id="export">Export</div>
-      <!-- <div class="menu__item">Import<input id="file" type="file" name="file"></div> -->
-      <div class="menu__item">
-        <label><input id="file" type="file" style="display: none;" />Import</label>
+      <div id="contextmenu">
+        <ul>
+          <!-- <li v-on:click="addItem">タスクを追加</li> -->
+          <li v-on:click="addItemPrev">＋ 行を追加（上に）</li>
+          <li v-on:click="deleteItemWithMenu">ー 行を削除</li>
+          <li v-on:click="addCategoryPrev">＋ 列を追加（左に）</li>
+          <li v-on:click="deleteCategoryWithMenu">ー 列を削除</li>
+        </ul>
       </div>
-    </div>
-    <div id="contextmenu">
-      <ul>
-        <!-- <li v-on:click="addItem">タスクを追加</li> -->
-        <li v-on:click="addItemPrev">＋ 行を追加（上に）</li>
-        <li v-on:click="deleteItemWithMenu">ー 行を削除</li>
-        <li v-on:click="addCategoryPrev">＋ 列を追加（左に）</li>
-        <li v-on:click="deleteCategoryWithMenu">ー 列を削除</li>
-      </ul>
-    </div>
-    <div id="contextmenu_out">
-      <ul>
-        <li v-on:click="addItem">タスクを追加</li>
-        <li v-on:click="addCategory">カテゴリーを追加</li>
-      </ul>
-    </div>
-    <div class="content">
-      <table id="table">
-        <tr class="center">
-          <td class="txt-half">実行</td>
-          <td class="txt-half">実施する日</td>
-          <td class="txt-half">フラグ</td>
-          <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id" class="td_category">
-            <input type="text" v-model="cat.title" v-on:change="writeCategories_app" class="input_category center"
-              placeholder="カテゴリー" />
-            <img src="img/arrow.png" :class="{ firstCat: cat.id == 0 }" @click="moveCategory" class="catMoveBtn" />
-            <img src="img/remove-button.png" class="catDeleteBtn" @click="deleteCategoryWithBtn" />
-          </td>
-          <td class="plusBtn plus_category" v-on:click="addCategory">
-            列を追加 ＋
-          </td>
-        </tr>
-        <tr style="height: 60px;">
-          <td colspan="2" class="txt-half">ツール<br />コンテンツ</td>
-          <td></td>
-          <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center">
-            <textarea v-model="cat.tool" v-on:change="writeCategories_app" class="center">
-{{ cat.tool }}</textarea>
-          </td>
-        </tr>
-        <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
-          <td :class="{ hasItem: item.title != '' }" class="center">
-            <input type="checkbox" name="" id="" :checked="item.done" v-on:change="updateDone" class="doneBtn" />
-          </td>
-          <td>
-            <input type="date" :value="item.date" v-on:change="updateDate" class="dateField datepicker" />
-          </td>
-          <td>
-            <select class="evaluationSelect" name="" id="" v-on:change="updateEvaluation" :value="item.evaluation">
-              <option value=" "> </option>
-              <option value="◉">◉</option>
-              <option value="◎">◎</option>
-              <option value="○">○</option>
-              <option value="△">△</option>
-              <option value="x">x</option>
-            </select>
-          </td>
-          <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
-            <div class="container" v-if="true">
-              <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:input="inputHundler" :class="{ active: item.date != '' && cat.id==item.cat,
+      <div id="contextmenu_out">
+        <ul>
+          <li v-on:click="addItem">タスクを追加</li>
+          <li v-on:click="addCategory">カテゴリーを追加</li>
+        </ul>
+      </div>
+      <div class="content">
+        <table id="table">
+          <tr class="center">
+            <td class="txt-half">実行</td>
+            <td class="txt-half">実施する日</td>
+            <td class="txt-half">フラグ</td>
+            <td
+              v-for="cat in categories"
+              :class="cat.title"
+              :key="cat.id"
+              :data-id="cat.id"
+              class="td_category"
+            >
+              <input
+                type="text"
+                v-model="cat.title"
+                v-on:change="writeCategories_app"
+                class="input_category center"
+                placeholder="カテゴリー"
+              />
+              <img
+                src="img/arrow.png"
+                :class="{ firstCat: cat.id == 0 }"
+                @click="moveCategory"
+                class="catMoveBtn"
+              />
+              <img
+                src="img/remove-button.png"
+                class="catDeleteBtn"
+                @click="deleteCategoryWithBtn"
+              />
+            </td>
+            <td class="plusBtn plus_category" v-on:click="addCategory">
+              列を追加 ＋
+            </td>
+          </tr>
+          <tr style="height: 60px;">
+            <td colspan="2" class="txt-half">ツール<br />コンテンツ</td>
+            <td></td>
+            <td
+              v-for="cat in categories"
+              :class="cat.tool"
+              :key="cat.id"
+              :data-id="cat.id"
+              class="center"
+            >
+              <textarea
+                v-model="cat.tool"
+                v-on:change="writeCategories_app"
+                class="center"
+              >
+{{ cat.tool }}</textarea
+              >
+            </td>
+          </tr>
+          <tr
+            v-for="item in items"
+            :key="item.id"
+            :data-id="item.id"
+            class="itemRow"
+          >
+            <td :class="{ hasItem: item.title != '' }" class="center">
+              <input
+                type="checkbox"
+                name=""
+                id=""
+                :checked="item.done"
+                v-on:change="updateDone"
+                class="doneBtn"
+              />
+            </td>
+            <td>
+              <input
+                type="date"
+                :value="item.date"
+                v-on:change="updateDate"
+                class="dateField datepicker"
+              />
+            </td>
+            <td>
+              <select
+                class="evaluationSelect"
+                name=""
+                id=""
+                v-on:change="updateEvaluation"
+                :value="item.evaluation"
+              >
+                <option value=" "> </option>
+                <option value="◉">◉</option>
+                <option value="◎">◎</option>
+                <option value="○">○</option>
+                <option value="△">△</option>
+                <option value="x">x</option>
+              </select>
+            </td>
+            <td
+              v-for="cat in categories"
+              :class="cat.title"
+              :key="cat.id"
+              :data-id="cat.id"
+            >
+              <div class="container" v-if="true">
+                <input
+                  type="text"
+                  :value='cat.id==item.cat ? item.title : ""'
+                  v-on:input="inputHundler"
+                  :class="{ active: item.date != '' && cat.id==item.cat,
                                  inactive: item.date == '' && cat.id==item.cat,
-                                inputDone: item.done }" class="txt" v-on:focus="activateCat(cat.id, $event)"
-                :placeholder="item.title != '' ? '' : '行動' " :style="styles(item)" />
-              <span class="textMetrics" aria-hidden="true"></span>
-            </div>
-          </td>
-          <td v-on:click="deleteItemWithBtn" class="deleteBtn">
-            <img src="img/remove-button.png" />
-          </td>
-        </tr>
-        <tr>
-          <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">
-            行を追加 ＋
-          </td>
-        </tr>
-      </table>
-      <!-- <p class="note">
+                                inputDone: item.done }"
+                  class="txt"
+                  v-on:focus="activateCat(cat.id, $event)"
+                  :placeholder="item.title != '' ? '' : '行動' "
+                  :style="styles(item)"
+                />
+                <span class="textMetrics" aria-hidden="true"></span>
+              </div>
+            </td>
+            <td v-on:click="deleteItemWithBtn" class="deleteBtn">
+              <img src="img/remove-button.png" />
+            </td>
+          </tr>
+          <tr>
+            <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">
+              行を追加 ＋
+            </td>
+          </tr>
+        </table>
+        <!-- <p class="note">
         ① 実施する<b>「行動」</b>を追加<br />
         ② 行動は1行に<b>1つのみ</b><br />
         ③「実施する日」設定 → <b>自動ソート</b>
       </p> -->
+      </div>
     </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
 
+    <script type="module">
+      //////////////////////////////////////////////////////////////////////////////
+      // firebase用
+      //////////////////////////////////////////////////////////////////////////////
 
-  <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-analytics.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        set,
+      } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
 
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
 
-    //////////////////////////////////////////////////////////////////////////////
-    // firebase用
-    //////////////////////////////////////////////////////////////////////////////
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyCJiIxHNvf944qVkziA_LTYJFaiMZcE_RU",
+        authDomain: "onething-2eb31.firebaseapp.com",
+        databaseURL: "https://onething-2eb31-default-rtdb.firebaseio.com",
+        projectId: "onething-2eb31",
+        storageBucket: "onething-2eb31.appspot.com",
+        messagingSenderId: "684083492013",
+        appId: "1:684083492013:web:6daa5ff4134cbc681e4224",
+        measurementId: "G-TLSV5F4E05",
+        databaseURL: "https://onething-2eb31-default-rtdb.firebaseio.com",
+      };
 
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-analytics.js";
-    import {
-      getDatabase,
-      ref,
-      onValue,
-      set,
-    } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
+      const app_firebase = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app_firebase);
+      const database = getDatabase(app_firebase);
 
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
+      const user_me = "hosoi/";
 
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyCJiIxHNvf944qVkziA_LTYJFaiMZcE_RU",
-      authDomain: "onething-2eb31.firebaseapp.com",
-      databaseURL: "https://onething-2eb31-default-rtdb.firebaseio.com",
-      projectId: "onething-2eb31",
-      storageBucket: "onething-2eb31.appspot.com",
-      messagingSenderId: "684083492013",
-      appId: "1:684083492013:web:6daa5ff4134cbc681e4224",
-      measurementId: "G-TLSV5F4E05",
-      databaseURL: "https://onething-2eb31-default-rtdb.firebaseio.com",
-    };
+      const oneThingRef = ref(database, "/" + user_me);
 
-    const app_firebase = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app_firebase);
-    const database = getDatabase(app_firebase);
+      //////////////////////////////////////////////////////////////////////////////
+      // firebase用 end
+      //////////////////////////////////////////////////////////////////////////////
 
-    const user_me = 'hosoi/'
+      const table = document.getElementById("table");
 
-    const oneThingRef = ref(database, "/" + user_me);
+      var activeCat = 0;
+      var activeInput;
+      const defaultWidth = 217;
 
-    //////////////////////////////////////////////////////////////////////////////
-    // firebase用 end
-    //////////////////////////////////////////////////////////////////////////////
+      let key_items = "OneThing_key_items";
+      let key_categories = "OneThing_key_categories";
+      let key_written = "OneThing_key_written";
 
-    const table = document.getElementById("table");
+      let app = new Vue({
+        el: "#app",
+        data: {
+          items: [
+            {
+              cat: 0,
+              date: "",
+              done: false,
+              evaluation: "",
+              id: 0,
+              title: "ブログを書く",
+              active: false,
+              width: 0,
+            },
+          ],
+          categories: [
+            {
+              id: 0,
+              title: "ビジネス",
+              tool: "ブログ",
+            },
+          ],
+        },
+        computed: {
+          styles() {
+            return (item) => {
+              let w = 0;
+              if (item.width != undefined) w = item.width;
+              if (w <= defaultWidth) w = defaultWidth;
+              // return "width:" + ((item.width == undefined) ? '217px' : item.width + 'px')
+              return "width:" + w + "px";
+            };
+          },
+        },
+        methods: {
+          // firebase用
+          loadData: function (ary0, ary1) {
+            this.items = ary0;
+            this.categories = ary1;
+          },
+          addItem: function (e) {
+            document.getElementById("contextmenu").style.display = "none";
+            // const result = prompt("タスク名", "task");
+            let l = this.items.length;
+            const item = {
+              cat: 0,
+              date: "",
+              done: false,
+              evaluation: "",
+              id: l,
+              title: "",
+            };
+            this.items.push(item);
+            saveData();
+          },
+          addItemPrev: function (e) {
+            document.getElementById("contextmenu").style.display = "none";
+            var elements = document.getElementsByClassName("itemRow");
+            elements = [].slice.call(elements);
+            let tr = activeInput.parentNode.parentNode.parentNode;
+            var itemIndex = elements.indexOf(tr);
+            let l = this.items.length;
+            const item = {
+              cat: 0,
+              date: "",
+              done: false,
+              evaluation: "",
+              id: l,
+              title: "",
+            };
+            this.items.splice(itemIndex, 0, item);
+            // writeItems();
+            saveData();
+          },
+          addCategory: function () {
+            const result = prompt("追加するカテゴリーは？", "");
+            if (result) {
+              let l = this.categories.length;
+              const cat = {
+                id: l,
+                title: result,
+              };
+              this.categories.push(cat);
+              // writeCategories();
+              saveData();
+            }
+          },
+          updateItemOrder: function () {
+            for (let index = 0; index < this.items.length; index++) {
+              const item = this.items[index];
+              item.id = index;
+            }
+          },
+          addCategoryPrev: function () {
+            const result = prompt("追加するカテゴリーは？", "");
+            if (result) {
+              let l = this.categories.length;
+              const category = {
+                id: l,
+                title: result,
+              };
+              this.categories.splice(activeCat, 0, category);
+              // writeCategories();
+              saveData();
+              this.shiftRightItemCat(activeCat);
+              // writeItems();
+              saveData();
+            }
+          },
+          updateCategoryOrder: function () {
+            for (let index = 0; index < this.categories.length; index++) {
+              const cat = this.categories[index];
+              cat.id = index;
+            }
+          },
+          shiftRightItemCat: function (after) {
+            // itemのcatがafter以上場合1大きく
+            for (let index = 0; index < this.items.length; index++) {
+              const item = this.items[index];
+              if (item.cat >= after) {
+                item.cat++;
+              }
+            }
+          },
+          shiftLeftItemCat: function (after) {
+            // itemのcatがafter以上場合1小さく
+            for (let index = 0; index < this.items.length; index++) {
+              const item = this.items[index];
+              if (item.cat >= after) {
+                item.cat--;
+              }
+            }
+          },
+          deleteCategoryWithMenu: function (e) {
+            var result = window.confirm("このカテゴリーを削除しますか？");
+            if (result) {
+              this.deleteCategory(activeCat);
+            }
+          },
+          deleteCategoryWithBtn: function (e) {
+            var btn = e.target;
+            var elements = document.getElementsByClassName("catDeleteBtn");
+            elements = [].slice.call(elements);
+            var catIndex = elements.indexOf(btn);
+            const cat = app.categories[catIndex];
+            var result = window.confirm(
+              "〔 " + cat.title + " 〕を削除しますか？"
+            );
+            if (result) {
+              this.deleteCategory(catIndex);
+            }
+          },
+          deleteCategory: function (index) {
+            // 該当の行（item.cat == index）となる全ての行を削除
+            var itemsToDelete = [];
+            for (let j = 0; j < app.items.length; j++) {
+              const item = app.items[j];
+              if (item.cat == index) {
+                itemsToDelete.push(item);
+              }
+            }
 
-    var activeCat = 0;
-    var activeInput;
-    const defaultWidth = 217;
+            app.deleteItems(itemsToDelete);
+            this.shiftLeftItemCat(index);
+            // writeItems();
+            saveData();
 
-    let key_items = "OneThing_key_items";
-    let key_categories = "OneThing_key_categories";
-    let key_written = "OneThing_key_written";
+            this.categories.splice(index, 1);
+            // writeCategories();
+            saveData();
+          },
+          moveCategory: function (e) {
+            var btn = e.target;
+            var elements = document.getElementsByClassName("catMoveBtn");
+            elements = [].slice.call(elements);
+            var catIndex = elements.indexOf(btn);
+            const from = catIndex;
+            const to = catIndex - 1;
+            if (to < 0) {
+              return;
+            }
+            const value = app.categories[from];
+            const tail = app.categories.slice(from + 1);
+            app.categories.splice(from);
+            Array.prototype.push.apply(app.categories, tail);
+            app.categories.splice(to, 0, value);
 
-    let app = new Vue({
-      el: "#app",
-      data: {
-        items: [
+            saveData();
+
+            // 全てのitemのitem.catも入れ替える
+            for (let index = 0; index < app.items.length; index++) {
+              const item = app.items[index];
+              if (item.cat == to) {
+                item.cat = from;
+              } else if (item.cat == from) {
+                item.cat = to;
+              }
+            }
+
+            saveData();
+          },
+          inputHundler: function (e) {
+            var cat = 0;
+            const curInput = e.target;
+            const tr = curInput.parentNode.parentNode.parentNode;
+
+            var elements = document.getElementsByTagName("tr");
+            elements = [].slice.call(elements);
+            var itemIndex = elements.indexOf(tr) - 2;
+            const item = app.items[itemIndex];
+
+            var inputArray = [];
+            for (let index = 0; index < this.categories.length; index++) {
+              const td = tr.children[index + 3];
+              const input = td.firstElementChild.firstElementChild;
+              inputArray.push(input);
+              if (input == curInput) {
+                cat = index;
+              } else {
+                input.value = "";
+              }
+              item.title = curInput.value;
+            }
+            const span = e.target.nextElementSibling;
+            span.textContent = curInput.value;
+            let w = Math.max(span.clientWidth, defaultWidth);
+            curInput.style.width = `${w}px`;
+            item.width = w;
+            item.cat = cat;
+
+            saveData();
+          },
+          activateCat: function (cat, e) {
+            activeCat = cat;
+            activeInput = e.target;
+          },
+          deleteItemWithMenu: function (e) {
+            var elements = document.getElementsByClassName("itemRow");
+            elements = [].slice.call(elements);
+            let tr = activeInput.parentNode.parentNode.parentNode;
+            var itemIndex = elements.indexOf(tr);
+            app.deleteItem(itemIndex);
+          },
+          deleteItemWithBtn: function (e) {
+            var result = window.confirm("この行を削除しますか？");
+            if (result) {
+              var btn = e.target;
+              var elements = document.getElementsByClassName("deleteBtn");
+              elements = [].slice.call(elements);
+              var itemIndex = elements.indexOf(btn);
+              const item = app.items[itemIndex - 2];
+              app.deleteItem(itemIndex);
+            }
+          },
+          deleteItem: function (index) {
+            app.items.splice(index, 1);
+            // writeItems();
+            saveData();
+          },
+          deleteItems: function (ary) {
+            console.log(ary);
+            // filterを使う
+            const newSource = app.items.filter((val) => {
+              return !ary.includes(val);
+            });
+            app.items = newSource;
+
+            // app.items.splice(index, 1);
+            // writeItems();
+            saveData();
+          },
+          updateDone: function (e) {
+            var btn = e.target;
+            var elements = document.getElementsByClassName("doneBtn");
+            elements = [].slice.call(elements);
+            var itemIndex = elements.indexOf(btn);
+            const item = app.items[itemIndex];
+            item.done = !item.done;
+            writeItems();
+          },
+          updateDate: function (e) {
+            var btn = e.target;
+            var elements = document.getElementsByClassName("dateField");
+            elements = [].slice.call(elements);
+            var itemIndex = elements.indexOf(btn);
+            const item = app.items[itemIndex];
+            item.date = btn.value;
+            this.sort();
+            // writeItems();
+            saveData();
+
+            // 日付が空の時の処理
+          },
+          updateEvaluation: function (e) {
+            var select = e.target;
+            var item = this.itemForElement("evaluationSelect", e);
+            item.evaluation = select.value;
+            // writeItems();
+            saveData();
+          },
+          sort: function (e) {
+            app.items.sort(function (x, y) {
+              // var firstDate = new Date(x.date),
+              //     SecondDate = new Date(y.date);
+              var firstDate = x.date,
+                SecondDate = y.date;
+
+              if (firstDate == "") return 1;
+              if (SecondDate == "") return -1;
+              if (firstDate < SecondDate) return -1;
+              if (firstDate > SecondDate) return 1;
+
+              return 0;
+            });
+          },
+          itemForElement: function (className, e) {
+            var btn = e.target;
+            var elements = document.getElementsByClassName(className);
+            elements = [].slice.call(elements);
+            var index = elements.indexOf(btn);
+            var item = app.items[index];
+            return item;
+          },
+          removeRow: function () {
+            this.items.pop();
+            // writeItems();
+            saveData();
+          },
+          writeItems_app: function () {
+            saveData();
+          },
+          writeCategories_app: function () {
+            // writeCategories();
+            saveData();
+          },
+        },
+        created: function () {
+          // console.log('created!');
+        },
+        mounted: function () {
+          // console.log('mounted!');
+        },
+      });
+
+      // firebase用
+      onValue(oneThingRef, (snapshot) => {
+        const data = snapshot.val();
+        app.loadData(data.items, data.categories);
+      });
+
+      // localStorage用
+      // document.addEventListener(
+      //   "DOMContentLoaded",
+      //   function (e) {
+      //     if (localStorage[key_written] == "done") {
+      //       loadData();
+      //     }
+      //   },
+      //   false
+      // );
+
+      // localStorage用
+      // function loadData() {
+      //   let items = localStorage[key_items];
+      //   app.items = JSON.parse(items);
+      //   let categories = localStorage[key_categories];
+      //   app.categories = JSON.parse(categories);
+      // }
+
+      function saveData() {
+        writeItems();
+        writeCategories();
+        // localStorage用
+        // localStorage[key_written] = "done";
+      }
+
+      // function writeItems() {
+      //   app.updateItemOrder();
+      //   let json = JSON.stringify(app.items, undefined, 1);
+      //   localStorage[key_items] = json;
+      // }
+
+      // function writeCategories() {
+      //   app.updateCategoryOrder();
+      //   let json = JSON.stringify(app.categories, undefined, 1);
+      //   localStorage[key_categories] = json;
+      // }
+
+      // firebase用
+      function writeItems() {
+        app.updateItemOrder();
+        set(ref(database, "/" + user_me + "items/"), app.items);
+      }
+
+      // firebase用
+      function writeCategories() {
+        app.updateCategoryOrder();
+        set(ref(database, "/" + user_me + "categories/"), app.categories);
+      }
+
+      function writeDefaultData() {
+        let items = [
           {
             cat: 0,
             date: "",
@@ -485,526 +966,126 @@
             id: 0,
             title: "ブログを書く",
             active: false,
-            width: 0,
           },
-        ],
-        categories: [
+        ];
+        let categories = [
           {
             id: 0,
             title: "ビジネス",
             tool: "ブログ",
           },
-        ],
-      },
-      computed: {
-        styles() {
-          return (item) => {
-            let w = 0;
-            if (item.width != undefined) w = item.width;
-            if (w <= defaultWidth) w = defaultWidth;
-            // return "width:" + ((item.width == undefined) ? '217px' : item.width + 'px')
-            return "width:" + w + "px";
-          };
-        },
-      },
-      methods: {
-        // firebase用
-        loadData: function (ary0, ary1) {
-          this.items = ary0;
-          this.categories = ary1;
-        },
-        addItem: function (e) {
-          document.getElementById("contextmenu").style.display = "none";
-          // const result = prompt("タスク名", "task");
-          let l = this.items.length;
-          const item = {
-            cat: 0,
-            date: "",
-            done: false,
-            evaluation: "",
-            id: l,
-            title: "",
-          };
-          this.items.push(item);
-          saveData();
-        },
-        addItemPrev: function (e) {
-          document.getElementById("contextmenu").style.display = "none";
-          var elements = document.getElementsByClassName("itemRow");
-          elements = [].slice.call(elements);
-          let tr = activeInput.parentNode.parentNode.parentNode;
-          var itemIndex = elements.indexOf(tr);
-          let l = this.items.length;
-          const item = {
-            cat: 0,
-            date: "",
-            done: false,
-            evaluation: "",
-            id: l,
-            title: "",
-          };
-          this.items.splice(itemIndex, 0, item);
-          // writeItems();
-          saveData();
-        },
-        addCategory: function () {
-          const result = prompt("追加するカテゴリーは？", "");
-          if (result) {
-            let l = this.categories.length;
-            const cat = {
-              id: l,
-              title: result,
-            };
-            this.categories.push(cat);
-            // writeCategories();
-            saveData();
-          }
-        },
-        updateItemOrder: function () {
-          for (let index = 0; index < this.items.length; index++) {
-            const item = this.items[index];
-            item.id = index;
-          }
-        },
-        addCategoryPrev: function () {
-          const result = prompt("追加するカテゴリーは？", "");
-          if (result) {
-            let l = this.categories.length;
-            const category = {
-              id: l,
-              title: result,
-            };
-            this.categories.splice(activeCat, 0, category);
-            // writeCategories();
-            saveData();
-            this.shiftRightItemCat(activeCat);
-            // writeItems();
-            saveData();
-          }
-        },
-        updateCategoryOrder: function () {
-          for (let index = 0; index < this.categories.length; index++) {
-            const cat = this.categories[index];
-            cat.id = index;
-          }
-        },
-        shiftRightItemCat: function (after) {
-          // itemのcatがafter以上場合1大きく
-          for (let index = 0; index < this.items.length; index++) {
-            const item = this.items[index];
-            if (item.cat >= after) {
-              item.cat++;
-            }
-          }
-        },
-        shiftLeftItemCat: function (after) {
-          // itemのcatがafter以上場合1小さく
-          for (let index = 0; index < this.items.length; index++) {
-            const item = this.items[index];
-            if (item.cat >= after) {
-              item.cat--;
-            }
-          }
-        },
-        deleteCategoryWithMenu: function (e) {
-          var result = window.confirm("このカテゴリーを削除しますか？");
-          if (result) {
-            this.deleteCategory(activeCat);
-          }
-        },
-        deleteCategoryWithBtn: function (e) {
-          var btn = e.target;
-          var elements = document.getElementsByClassName("catDeleteBtn");
-          elements = [].slice.call(elements);
-          var catIndex = elements.indexOf(btn);
-          const cat = app.categories[catIndex];
-          var result = window.confirm(
-            "〔 " + cat.title + " 〕を削除しますか？"
-          );
-          if (result) {
-            this.deleteCategory(catIndex);
-          }
-        },
-        deleteCategory: function (index) {
-          // 該当の行（item.cat == index）となる全ての行を削除
-          var itemsToDelete = [];
-          for (let j = 0; j < app.items.length; j++) {
-            const item = app.items[j];
-            if (item.cat == index) {
-              itemsToDelete.push(item);
-            }
-          }
-
-          app.deleteItems(itemsToDelete);
-          this.shiftLeftItemCat(index);
-          // writeItems();
-          saveData();
-
-          this.categories.splice(index, 1);
-          // writeCategories();
-          saveData();
-        },
-        moveCategory: function (e) {
-          var btn = e.target;
-          var elements = document.getElementsByClassName("catMoveBtn");
-          elements = [].slice.call(elements);
-          var catIndex = elements.indexOf(btn);
-          const from = catIndex;
-          const to = catIndex - 1;
-          if (to < 0) {
-            return;
-          }
-          const value = app.categories[from];
-          const tail = app.categories.slice(from + 1);
-          app.categories.splice(from);
-          Array.prototype.push.apply(app.categories, tail);
-          app.categories.splice(to, 0, value);
-
-          saveData();
-
-          // 全てのitemのitem.catも入れ替える
-          for (let index = 0; index < app.items.length; index++) {
-            const item = app.items[index];
-            if (item.cat == to) {
-              item.cat = from;
-            } else if (item.cat == from) {
-              item.cat = to;
-            }
-          }
-
-          saveData();
-        },
-        inputHundler: function (e) {
-          var cat = 0;
-          const curInput = e.target;
-          const tr = curInput.parentNode.parentNode.parentNode;
-
-          var elements = document.getElementsByTagName("tr");
-          elements = [].slice.call(elements);
-          var itemIndex = elements.indexOf(tr) - 2;
-          const item = app.items[itemIndex];
-
-          var inputArray = [];
-          for (let index = 0; index < this.categories.length; index++) {
-            const td = tr.children[index + 3];
-            const input = td.firstElementChild.firstElementChild;
-            inputArray.push(input);
-            if (input == curInput) {
-              cat = index;
-            } else {
-              input.value = "";
-            }
-            item.title = curInput.value;
-          }
-          const span = e.target.nextElementSibling;
-          span.textContent = curInput.value;
-          let w = Math.max(span.clientWidth, defaultWidth);
-          curInput.style.width = `${w}px`;
-          item.width = w;
-          item.cat = cat;
-
-          saveData();
-        },
-        activateCat: function (cat, e) {
-          activeCat = cat;
-          activeInput = e.target;
-        },
-        deleteItemWithMenu: function (e) {
-          var elements = document.getElementsByClassName("itemRow");
-          elements = [].slice.call(elements);
-          let tr = activeInput.parentNode.parentNode.parentNode;
-          var itemIndex = elements.indexOf(tr);
-          app.deleteItem(itemIndex);
-        },
-        deleteItemWithBtn: function (e) {
-          var result = window.confirm("この行を削除しますか？");
-          if (result) {
-            var btn = e.target;
-            var elements = document.getElementsByClassName("deleteBtn");
-            elements = [].slice.call(elements);
-            var itemIndex = elements.indexOf(btn);
-            const item = app.items[itemIndex - 2];
-            app.deleteItem(itemIndex);
-          }
-        },
-        deleteItem: function (index) {
-          app.items.splice(index, 1);
-          // writeItems();
-          saveData();
-        },
-        deleteItems: function (ary) {
-          console.log(ary);
-          // filterを使う
-          const newSource = app.items.filter((val) => {
-            return !ary.includes(val);
-          });
-          app.items = newSource;
-
-          // app.items.splice(index, 1);
-          // writeItems();
-          saveData();
-        },
-        updateDone: function (e) {
-          var btn = e.target;
-          var elements = document.getElementsByClassName("doneBtn");
-          elements = [].slice.call(elements);
-          var itemIndex = elements.indexOf(btn);
-          const item = app.items[itemIndex];
-          item.done = !item.done;
-          writeItems();
-        },
-        updateDate: function (e) {
-          var btn = e.target;
-          var elements = document.getElementsByClassName("dateField");
-          elements = [].slice.call(elements);
-          var itemIndex = elements.indexOf(btn);
-          const item = app.items[itemIndex];
-          item.date = btn.value;
-          this.sort();
-          // writeItems();
-          saveData();
-
-          // 日付が空の時の処理
-        },
-        updateEvaluation: function (e) {
-          var select = e.target;
-          var item = this.itemForElement("evaluationSelect", e);
-          item.evaluation = select.value;
-          // writeItems();
-          saveData();
-        },
-        sort: function (e) {
-          app.items.sort(function (x, y) {
-            // var firstDate = new Date(x.date),
-            //     SecondDate = new Date(y.date);
-            var firstDate = x.date,
-              SecondDate = y.date;
-
-            if (firstDate == "") return 1;
-            if (SecondDate == "") return -1;
-            if (firstDate < SecondDate) return -1;
-            if (firstDate > SecondDate) return 1;
-
-            return 0;
-          });
-        },
-        itemForElement: function (className, e) {
-          var btn = e.target;
-          var elements = document.getElementsByClassName(className);
-          elements = [].slice.call(elements);
-          var index = elements.indexOf(btn);
-          var item = app.items[index];
-          return item;
-        },
-        removeRow: function () {
-          this.items.pop();
-          // writeItems();
-          saveData();
-        },
-        writeItems_app: function () {
-          saveData();
-        },
-        writeCategories_app: function () {
-          // writeCategories();
-          saveData();
-        },
-      },
-      created: function () {
-        // console.log('created!');
-      },
-      mounted: function () {
-        // console.log('mounted!');
-      },
-    });
-
-    // firebase用
-    onValue(oneThingRef, (snapshot) => {
-      const data = snapshot.val();
-      app.loadData(data.items, data.categories);
-    });
-
-    // localStorage用
-    // document.addEventListener(
-    //   "DOMContentLoaded",
-    //   function (e) {
-    //     if (localStorage[key_written] == "done") {
-    //       loadData();
-    //     }
-    //   },
-    //   false
-    // );
-
-    // localStorage用
-    // function loadData() {
-    //   let items = localStorage[key_items];
-    //   app.items = JSON.parse(items);
-    //   let categories = localStorage[key_categories];
-    //   app.categories = JSON.parse(categories);
-    // }
-
-
-    function saveData() {
-      writeItems();
-      writeCategories();
-      // localStorage用
-      // localStorage[key_written] = "done";
-    }
-
-    // function writeItems() {
-    //   app.updateItemOrder();
-    //   let json = JSON.stringify(app.items, undefined, 1);
-    //   localStorage[key_items] = json;
-    // }
-
-    // function writeCategories() {
-    //   app.updateCategoryOrder();
-    //   let json = JSON.stringify(app.categories, undefined, 1);
-    //   localStorage[key_categories] = json;
-    // }
-
-    // firebase用
-    function writeItems() {
-      app.updateItemOrder();
-      set(ref(database, "/" + user_me + 'items/'), app.items);
-    }
-
-    // firebase用
-    function writeCategories() {
-      app.updateCategoryOrder();
-      set(ref(database, "/" + user_me + 'categories/'), app.categories);
-    }
-
-    function writeDefaultData() {
-      let items = [
-        {
-          cat: 0,
-          date: "",
-          done: false,
-          evaluation: "",
-          id: 0,
-          title: "ブログを書く",
-          active: false,
-        },
-      ];
-      let categories = [
-        {
-          id: 0,
-          title: "ビジネス",
-          tool: "ブログ",
-        },
-      ];
-      // localStorage[key_items] = items;
-      // localStorage[key_categories] = categories;
-    }
-
-    window.onload = function () {
-      document.body.addEventListener("contextmenu", function (e) {
-        var str =
-          e.target.className == "txt" ? "contextmenu" : "contextmenu_out";
-        var scrollY =
-          document.documentElement.scrollTop || document.body.scrollTop;
-        document.getElementById(str).style.left = e.pageX + "px";
-        document.getElementById(str).style.top = e.pageY - scrollY + "px";
-        document.getElementById(str).style.display = "block";
-      });
-      document.body.addEventListener("click", function (e) {
-        document.getElementById("contextmenu").style.display = "none";
-        document.getElementById("contextmenu_out").style.display = "none";
-      });
-    };
-
-    $(function () {
-      var reader;
-      function onChange(event) {
-        reader.readAsText(event.target.files[0]);
+        ];
+        // localStorage[key_items] = items;
+        // localStorage[key_categories] = categories;
       }
-      function onLoad(event) {
-        var json;
-        try {
-          closeMenu();
-          json = JSON.parse(event.target.result);
-          expandJSON(json);
-        } catch (error) {
-          console.log("jsonでない！");
-          console.log(error);
+
+      window.onload = function () {
+        document.body.addEventListener("contextmenu", function (e) {
+          var str =
+            e.target.className == "txt" ? "contextmenu" : "contextmenu_out";
+          var scrollY =
+            document.documentElement.scrollTop || document.body.scrollTop;
+          document.getElementById(str).style.left = e.pageX + "px";
+          document.getElementById(str).style.top = e.pageY - scrollY + "px";
+          document.getElementById(str).style.display = "block";
+        });
+        document.body.addEventListener("click", function (e) {
+          document.getElementById("contextmenu").style.display = "none";
+          document.getElementById("contextmenu_out").style.display = "none";
+        });
+      };
+
+      $(function () {
+        var reader;
+        function onChange(event) {
+          reader.readAsText(event.target.files[0]);
         }
+        function onLoad(event) {
+          var json;
+          try {
+            closeMenu();
+            json = JSON.parse(event.target.result);
+            expandJSON(json);
+          } catch (error) {
+            console.log("jsonでない！");
+            console.log(error);
+          }
+        }
+        reader = new FileReader();
+        reader.onload = onLoad;
+        $('input[type="file"]').on("change", onChange);
+      });
+
+      $("#export").on("click", function () {
+        closeMenu();
+        exportJSON();
+      });
+
+      function expandJSON(json) {
+        // 読みこんだjsonデータを検証（未）
+        app.items = json.items;
+        app.categories = json.categories;
+        saveData();
       }
-      reader = new FileReader();
-      reader.onload = onLoad;
-      $('input[type="file"]').on("change", onChange);
-    });
 
-    $("#export").on("click", function () {
-      closeMenu();
-      exportJSON();
-    });
+      // ハンバーガーメニュー
+      $(
+        (function () {
+          $(".menu-btn").on("click", function () {
+            $(".menu").toggleClass("is-active");
+            $("body").append('<p class="overlay"></p>');
+          });
 
-    function expandJSON(json) {
-      // 読みこんだjsonデータを検証（未）
-      app.items = json.items;
-      app.categories = json.categories;
-      saveData();
-    }
+          //閉じる用クリックイベント
+          $("body").on("click", ".overlay", function () {
+            closeMenu();
+          });
 
-    // ハンバーガーメニュー
-    $(
-      (function () {
-        $(".menu-btn").on("click", function () {
-          $(".menu").toggleClass("is-active");
-          $("body").append('<p class="overlay"></p>');
-        });
+          $("#manual").on("click", function () {
+            closeMenu();
+          });
+        })()
+      );
 
-        //閉じる用クリックイベント
-        $("body").on("click", ".overlay", function () {
-          closeMenu();
-        });
+      function closeMenu() {
+        $("p.overlay").remove();
+        $(".menu").removeClass("is-active");
+      }
 
-        $("#manual").on("click", function () {
-          closeMenu();
-        });
-      })()
-    );
+      // jsonファイル
+      function exportJSON() {
+        // 保存するJSONファイルの名前
 
-    function closeMenu() {
-      $("p.overlay").remove();
-      $(".menu").removeClass("is-active");
-    }
+        let d = new Date();
+        // console.log(d.toString());
+        const date = d.toLocaleString();
+        const fileName = date + "_export.json";
 
-    // jsonファイル
-    function exportJSON() {
-      // 保存するJSONファイルの名前
+        // データをJSON形式の文字列に変換する。
+        const data_items = JSON.stringify(app.items);
+        const data_categories = JSON.stringify(app.categories);
 
-      let d = new Date();
-      // console.log(d.toString());
-      const date = d.toLocaleString();
-      const fileName = date + "_export.json";
+        // HTMLのリンク要素を生成する。
+        const link = document.createElement("a");
 
-      // データをJSON形式の文字列に変換する。
-      const data_items = JSON.stringify(app.items);
-      const data_categories = JSON.stringify(app.categories);
+        // リンク先にJSON形式の文字列データを置いておく。
+        const prefix = '{"categories":';
+        const suffix = "}";
+        const dataContent =
+          prefix +
+          encodeURIComponent(data_categories) +
+          ',"items":' +
+          encodeURIComponent(data_items) +
+          suffix;
 
-      // HTMLのリンク要素を生成する。
-      const link = document.createElement("a");
+        link.href = "data:text/plain," + dataContent;
 
-      // リンク先にJSON形式の文字列データを置いておく。
-      const prefix = '{"categories":';
-      const suffix = "}";
-      const dataContent =
-        prefix +
-        encodeURIComponent(data_categories) +
-        ',"items":' +
-        encodeURIComponent(data_items) +
-        suffix;
+        // 保存するJSONファイルの名前をリンクに設定する。
+        link.download = fileName;
 
-      link.href = "data:text/plain," + dataContent;
-
-      // 保存するJSONファイルの名前をリンクに設定する。
-      link.download = fileName;
-
-      // ファイルを保存する。
-      link.click();
-    }
-  </script>
-</body>
-
+        // ファイルを保存する。
+        link.click();
+      }
+    </script>
+  </body>
 </html>
