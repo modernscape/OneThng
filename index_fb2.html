@@ -31,9 +31,9 @@
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <!-- jQuery UI -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+  <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"> -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script> -->
 
   <script src="https://unpkg.com/vuejs-datepicker"></script>
 
@@ -389,7 +389,15 @@
           </td>
           <td>
             <!-- <input type="text" :value="item.date" v-on:change="updateDate" class="dateField datepicker" /> -->
-            <vuejs-datepicker :value="this.default" :format="DatePickerFormat" :clearButton="true"></vuejs-datepicker>
+            <vuejs-datepicker v-model="item.date" :format="DatePickerFormat" class="dateField datepicker"
+              @closed="updateDate"></vuejs-datepicker>
+
+            <!-- Clear Button -->
+            <span class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate()">
+              <i :class="clearButtonIcon">
+                <span v-if="clearButtonIcon">&times;</span>
+              </i>
+            </span>
 
             <!-- <input
                 type="date"
@@ -794,14 +802,20 @@
           writeItems();
         },
         updateDate: function (e) {
-          var btn = e.target;
-          var elements = document.getElementsByClassName("dateField");
-          elements = [].slice.call(elements);
-          var itemIndex = elements.indexOf(btn);
-          const item = app.items[itemIndex];
-          item.date = btn.value;
-          // console.log($(btn));
-          // $(btn).datepicker();
+
+          // console.log('updateDate!');
+          // console.log(app.items);
+
+
+
+          // var elements = document.getElementsByClassName("dateField");
+          // elements = [].slice.call(elements);
+          // var itemIndex = elements.indexOf(btn);
+          // const item = app.items[itemIndex];
+          // item.date = btn.value;
+
+
+
 
           this.sort();
           // writeItems();
@@ -809,7 +823,6 @@
 
 
 
-          // 日付が空の時の処理
         },
         updateEvaluation: function (e) {
           var select = e.target;
@@ -818,6 +831,7 @@
           // writeItems();
           saveData();
         },
+
         sort: function (e) {
           app.items.sort(function (x, y) {
             // var firstDate = new Date(x.date),
@@ -853,16 +867,23 @@
           // writeCategories();
           saveData();
         },
+        clearDate() {
+          // this.selectedDate = null
+          // this.$emit('selected', null)
+          // this.$emit('input', null)
+          // this.$emit('cleared')
+          window.alert("!");
+        },
       },
       created: function () {
         // console.log('created!');
       },
       mounted: function () {
-        // console.log('mounted!');
+        console.log('mounted!');
         // var btn = e.target;
-        // var elements = document.getElementsByClassName("dateField");
-        // console.log(elements);
-        // console.log(elements.length);
+        var elements = document.getElementsByClassName("dateField");
+        console.log(elements);
+        console.log(elements.length);
 
 
 
@@ -929,6 +950,7 @@
     function writeItems() {
       app.updateItemOrder();
       set(ref(database, "/" + user_me + "items/"), app.items);
+      console.log(app.items);
     }
 
     // firebase用
@@ -996,13 +1018,13 @@
       reader.onload = onLoad;
       $('input[type="file"]').on("change", onChange);
 
-      var elements = document.getElementsByClassName("dateField");
+      // var elements = document.getElementsByClassName("dateField");
       // console.log(elements.items);
-      for (let index = 0; index < elements.length; index++) {
-        const element = elements[index];
-        element.style.color = "red";
-        $(element).datepicker();
-      }
+      // for (let index = 0; index < elements.length; index++) {
+      //   const element = elements[index];
+      //   element.style.color = "red";
+      //   $(element).datepicker();
+      // }
     });
 
     $("#export").on("click", function () {
