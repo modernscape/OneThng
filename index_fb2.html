@@ -336,6 +336,16 @@
 
     .vdp-datepicker__clear-button {
       padding: 0 10px;
+      color: #aaa;
+    }
+
+    .vdp-datepicker__clear-button:hover {
+      opacity: 0.3;
+    }
+
+    .vdp-datepicker,
+    .vdp-datepicker input {
+      width: 100px;
     }
   </style>
 </head>
@@ -409,9 +419,12 @@
 
             <!-- Clear Button -->
             <span class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate(item)">
-              <i :class="clearButtonIcon">
+
+              <span v-if="clearButtonIcon" :class="clearButtonIcon">&times;</span>
+
+              <!-- <i :class="clearButtonIcon">
                 <span v-if="clearButtonIcon">&times;</span>
-              </i>
+              </i> -->
             </span>
 
             <!-- <vuejs-datepicker v-model="item.date" :format="DatePickerFormat" class="dateField datepicker"
@@ -529,7 +542,7 @@
 
     var activeCat = 0;
     var activeInput;
-    const defaultWidth = 217;
+    const defaultWidth = 200;
 
     let key_items = "OneThing_key_items";
     let key_categories = "OneThing_key_categories";
