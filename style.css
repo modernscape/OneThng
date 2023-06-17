@@ -550,7 +550,7 @@ td:hover .firstCat {
 
 .content {
   overflow: auto;
-  padding: 1em 1em 5em;
+  padding: 1em 1em 10em;
   min-height: 550px;
 }
 
