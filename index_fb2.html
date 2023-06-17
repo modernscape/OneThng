@@ -390,7 +390,12 @@
           <td>
             <!-- <input type="text" :value="item.date" v-on:change="updateDate" class="dateField datepicker" /> -->
             <vuejs-datepicker v-model="item.date" :format="DatePickerFormat" class="dateField datepicker"
-              @closed="updateDate"></vuejs-datepicker>
+              @closed="updateDate(item)"></vuejs-datepicker>
+            <!-- <vuejs-datepicker v-model="item.date" :format="DatePickerFormat" class="dateField datepicker"
+              @closed="updateDate"></vuejs-datepicker> -->
+
+
+
 
             <!-- Clear Button -->
             <span class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate()">
@@ -420,8 +425,7 @@
           </td>
           <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
             <div class="container" v-if="true">
-              <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:input="inputHundler" :class="{ active: item.date != '' && cat.id==item.cat,
-                                 inactive: item.date == '' && cat.id==item.cat,
+              <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:input="inputHundler" :class="{ active: item.date!=undefined && cat.id==item.cat, inactive: item.date==undefined && cat.id==item.cat,
                                 inputDone: item.done }" class="txt" v-on:focus="activateCat(cat.id, $event)"
                 :placeholder="item.title != '' ? '' : '行動' " :style="styles(item)" />
               <span class="textMetrics" aria-hidden="true"></span>
@@ -801,7 +805,28 @@
           item.done = !item.done;
           writeItems();
         },
-        updateDate: function (e) {
+        updateDate: function (item) {
+
+
+          console.log(item.date);
+          console.log(item.title);
+          console.log(item.id);
+
+          // item.date = item.date.toDateString();
+          if (item.date == undefined || item.date == "") {
+            console.log('(Empty!)');
+            item.date = "";
+
+          } else {
+            // console.log(item.date);
+            // item.date = item.date.toGMTString();
+
+          }
+          // console.log(item.date);
+
+
+
+
 
           // console.log('updateDate!');
           // console.log(app.items);
@@ -818,11 +843,7 @@
 
 
           this.sort();
-          // writeItems();
           saveData();
-
-
-
         },
         updateEvaluation: function (e) {
           var select = e.target;
@@ -832,12 +853,17 @@
           saveData();
         },
 
+        // Mon, 05 Jun 2023 01: 36:00 GMT
+        // Mon, 12 Jun 2023 00:08:00 GMT
+
         sort: function (e) {
           app.items.sort(function (x, y) {
             // var firstDate = new Date(x.date),
             //     SecondDate = new Date(y.date);
             var firstDate = x.date,
               SecondDate = y.date;
+
+            // console.log(firstDate);
 
             if (firstDate == "") return 1;
             if (SecondDate == "") return -1;
@@ -879,11 +905,11 @@
         // console.log('created!');
       },
       mounted: function () {
-        console.log('mounted!');
+        // console.log('mounted!');
         // var btn = e.target;
-        var elements = document.getElementsByClassName("dateField");
-        console.log(elements);
-        console.log(elements.length);
+        // var elements = document.getElementsByClassName("dateField");
+        // console.log(elements);
+        // console.log(elements.length);
 
 
 
@@ -950,7 +976,7 @@
     function writeItems() {
       app.updateItemOrder();
       set(ref(database, "/" + user_me + "items/"), app.items);
-      console.log(app.items);
+      // console.log(app.items);
     }
 
     // firebase用
