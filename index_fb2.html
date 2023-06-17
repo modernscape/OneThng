@@ -428,7 +428,7 @@
           <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
             <div class="container" v-if="true">
               <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:input="inputHundler"
-                :class="{ active: item.date!='' && cat.id==item.cat, inactive: item.date=='' && cat.id==item.cat, inputDone: item.done }"
+                :class="{ active: item.date!='' && item.date!=undefined && cat.id==item.cat, inactive: (item.date=='' || item.date==undefined) && cat.id==item.cat, inputDone: item.done }"
                 class="txt" v-on:focus="activateCat(cat.id, $event)" :placeholder="item.title != '' ? '' : '行動' "
                 :style="styles(item)" />
               <span class="textMetrics" aria-hidden="true"></span>
