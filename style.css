@@ -695,3 +695,7 @@ td.date-td {
 .evaluation_3 {
   color: hsl(209, 95%, 65%)
 }
+
+.editingRow {
+  background: hsla(60, 100%, 50%, 0.219);
+}

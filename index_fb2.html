@@ -93,12 +93,11 @@
           </td>
           <td></td>
           <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center">
-            <textarea v-model="cat.tool" v-on:change="writeCategories_app" class="center">
-{{ cat.tool }}</textarea>
+            <textarea v-model="cat.tool" v-on:change="writeCategories_app" class="center">{{ cat.tool }}</textarea>
           </td>
         </tr>
         <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
-          <td :class="{ hasItem: item.title != '' }" class="center">
+          <td :class="{ hasItem: item.title != ''}" class="center">
             <input type="checkbox" name="" id="" :checked="item.done" v-on:change="updateDone" class="doneBtn" />
           </td>
           <td class="date-td">
@@ -131,8 +130,8 @@
                 evaluation_1: item.evaluation=='◉',
                 evaluation_2: item.evaluation=='◎',
                 evaluation_3: item.evaluation=='⚪︎'
-              }" class="txt" v-on:focus="activateCat(cat.id, $event)" :placeholder="item.title != '' ? '' : '行動' "
-                :style="styles(item)" />
+              }" class="txt" v-on:focus="activateCat(cat.id, $event)" @blur="blurRow($event)"
+                :placeholder="item.title != '' ? '' : '行動' " :style="styles(item)" />
               <span class="textMetrics" aria-hidden="true"></span>
             </div>
           </td>
@@ -244,6 +243,7 @@
             title: "ブログを書く",
             active: false,
             width: 0,
+            editing: false
           },
         ],
         categories: [
@@ -434,6 +434,7 @@
           saveData();
         },
         inputHundler: function (e) {
+          console.log('inputHundler!');
           var cat = 0;
           const curInput = e.target;
           const tr = curInput.parentNode.parentNode.parentNode;
@@ -464,9 +465,21 @@
 
           saveData();
         },
+        trForInput: function (input) {
+          // var elements = document.getElementsByClassName("itemRow");
+          // elements = [].slice.call(elements);
+          let tr = input.parentNode.parentNode.parentNode;
+          return tr;
+        },
         activateCat: function (cat, e) {
           activeCat = cat;
           activeInput = e.target;
+          let tr = this.trForInput(activeInput);
+          tr.classList.add("editingRow");
+        },
+        blurRow: function (e) { // フォーカスから外れる
+          let tr = this.trForInput(activeInput);
+          tr.classList.remove("editingRow");
         },
         deleteItemWithMenu: function (e) {
           var elements = document.getElementsByClassName("itemRow");
