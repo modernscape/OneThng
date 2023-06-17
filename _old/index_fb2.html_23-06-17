@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <meta
+      name="description"
+      content="マインドフルネス,集中力,OneThing,シングルタスク,マルチタスク,Win Win,自己啓発,夢,タスク管理,ひとつのこと,集中,ビジネススキル,google,瞑想,webツール"
+    />
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+
+    <!-- 基本共通設定 -->
+
+    <!-- <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#"> -->
+    <meta property="og:title" content="ひとつのことシート" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://modernscape.github.io/OneThng/" />
+    <meta
+      property="og:image"
+      content="https://modernscape.github.io/OneThng/img/manual.png"
+    />
+    <meta property="og:site_name" content="ひとつのことシート" />
+    <meta
+      property="og:description"
+      content="マインドフルネス,集中力,OneThing,シングルタスク,マルチタスク,Win Win,自己啓発,夢,タスク管理,ひとつのこと,集中,ビジネススキル,google,瞑想,webツール"
+    />
+
+    <!-- Twitter共通設定 -->
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- jQuery UI -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script> -->
+
+    <script src="https://unpkg.com/vuejs-datepicker"></script>
+
+    <title>ひとつのことシート</title>
+  </head>
+
+  <body onContextmenu="return false;">
+    <h1 class="title center">頭がいっぱいにならない「ひとつのことシート」</h1>
+    <div id="app">
+      <button type="button" class="menu-btn">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </button>
+      <div class="menu">
+        <div class="menu__item">
+          <a href="img/manual.png" target="manual" id="manual">使い方</a>
+        </div>
+        <div class="menu__item" id="export">Export</div>
+        <!-- <div class="menu__item">Import<input id="file" type="file" name="file"></div> -->
+        <div class="menu__item">
+          <label
+            ><input id="file" type="file" style="display: none;" />Import</label
+          >
+        </div>
+      </div>
+      <div id="contextmenu">
+        <ul>
+          <!-- <li v-on:click="addItem">タスクを追加</li> -->
+          <li v-on:click="addItemPrev">＋ 行を追加（上に）</li>
+          <li v-on:click="deleteItemWithMenu">ー 行を削除</li>
+          <li v-on:click="addCategoryPrev">＋ 列を追加（左に）</li>
+          <li v-on:click="deleteCategoryWithMenu">ー 列を削除</li>
+        </ul>
+      </div>
+      <div id="contextmenu_out">
+        <ul>
+          <li v-on:click="addItem">タスクを追加</li>
+          <li v-on:click="addCategory">カテゴリーを追加</li>
+        </ul>
+      </div>
+      <div class="content">
+        <table id="table">
+          <tr class="center">
+            <td class="txt-half">実行</td>
+            <td class="txt-half">実施する日</td>
+            <td class="txt-half">フラグ</td>
+            <td
+              v-for="cat in categories"
+              :class="cat.title"
+              :key="cat.id"
+              :data-id="cat.id"
+              class="td_category"
+            >
+              <input
+                type="text"
+                v-model="cat.title"
+                v-on:change="writeCategories_app"
+                class="input_category center"
+                placeholder="カテゴリー"
+              />
+              <img
+                src="img/arrow-2.png"
+                :class="{ firstCat: cat.id == 0 }"
+                @click="moveCategory"
+                class="catMoveBtn"
+              />
+              <img
+                src="img/remove-button.png"
+                class="catDeleteBtn"
+                @click="deleteCategoryWithBtn"
+              />
+            </td>
+            <td class="plusBtn plus_category" v-on:click="addCategory">
+              列を追加 ＋
+            </td>
+          </tr>
+          <tr style="height: 60px;">
+            <td colspan="2" class="txt-half">
+              メモ<br />ツール<br />コンテンツ
+            </td>
+            <td></td>
+            <td
+              v-for="cat in categories"
+              :class="cat.tool"
+              :key="cat.id"
+              :data-id="cat.id"
+              class="center"
+            >
+              <textarea
+                v-model="cat.tool"
+                v-on:change="writeCategories_app"
+                class="center"
+              >
+{{ cat.tool }}</textarea
+              >
+            </td>
+          </tr>
+          <tr
+            v-for="item in items"
+            :key="item.id"
+            :data-id="item.id"
+            class="itemRow"
+          >
+            <td :class="{ hasItem: item.title != '' }" class="center">
+              <input
+                type="checkbox"
+                name=""
+                id=""
+                :checked="item.done"
+                v-on:change="updateDone"
+                class="doneBtn"
+              />
+            </td>
+            <td class="date-td">
+              <!-- <input type="text" :value="item.date" v-on:change="updateDate" class="dateField datepicker" /> -->
+
+              <vuejs-datepicker
+                v-model="item.date"
+                :format="DatePickerFormat"
+                class="dateField datepicker"
+                @closed="updateDate(item)"
+              >
+              </vuejs-datepicker>
+
+              <!-- Clear Button -->
+              <span
+                class="vdp-datepicker__clear-button"
+                v-if="clearButton"
+                @click="clearDate(item)"
+              >
+                <span v-if="clearButtonIcon" :class="clearButtonIcon"
+                  >&times;</span
+                >
+
+                <!-- <i :class="clearButtonIcon">
+                <span v-if="clearButtonIcon">&times;</span>
+              </i> -->
+              </span>
+
+              <!-- <vuejs-datepicker v-model="item.date" :format="DatePickerFormat" class="dateField datepicker"
+              @closed="updateDate"></vuejs-datepicker> -->
+
+              <!-- <input
+                type="date"
+                :value="item.date"
+                v-on:change="updateDate"
+                class="dateField datepicker"
+              /> -->
+
+              <!-- <input class="datepicker" type="text" /> -->
+            </td>
+            <td>
+              <select
+                class="evaluationSelect"
+                name=""
+                id=""
+                v-on:change="updateEvaluation"
+                :value="item.evaluation"
+              >
+                <option value=" "> </option>
+                <option value="◉">◉</option>
+                <option value="◎">◎</option>
+                <option value="○">○</option>
+                <option value="△">△</option>
+                <option value="x">x</option>
+              </select>
+            </td>
+            <td
+              v-for="cat in categories"
+              :class="cat.title"
+              :key="cat.id"
+              :data-id="cat.id"
+            >
+              <div class="container" v-if="true">
+                <input
+                  type="text"
+                  :value='cat.id==item.cat ? item.title : ""'
+                  v-on:input="inputHundler"
+                  :class="{ active: item.date!='' && item.date!=undefined && cat.id==item.cat, inactive: (item.date=='' || item.date==undefined) && cat.id==item.cat, inputDone: item.done }"
+                  class="txt"
+                  v-on:focus="activateCat(cat.id, $event)"
+                  :placeholder="item.title != '' ? '' : '行動' "
+                  :style="styles(item)"
+                />
+                <span class="textMetrics" aria-hidden="true"></span>
+              </div>
+            </td>
+            <td v-on:click="deleteItemWithBtn" class="deleteBtn">
+              <img src="img/remove-button.png" />
+            </td>
+          </tr>
+          <tr>
+            <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">
+              行を追加 ＋
+            </td>
+          </tr>
+        </table>
+        <!-- <p class="note">
+        ① 実施する<b>「行動」</b>を追加<br>
+        ② 行動は1行に<b>1つのみ</b><br>
+        ③「実施する日」設定 → <b>自動ソート</b>
+      </p> -->
+      </div>
+
+      <!-- <input type="text" id="target"> -->
+    </div>
+    <!-- <script>
+    $(function () {
+      $('#target').datepicker({
+        defaultDate: new Date(2020, 7, 5), // 2020/8/5を表示
+        numberOfMonths: 2,                // 表示される月の数:2
+        dateFormat: 'yy年mm月dd日',      // yyyy年mm月dd日
+      });
+    });
+  </script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+
+    <!-- <script type="module" src="main.js"></script> -->
+    <script type="module">
+      //////////////////////////////////////////////////////////////////////////////
+      // firebase用
+      //////////////////////////////////////////////////////////////////////////////
+
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-analytics.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        set,
+      } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-database.js";
+
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyCJiIxHNvf944qVkziA_LTYJFaiMZcE_RU",
+        authDomain: "onething-2eb31.firebaseapp.com",
+        databaseURL: "https://onething-2eb31-default-rtdb.firebaseio.com",
+        projectId: "onething-2eb31",
+        storageBucket: "onething-2eb31.appspot.com",
+        messagingSenderId: "684083492013",
+        appId: "1:684083492013:web:6daa5ff4134cbc681e4224",
+        measurementId: "G-TLSV5F4E05",
+        databaseURL: "https://onething-2eb31-default-rtdb.firebaseio.com",
+      };
+
+      const app_firebase = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app_firebase);
+      const database = getDatabase(app_firebase);
+
+      const user_me = "hosoi/";
+
+      const oneThingRef = ref(database, "/" + user_me);
+
+      //////////////////////////////////////////////////////////////////////////////
+      // firebase用 end
+      //////////////////////////////////////////////////////////////////////////////
+
+      const table = document.getElementById("table");
+
+      var activeCat = 0;
+      var activeInput;
+      const defaultWidth = 200;
+
+      let key_items = "OneThing_key_items";
+      let key_categories = "OneThing_key_categories";
+      let key_written = "OneThing_key_written";
+
+      let app = new Vue({
+        el: "#app",
+        components: {
+          "vuejs-datepicker": vuejsDatepicker,
+        },
+        data: {
+          default: "2018-10-04",
+          DatePickerFormat: "yyyy-MM-dd",
+          clearButton: true,
+          clearButtonIcon: "class-clearBtn",
+          items: [
+            {
+              cat: 0,
+              date: "",
+              done: false,
+              evaluation: "",
+              id: 0,
+              title: "ブログを書く",
+              active: false,
+              width: 0,
+            },
+          ],
+          categories: [
+            {
+              id: 0,
+              title: "ビジネス",
+              tool: "ブログ",
+            },
+          ],
+        },
+        computed: {
+          styles() {
+            return (item) => {
+              let w = 0;
+              if (item.width != undefined) w = item.width;
+              if (w <= defaultWidth) w = defaultWidth;
+              // return "width:" + ((item.width == undefined) ? '217px' : item.width + 'px')
+              return "width:" + w + "px";
+            };
+          },
+        },
+        methods: {
+          // firebase用
+          loadData: function (ary0, ary1) {
+            this.items = ary0;
+            this.categories = ary1;
+          },
+          addItem: function (e) {
+            document.getElementById("contextmenu").style.display = "none";
+            // const result = prompt("タスク名", "task");
+            let l = this.items.length;
+            const item = {
+              cat: 0,
+              date: "",
+              done: false,
+              evaluation: "",
+              id: l,
+              title: "",
+            };
+            this.items.push(item);
+            saveData();
+          },
+          addItemPrev: function (e) {
+            document.getElementById("contextmenu").style.display = "none";
+            var elements = document.getElementsByClassName("itemRow");
+            elements = [].slice.call(elements);
+            let tr = activeInput.parentNode.parentNode.parentNode;
+            var itemIndex = elements.indexOf(tr);
+            let l = this.items.length;
+            const item = {
+              cat: 0,
+              date: "",
+              done: false,
+              evaluation: "",
+              id: l,
+              title: "",
+            };
+            this.items.splice(itemIndex, 0, item);
+            // writeItems();
+            saveData();
+          },
+          addCategory: function () {
+            const result = prompt("追加するカテゴリーは？", "");
+            if (result) {
+              let l = this.categories.length;
+              const cat = {
+                id: l,
+                title: result,
+              };
+              this.categories.push(cat);
+              // writeCategories();
+              saveData();
+            }
+          },
+          updateItemOrder: function () {
+            for (let index = 0; index < this.items.length; index++) {
+              const item = this.items[index];
+              item.id = index;
+            }
+          },
+          addCategoryPrev: function () {
+            const result = prompt("追加するカテゴリーは？", "");
+            if (result) {
+              let l = this.categories.length;
+              const category = {
+                id: l,
+                title: result,
+              };
+              this.categories.splice(activeCat, 0, category);
+              // writeCategories();
+              saveData();
+              this.shiftRightItemCat(activeCat);
+              // writeItems();
+              saveData();
+            }
+          },
+          updateCategoryOrder: function () {
+            for (let index = 0; index < this.categories.length; index++) {
+              const cat = this.categories[index];
+              cat.id = index;
+            }
+          },
+          shiftRightItemCat: function (after) {
+            // itemのcatがafter以上場合1大きく
+            for (let index = 0; index < this.items.length; index++) {
+              const item = this.items[index];
+              if (item.cat >= after) {
+                item.cat++;
+              }
+            }
+          },
+          shiftLeftItemCat: function (after) {
+            // itemのcatがafter以上場合1小さく
+            for (let index = 0; index < this.items.length; index++) {
+              const item = this.items[index];
+              if (item.cat >= after) {
+                item.cat--;
+              }
+            }
+          },
+          deleteCategoryWithMenu: function (e) {
+            var result = window.confirm("このカテゴリーを削除しますか？");
+            if (result) {
+              this.deleteCategory(activeCat);
+            }
+          },
+          deleteCategoryWithBtn: function (e) {
+            var btn = e.target;
+            var elements = document.getElementsByClassName("catDeleteBtn");
+            elements = [].slice.call(elements);
+            var catIndex = elements.indexOf(btn);
+            const cat = app.categories[catIndex];
+            var result = window.confirm(
+              "〔 " + cat.title + " 〕を削除しますか？"
+            );
+            if (result) {
+              this.deleteCategory(catIndex);
+              this.sort();
+            }
+          },
+          deleteCategory: function (index) {
+            // 該当の行（item.cat == index）となる全ての行を削除
+            var itemsToDelete = [];
+            for (let j = 0; j < app.items.length; j++) {
+              const item = app.items[j];
+              if (item.cat == index) {
+                itemsToDelete.push(item);
+              }
+            }
+
+            app.deleteItems(itemsToDelete);
+            this.shiftLeftItemCat(index);
+            // writeItems();
+            saveData();
+
+            this.categories.splice(index, 1);
+            // writeCategories();
+            saveData();
+          },
+          moveCategory: function (e) {
+            var btn = e.target;
+            var elements = document.getElementsByClassName("catMoveBtn");
+            elements = [].slice.call(elements);
+            var catIndex = elements.indexOf(btn);
+            const from = catIndex;
+            const to = catIndex - 1;
+            if (to < 0) {
+              return;
+            }
+            const value = app.categories[from];
+            const tail = app.categories.slice(from + 1);
+            app.categories.splice(from);
+            Array.prototype.push.apply(app.categories, tail);
+            app.categories.splice(to, 0, value);
+
+            saveData();
+
+            // 全てのitemのitem.catも入れ替える
+            for (let index = 0; index < app.items.length; index++) {
+              const item = app.items[index];
+              if (item.cat == to) {
+                item.cat = from;
+              } else if (item.cat == from) {
+                item.cat = to;
+              }
+            }
+
+            saveData();
+          },
+          inputHundler: function (e) {
+            var cat = 0;
+            const curInput = e.target;
+            const tr = curInput.parentNode.parentNode.parentNode;
+
+            var elements = document.getElementsByTagName("tr");
+            elements = [].slice.call(elements);
+            var itemIndex = elements.indexOf(tr) - 2;
+            const item = app.items[itemIndex];
+
+            var inputArray = [];
+            for (let index = 0; index < this.categories.length; index++) {
+              const td = tr.children[index + 3];
+              const input = td.firstElementChild.firstElementChild;
+              inputArray.push(input);
+              if (input == curInput) {
+                cat = index;
+              } else {
+                input.value = "";
+              }
+              item.title = curInput.value;
+            }
+            const span = e.target.nextElementSibling;
+            span.textContent = curInput.value;
+            let w = Math.max(span.clientWidth, defaultWidth);
+            curInput.style.width = `${w}px`;
+            item.width = w;
+            item.cat = cat;
+
+            saveData();
+          },
+          activateCat: function (cat, e) {
+            activeCat = cat;
+            activeInput = e.target;
+          },
+          deleteItemWithMenu: function (e) {
+            var elements = document.getElementsByClassName("itemRow");
+            elements = [].slice.call(elements);
+            let tr = activeInput.parentNode.parentNode.parentNode;
+            var itemIndex = elements.indexOf(tr);
+            app.deleteItem(itemIndex);
+          },
+          deleteItemWithBtn: function (e) {
+            var img = e.target;
+            var btn = img.parentNode;
+            var elements = document.getElementsByClassName("deleteBtn");
+            elements = [].slice.call(elements);
+            var itemIndex = elements.indexOf(btn);
+            const item = app.items[itemIndex];
+            var result = window.confirm(item.title + " を削除しますか？");
+            if (result) {
+              app.deleteItem(itemIndex);
+            }
+          },
+          deleteItem: function (index) {
+            app.items.splice(index, 1);
+            // writeItems();
+            saveData();
+          },
+          deleteItems: function (ary) {
+            console.log(ary);
+            // filterを使う
+            const newSource = app.items.filter((val) => {
+              return !ary.includes(val);
+            });
+            app.items = newSource;
+
+            // app.items.splice(index, 1);
+            // writeItems();
+            saveData();
+          },
+          updateDone: function (e) {
+            var btn = e.target;
+            var elements = document.getElementsByClassName("doneBtn");
+            elements = [].slice.call(elements);
+            var itemIndex = elements.indexOf(btn);
+            const item = app.items[itemIndex];
+            item.done = !item.done;
+            writeItems();
+          },
+          updateDate: function (item) {
+            // console.log(item.title);
+            // console.log(item.id);
+            // console.log(item);
+
+            if (item.date == undefined || item.date == "") {
+              console.log("空です！");
+              item.date = "";
+            } else if (this.isString(item.date)) {
+              console.log("文字列です！");
+            } else {
+              console.log("オブジェクトです！");
+              // item.date = item.date.toGMTString();
+              // item.date = item.date.toLocaleDateString();
+              item.date = item.date.toLocaleString();
+            }
+            // console.log(item.date);
+
+            // var elements = document.getElementsByClassName("dateField");
+            // elements = [].slice.call(elements);
+            // var itemIndex = elements.indexOf(btn);
+            // const item = app.items[itemIndex];
+            // item.date = btn.value;
+
+            this.sort();
+            saveData();
+          },
+          isString: function (value) {
+            if (typeof value === "string" || value instanceof String) {
+              return true;
+            } else {
+              return false;
+            }
+          },
+          updateEvaluation: function (e) {
+            var select = e.target;
+            var item = this.itemForElement("evaluationSelect", e);
+            item.evaluation = select.value;
+            // writeItems();
+            saveData();
+          },
+
+          // Mon, 05 Jun 2023 01: 36:00 GMT
+          // Mon, 12 Jun 2023 00:08:00 GMT
+
+          sort: function (e) {
+            app.items.sort(function (x, y) {
+              var firstDate = x.date,
+                SecondDate = y.date;
+
+              // console.log(firstDate);
+              // console.log(SecondDate);
+
+              if (firstDate == "") return 1;
+              if (firstDate == undefined) return 1;
+
+              if (SecondDate == "") return -1;
+              if (SecondDate == undefined) return -1;
+
+              if (firstDate < SecondDate) return -1;
+              if (firstDate > SecondDate) return 1;
+
+              return 0;
+            });
+          },
+          itemForElement: function (className, e) {
+            var btn = e.target;
+            var elements = document.getElementsByClassName(className);
+            elements = [].slice.call(elements);
+            var index = elements.indexOf(btn);
+            var item = app.items[index];
+            return item;
+          },
+          removeRow: function () {
+            this.items.pop();
+            // writeItems();
+            saveData();
+          },
+          writeItems_app: function () {
+            saveData();
+          },
+          writeCategories_app: function () {
+            // writeCategories();
+            saveData();
+          },
+          clearDate(item) {
+            item.date = "";
+            this.sort();
+            saveData();
+
+            // this.selectedDate = null
+            // this.$emit('selected', null)
+            // this.$emit('input', null)
+            // this.$emit('cleared')
+            // window.alert("!");
+          },
+        },
+        created: function () {
+          // console.log('created!');
+        },
+        mounted: function () {
+          // console.log('mounted!');
+          // var btn = e.target;
+          // var elements = document.getElementsByClassName("dateField");
+          // console.log(elements);
+          // console.log(elements.length);
+          // var elements = document.getElementsByClassName("dateField");
+          // for (let index = 0; index < elements.length; index++) {
+          //   console.log(elements.length);
+          //   const element = elements[index];
+          //   console.log($(element));
+          //   $(element).datepicker();
+          // }
+          // console.log($(btn));
+          // $(btn).datepicker();
+        },
+      });
+
+      // firebase用
+      onValue(oneThingRef, (snapshot) => {
+        const data = snapshot.val();
+        app.loadData(data.items, data.categories);
+      });
+
+      // localStorage用
+      // document.addEventListener(
+      //   "DOMContentLoaded",
+      //   function (e) {
+      //     if (localStorage[key_written] == "done") {
+      //       loadData();
+      //     }
+      //   },
+      //   false
+      // );
+
+      // localStorage用
+      // function loadData() {
+      //   let items = localStorage[key_items];
+      //   app.items = JSON.parse(items);
+      //   let categories = localStorage[key_categories];
+      //   app.categories = JSON.parse(categories);
+      // }
+
+      function saveData() {
+        writeItems();
+        writeCategories();
+        // localStorage用
+        // localStorage[key_written] = "done";
+      }
+
+      // function writeItems() {
+      //   app.updateItemOrder();
+      //   let json = JSON.stringify(app.items, undefined, 1);
+      //   localStorage[key_items] = json;
+      // }
+
+      // function writeCategories() {
+      //   app.updateCategoryOrder();
+      //   let json = JSON.stringify(app.categories, undefined, 1);
+      //   localStorage[key_categories] = json;
+      // }
+
+      // firebase用
+      function writeItems() {
+        app.updateItemOrder();
+        set(ref(database, "/" + user_me + "items/"), app.items);
+      }
+
+      // firebase用
+      function writeCategories() {
+        app.updateCategoryOrder();
+        set(ref(database, "/" + user_me + "categories/"), app.categories);
+      }
+
+      function writeDefaultData() {
+        let items = [
+          {
+            cat: 0,
+            date: "",
+            done: false,
+            evaluation: "",
+            id: 0,
+            title: "ブログを書く",
+            active: false,
+          },
+        ];
+        let categories = [
+          {
+            id: 0,
+            title: "ビジネス",
+            tool: "ブログ",
+          },
+        ];
+        // localStorage[key_items] = items;
+        // localStorage[key_categories] = categories;
+      }
+
+      window.onload = function () {
+        document.body.addEventListener("contextmenu", function (e) {
+          var str =
+            e.target.className == "txt" ? "contextmenu" : "contextmenu_out";
+          var scrollY =
+            document.documentElement.scrollTop || document.body.scrollTop;
+          document.getElementById(str).style.left = e.pageX + "px";
+          document.getElementById(str).style.top = e.pageY - scrollY + "px";
+          document.getElementById(str).style.display = "block";
+        });
+        document.body.addEventListener("click", function (e) {
+          document.getElementById("contextmenu").style.display = "none";
+          document.getElementById("contextmenu_out").style.display = "none";
+        });
+      };
+
+      $(function () {
+        var reader;
+        function onChange(event) {
+          reader.readAsText(event.target.files[0]);
+        }
+        function onLoad(event) {
+          var json;
+          try {
+            closeMenu();
+            json = JSON.parse(event.target.result);
+            expandJSON(json);
+          } catch (error) {
+            console.log("jsonでない！");
+            console.log(error);
+          }
+        }
+        reader = new FileReader();
+        reader.onload = onLoad;
+        $('input[type="file"]').on("change", onChange);
+
+        // var elements = document.getElementsByClassName("dateField");
+        // console.log(elements.items);
+        // for (let index = 0; index < elements.length; index++) {
+        //   const element = elements[index];
+        //   element.style.color = "red";
+        //   $(element).datepicker();
+        // }
+      });
+
+      $("#export").on("click", function () {
+        closeMenu();
+        exportJSON();
+      });
+
+      function expandJSON(json) {
+        // 読みこんだjsonデータを検証（未）
+        app.items = json.items;
+        app.categories = json.categories;
+        saveData();
+      }
+
+      // ハンバーガーメニュー
+      $(
+        (function () {
+          $(".menu-btn").on("click", function () {
+            $(".menu").toggleClass("is-active");
+            $("body").append('<p class="overlay"></p>');
+          });
+
+          //閉じる用クリックイベント
+          $("body").on("click", ".overlay", function () {
+            closeMenu();
+          });
+
+          $("#manual").on("click", function () {
+            closeMenu();
+          });
+        })()
+      );
+
+      function closeMenu() {
+        $("p.overlay").remove();
+        $(".menu").removeClass("is-active");
+      }
+
+      // jsonファイル
+      function exportJSON() {
+        // 保存するJSONファイルの名前
+
+        let d = new Date();
+        // console.log(d.toString());
+        const date = d.toLocaleString();
+        const fileName = date + "_export.json";
+
+        // データをJSON形式の文字列に変換する。
+        const data_items = JSON.stringify(app.items);
+        const data_categories = JSON.stringify(app.categories);
+
+        // HTMLのリンク要素を生成する。
+        const link = document.createElement("a");
+
+        // リンク先にJSON形式の文字列データを置いておく。
+        const prefix = '{"categories":';
+        const suffix = "}";
+        const dataContent =
+          prefix +
+          encodeURIComponent(data_categories) +
+          ',"items":' +
+          encodeURIComponent(data_items) +
+          suffix;
+
+        link.href = "data:text/plain," + dataContent;
+
+        // 保存するJSONファイルの名前をリンクに設定する。
+        link.download = fileName;
+
+        // ファイルを保存する。
+        link.click();
+      }
+    </script>
+  </body>
+</html>

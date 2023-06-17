@@ -13,7 +13,6 @@ table td {
   border: 1px solid #fff;
 }
 
-
 /* ******************************* */
 
 body {
@@ -246,7 +245,6 @@ ul#items li:last-child {
   color: #c05dfd;
 }
 
-
 @keyframes flash {
   0% {
     opacity: 1;
@@ -255,7 +253,6 @@ ul#items li:last-child {
   50% {
     opacity: 0.3;
   }
-
 
   100% {
     opacity: 1;
@@ -366,4 +363,335 @@ div.files {
 div.files a {
   text-decoration: none;
   color: rgb(152, 152, 152);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+input {
+  background-color: rgba(0, 0, 0, 0);
+  color: #fff;
+  padding: 0 5px;
+  border: 0;
+}
+
+.center {
+  text-align: center;
+}
+
+.plusBtn {
+  text-align: center;
+  border: 0;
+  font-weight: bold;
+  color: aqua;
+  cursor: pointer;
+}
+
+.plusBtn:hover {
+  color: rgb(247, 223, 3);
+}
+
+.plus_item {
+  padding: 5px 0;
+  text-align: right;
+}
+
+.plus_category {
+  padding: 0 10px;
+}
+
+.container,
+.txt,
+.textMetrics {
+  font: inherit;
+}
+
+.textMetrics {
+  display: inline-block;
+  position: absolute;
+  height: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+
+.deleteBtn {
+  border: 0;
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.deleteBtn img {
+  width: 20px;
+  height: 20px;
+  padding: 3px;
+  vertical-align: middle;
+}
+
+.deleteBtn img:hover {
+  opacity: 0.3;
+}
+
+table {
+  margin: 0 auto;
+}
+
+table td {
+  border-color: rgb(95, 95, 95);
+}
+
+.txt {
+  color: hsl(209, 93%, 79%);
+}
+
+.active {
+  color: rgb(255, 0, 123) !important;
+  font-weight: bold;
+  background-color: rgb(251, 186, 232);
+}
+
+.inactive {
+  background-color: rgba(251, 186, 231, 0);
+}
+
+p.note {
+  color: rgb(161, 161, 161);
+  padding: 5px 1em;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 5px;
+  pointer-events: none;
+  border: 1px solid rgb(161, 161, 161);
+  width: 90%;
+  text-align: center;
+}
+
+#contextmenu,
+#contextmenu_out {
+  display: none;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  border: 0;
+  background-color: rgba(41, 41, 41, 0.832);
+  padding: 3px 10px;
+}
+
+#contextmenu li,
+#contextmenu_out li {
+  cursor: pointer;
+  list-style-type: none;
+  color: #fff;
+}
+
+.td_category {
+  position: relative;
+}
+
+.input_category {
+  width: 100%;
+  height: 60px;
+  box-sizing: border-box;
+  font-weight: bold;
+  font-size: 110%;
+}
+
+textarea {
+  background-color: #ff000000;
+  color: rgb(153, 171, 162);
+  resize: none;
+  border: 0;
+  vertical-align: bottom;
+  width: 100%;
+  height: 60px;
+  box-sizing: border-box;
+}
+
+.catDeleteBtn,
+.catMoveBtn {
+  /* display: none; */
+  display: inline;
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transition: 0.2s;
+  transform: translateY(-50%);
+}
+
+.catMoveBtn {
+  left: 5px;
+  background-color: white;
+  border-radius: 50%;
+  padding: 2px;
+}
+
+td:hover .catDeleteBtn,
+td:hover .catMoveBtn {
+  /* display: inline; */
+  opacity: 1;
+}
+
+td:hover .catDeleteBtn:hover,
+td:hover .catMoveBtn:hover {
+  opacity: 0.5;
+  transition: 0.2s;
+}
+
+td:hover .firstCat {
+  display: none;
+}
+
+.content {
+  overflow: auto;
+  padding: 1em;
+  min-height: 550px;
+}
+
+.txt-half {
+  color: rgb(174, 174, 174);
+}
+
+h1.title {
+  width: 100%;
+}
+
+#app {
+  margin-bottom: 120px;
+}
+
+.hasItem {
+  background-color: rgba(0, 170, 255, 0.49);
+}
+
+.evaluationSelect {
+  font-size: 120%;
+  background-color: #ff000000;
+  color: #fff;
+  border: 0;
+}
+
+.inputDone {
+  text-decoration: line-through;
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: green !important;
+}
+
+.manual {
+  position: fixed;
+  top: 5px;
+  right: 10px;
+  text-decoration: none;
+  padding: 2px 7px;
+  color: #000;
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+/* ハンバーガーメニュー */
+.menu-btn {
+  position: fixed;
+  top: 5px;
+  right: 10px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+}
+
+.menu-btn:hover {
+  opacity: 0.8;
+}
+
+.menu {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  z-index: 3;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(58, 34, 136, 0.954);
+  display: none;
+}
+
+.menu__item {
+  width: 100%;
+  height: auto;
+  padding: 0.5em 1em;
+  text-align: center;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.menu__item:hover {
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.menu__item a {
+  text-decoration: none;
+}
+
+.menu.is-active {
+  display: block;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 2;
+  background: rgba(0, 153, 255, 0.6);
+}
+
+div.vdp-datepicker__calendar > div {
+  background-color: rgb(47, 47, 47);
+}
+
+td.date-td {
+  display: flex;
+}
+
+.vdp-datepicker__clear-button {
+  padding: 0 10px;
+  color: #aaa;
+}
+
+.vdp-datepicker__clear-button:hover {
+  opacity: 0.3;
+}
+
+.vdp-datepicker,
+.vdp-datepicker input {
+  width: 100px;
+}
+
+.evaluation_1 {
+  color: hsl(240, 99%, 67%)
+}
+
+.evaluation_2 {
+  color: hsl(226, 94%, 61%)
+}
+
+.evaluation_3 {
+  color: hsl(209, 95%, 65%)
 }
