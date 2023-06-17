@@ -390,7 +390,7 @@
           <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id" class="td_category">
             <input type="text" v-model="cat.title" v-on:change="writeCategories_app" class="input_category center"
               placeholder="カテゴリー" />
-            <img src="img/arrow.png" :class="{ firstCat: cat.id == 0 }" @click="moveCategory" class="catMoveBtn" />
+            <img src="img/arrow-2.png" :class="{ firstCat: cat.id == 0 }" @click="moveCategory" class="catMoveBtn" />
             <img src="img/remove-button.png" class="catDeleteBtn" @click="deleteCategoryWithBtn" />
           </td>
           <td class="plusBtn plus_category" v-on:click="addCategory">
@@ -705,6 +705,7 @@
           );
           if (result) {
             this.deleteCategory(catIndex);
+			this.sort();
           }
         },
         deleteCategory: function (index) {
@@ -893,7 +894,11 @@
             // console.log(SecondDate);
 
             if (firstDate == "") return 1;
+			if (firstDate == undefined) return 1;
+			
             if (SecondDate == "") return -1;
+			if (SecondDate == undefined) return -1;
+			 
             if (firstDate < SecondDate) return -1;
             if (firstDate > SecondDate) return 1;
 
@@ -922,8 +927,9 @@
         },
         clearDate(item) {
 
-          console.log(item);
+         
           item.date = '';
+		  this.sort();
           saveData();
 
           // this.selectedDate = null
