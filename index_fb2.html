@@ -810,7 +810,7 @@
 
           // console.log(item.title);
           // console.log(item.id);
-          // console.log(item.date);
+          // console.log(item);
 
           if (item.date == undefined || item.date == "") {
             console.log('空です！');
@@ -819,9 +819,11 @@
             console.log('文字列です！');
           } else {
             console.log('オブジェクトです！');
-            item.date = item.date.toGMTString();
+            // item.date = item.date.toGMTString();
+            // item.date = item.date.toLocaleDateString();
+            item.date = item.date.toLocaleString();
           }
-          console.log(item.date);
+          // console.log(item.date);
 
           // var elements = document.getElementsByClassName("dateField");
           // elements = [].slice.call(elements);
@@ -852,12 +854,12 @@
 
         sort: function (e) {
           app.items.sort(function (x, y) {
-            // var firstDate = new Date(x.date),
-            //     SecondDate = new Date(y.date);
+
             var firstDate = x.date,
               SecondDate = y.date;
 
             // console.log(firstDate);
+            // console.log(SecondDate);
 
             if (firstDate == "") return 1;
             if (SecondDate == "") return -1;
@@ -970,7 +972,6 @@
     function writeItems() {
       app.updateItemOrder();
       set(ref(database, "/" + user_me + "items/"), app.items);
-      console.log(app.items);
     }
 
     // firebase用
