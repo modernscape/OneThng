@@ -808,30 +808,20 @@
         updateDate: function (item) {
 
 
-          console.log(item.date);
-          console.log(item.title);
-          console.log(item.id);
-
-          // item.date = item.date.toDateString();
-          if (item.date == undefined || item.date == "") {
-            console.log('(Empty!)');
-            item.date = "";
-
-          } else {
-            // console.log(item.date);
-            // item.date = item.date.toGMTString();
-
-          }
+          // console.log(item.title);
+          // console.log(item.id);
           // console.log(item.date);
 
-
-
-
-
-          // console.log('updateDate!');
-          // console.log(app.items);
-
-
+          if (item.date == undefined || item.date == "") {
+            console.log('空です！');
+            item.date = "";
+          } else if (this.isString(item.date)) {
+            console.log('文字列です！');
+          } else {
+            console.log('オブジェクトです！');
+            item.date = item.date.toGMTString();
+          }
+          console.log(item.date);
 
           // var elements = document.getElementsByClassName("dateField");
           // elements = [].slice.call(elements);
@@ -839,11 +829,15 @@
           // const item = app.items[itemIndex];
           // item.date = btn.value;
 
-
-
-
           this.sort();
           saveData();
+        },
+        isString: function (value) {
+          if (typeof value === "string" || value instanceof String) {
+            return true;
+          } else {
+            return false;
+          }
         },
         updateEvaluation: function (e) {
           var select = e.target;
@@ -976,7 +970,7 @@
     function writeItems() {
       app.updateItemOrder();
       set(ref(database, "/" + user_me + "items/"), app.items);
-      // console.log(app.items);
+      console.log(app.items);
     }
 
     // firebase用
