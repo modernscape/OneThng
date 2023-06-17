@@ -215,6 +215,7 @@
     .content {
       overflow: auto;
       padding: 1em;
+      min-height: 550px;
     }
 
     .txt-half {
@@ -328,6 +329,14 @@
     div.vdp-datepicker__calendar>div {
       background-color: rgb(47, 47, 47);
     }
+
+    td.date-td {
+      display: flex;
+    }
+
+    .vdp-datepicker__clear-button {
+      padding: 0 10px;
+    }
   </style>
 </head>
 
@@ -389,22 +398,27 @@
           <td :class="{ hasItem: item.title != '' }" class="center">
             <input type="checkbox" name="" id="" :checked="item.done" v-on:change="updateDone" class="doneBtn" />
           </td>
-          <td>
+          <td class="date-td">
             <!-- <input type="text" :value="item.date" v-on:change="updateDate" class="dateField datepicker" /> -->
+
             <vuejs-datepicker v-model="item.date" :format="DatePickerFormat" class="dateField datepicker"
-              @closed="updateDate(item)"></vuejs-datepicker>
+              @closed="updateDate(item)">
+
+
+            </vuejs-datepicker>
+
+            <!-- Clear Button -->
+            <span class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate(item)">
+              <i :class="clearButtonIcon">
+                <span v-if="clearButtonIcon">&times;</span>
+              </i>
+            </span>
+
             <!-- <vuejs-datepicker v-model="item.date" :format="DatePickerFormat" class="dateField datepicker"
               @closed="updateDate"></vuejs-datepicker> -->
 
 
 
-
-            <!-- Clear Button -->
-            <span class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate()">
-              <i :class="clearButtonIcon">
-                <span v-if="clearButtonIcon">&times;</span>
-              </i>
-            </span>
 
             <!-- <input
                 type="date"
@@ -530,7 +544,7 @@
         default: '2018-10-04',
         DatePickerFormat: 'yyyy-MM-dd',
         clearButton: true,
-        clearButtonIcon: 'XXX',
+        clearButtonIcon: 'class-clearBtn',
         items: [
           {
             cat: 0,
@@ -772,13 +786,14 @@
           app.deleteItem(itemIndex);
         },
         deleteItemWithBtn: function (e) {
-          var result = window.confirm("この行を削除しますか？");
+          var img = e.target;
+          var btn = img.parentNode;
+          var elements = document.getElementsByClassName("deleteBtn");
+          elements = [].slice.call(elements);
+          var itemIndex = elements.indexOf(btn);
+          const item = app.items[itemIndex];
+          var result = window.confirm(item.title + " を削除しますか？");
           if (result) {
-            var btn = e.target;
-            var elements = document.getElementsByClassName("deleteBtn");
-            elements = [].slice.call(elements);
-            var itemIndex = elements.indexOf(btn);
-            const item = app.items[itemIndex - 2];
             app.deleteItem(itemIndex);
           }
         },
@@ -892,12 +907,17 @@
           // writeCategories();
           saveData();
         },
-        clearDate() {
+        clearDate(item) {
+
+          console.log(item);
+          item.date = '';
+          saveData();
+
           // this.selectedDate = null
           // this.$emit('selected', null)
           // this.$emit('input', null)
           // this.$emit('cleared')
-          window.alert("!");
+          // window.alert("!");
         },
       },
       created: function () {
