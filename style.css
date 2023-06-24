@@ -743,3 +743,7 @@ td.date-td {
 .td-sp {
   border-right: dashed 1px #444;
 }
+
+.date-td {
+  /* border: 0; */
+}
