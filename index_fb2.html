@@ -198,7 +198,7 @@
                 <span class="textMetrics" aria-hidden="true"></span>
               </div>
             </td>
-            <td class="cat-title-sp">{{ categories[item.cat].title }}</td>
+            <td class="cat-title-sp">{{ item.title == '' ? "" : categories[item.cat].title }}</td>
             <!-- <td v-on:click="deleteItemWithBtn" class="deleteBtn">
               <img src="img/remove-button.png" />
             </td> -->
