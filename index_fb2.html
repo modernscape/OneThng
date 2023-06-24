@@ -156,7 +156,8 @@
     <div class="sp-only">
       <div class="content">
         <table id="table">
-          <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
+          <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow"
+            v-if="item.date!='' && item.date!=undefined">
             <td :class="{ hasItem: item.title != ''}" class="center">
               <input type="checkbox" name="" id="" :checked="item.done" v-on:change="updateDone(true, $event)"
                 class="doneBtn-sp" />

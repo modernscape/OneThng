@@ -720,7 +720,6 @@ td.date-td {
   }
 
   .txt {
-  /* color: hsl(209, 93%, 79%); */
     width: auto !important;
   }
 }
@@ -744,6 +743,3 @@ td.date-td {
   border-right: dashed 1px #444;
 }
 
-.date-td {
-  /* border: 0; */
-}
