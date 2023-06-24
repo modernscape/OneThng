@@ -43,87 +43,93 @@
 <body onContextmenu="return false;">
   <h1 class="title center">頭がいっぱいにならない「ひとつのことシート」</h1>
   <div id="app">
-    <button type="button" class="menu-btn">
-      <i class="fa fa-bars" aria-hidden="true"></i>
+    <button id="mode-btn">
+      ひとつのこと
     </button>
-    <div class="menu">
-      <div class="menu__item">
-        <a href="img/manual.png" target="manual" id="manual">使い方</a>
+    <div class="pc-only">
+      <button type="button" class="menu-btn">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </button>
+      <div class="menu">
+        <div class="menu__item">
+          <a href="img/manual.png" target="manual" id="manual">使い方</a>
+        </div>
+        <div class="menu__item" id="export">Export</div>
+        <!-- <div class="menu__item">Import<input id="file" type="file" name="file"></div> -->
+        <div class="menu__item">
+          <label><input id="file" type="file" style="display: none;" />Import</label>
+        </div>
       </div>
-      <div class="menu__item" id="export">Export</div>
-      <!-- <div class="menu__item">Import<input id="file" type="file" name="file"></div> -->
-      <div class="menu__item">
-        <label><input id="file" type="file" style="display: none;" />Import</label>
+      <div id="contextmenu">
+        <ul>
+          <!-- <li v-on:click="addItem">タスクを追加</li> -->
+          <li v-on:click="addItemPrev">＋ 行を追加（上に）</li>
+          <li v-on:click="deleteItemWithMenu">ー 行を削除</li>
+          <li v-on:click="addCategoryPrev">＋ 列を追加（左に）</li>
+          <li v-on:click="deleteCategoryWithMenu">ー 列を削除</li>
+        </ul>
       </div>
-    </div>
-    <div id="contextmenu">
-      <ul>
-        <!-- <li v-on:click="addItem">タスクを追加</li> -->
-        <li v-on:click="addItemPrev">＋ 行を追加（上に）</li>
-        <li v-on:click="deleteItemWithMenu">ー 行を削除</li>
-        <li v-on:click="addCategoryPrev">＋ 列を追加（左に）</li>
-        <li v-on:click="deleteCategoryWithMenu">ー 列を削除</li>
-      </ul>
-    </div>
-    <div id="contextmenu_out">
-      <ul>
-        <li v-on:click="addItem">タスクを追加</li>
-        <li v-on:click="addCategory">カテゴリーを追加</li>
-      </ul>
-    </div>
-    <div class="content">
-      <table id="table">
-        <tr class="center">
-          <td class="txt-half">実行</td>
-          <td class="txt-half">実施する日</td>
-          <td class="txt-half">フラグ</td>
-          <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id" class="td_category">
-            <input type="text" v-model="cat.title" v-on:change="writeCategories_app" class="input_category center"
-              placeholder="カテゴリー" />
-            <img src="img/arrow.png" :class="{ firstCat: cat.id == 0 }" @click="moveCategory" class="catMoveBtn" />
-            <img src="img/remove-button.png" class="catDeleteBtn" @click="deleteCategoryWithBtn" />
-          </td>
-          <td class="plusBtn plus_category" v-on:click="addCategory">
-            列を追加 ＋
-          </td>
-        </tr>
-        <tr style="height: 60px;">
-          <td colspan="2" class="txt-half">
-            メモ<br />ツール<br />コンテンツ
-          </td>
-          <td></td>
-          <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center">
-            <textarea v-model="cat.tool" v-on:change="writeCategories_app" class="center">{{ cat.tool }}</textarea>
-          </td>
-        </tr>
-        <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
-          <td :class="{ hasItem: item.title != ''}" class="center">
-            <input type="checkbox" name="" id="" :checked="item.done" v-on:change="updateDone" class="doneBtn" />
-          </td>
-          <td class="date-td">
-            <vuejs-datepicker v-model="item.date" :format="DatePickerFormat" class="dateField datepicker"
-              @closed="updateDate(item)">
-            </vuejs-datepicker>
+      <div id="contextmenu_out">
+        <ul>
+          <li v-on:click="addItem">タスクを追加</li>
+          <li v-on:click="addCategory">カテゴリーを追加</li>
+        </ul>
+      </div>
+      <div class="content">
+        <table id="table">
+          <tr class="center">
+            <td class="txt-half">実行</td>
+            <td class="txt-half">実施する日</td>
+            <td class="txt-half">フラグ</td>
+            <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id" class="td_category">
+              <input type="text" v-model="cat.title" v-on:change="writeCategories_app" class="input_category center"
+                placeholder="カテゴリー" />
+              <img src="img/arrow.png" :class="{ firstCat: cat.id == 0 }" @click="moveCategory" class="catMoveBtn" />
+              <img src="img/remove-button.png" class="catDeleteBtn" @click="deleteCategoryWithBtn" />
+            </td>
+            <td class="plusBtn plus_category" v-on:click="addCategory">
+              列を追加 ＋
+            </td>
+          </tr>
+          <tr style="height: 60px;">
+            <td colspan="2" class="txt-half">
+              メモ<br />ツール<br />コンテンツ
+            </td>
+            <td></td>
+            <td v-for="cat in categories" :class="cat.tool" :key="cat.id" :data-id="cat.id" class="center">
+              <textarea v-model="cat.tool" v-on:change="writeCategories_app" class="center">
+{{ cat.tool }}</textarea>
+            </td>
+          </tr>
+          <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
+            <td :class="{ hasItem: item.title != ''}" class="center">
+              <input type="checkbox" name="" id="" :checked="item.done" v-on:change="updateDone(false, $event)"
+                class="doneBtn" />
+            </td>
+            <td class="date-td">
+              <vuejs-datepicker v-model="item.date" :format="DatePickerFormat" class="dateField datepicker"
+                @closed="updateDate(item)">
+              </vuejs-datepicker>
 
-            <!-- Clear Button -->
-            <span class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate(item)">
-              <span v-if="clearButtonIcon" :class="clearButtonIcon">&times;</span>
-            </span>
-          </td>
-          <td>
-            <select class="evaluationSelect" name="" id="" v-on:change="updateEvaluation" :value="item.evaluation"
-              style="text-align: center;">
-              <option value=" "> </option>
-              <option value="◉">◉</option>
-              <option value="◎">◎</option>
-              <option value="⚪︎">⚪︎</option>
-              <option value="△">△</option>
-              <option value="×">×</option>
-            </select>
-          </td>
-          <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
-            <div class="container" v-if="true">
-              <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:input="inputHundler" :class="
+              <!-- Clear Button -->
+              <span class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate(item)">
+                <span v-if="clearButtonIcon" :class="clearButtonIcon">&times;</span>
+              </span>
+            </td>
+            <td>
+              <select class="evaluationSelect" name="" id="" v-on:change="updateEvaluation(false, $event)"
+                :value="item.evaluation" style="text-align: center;">
+                <option value=" "> </option>
+                <option value="◉">◉</option>
+                <option value="◎">◎</option>
+                <option value="⚪︎">⚪︎</option>
+                <option value="△">△</option>
+                <option value="×">×</option>
+              </select>
+            </td>
+            <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id">
+              <div class="container" v-if="true">
+                <input type="text" :value='cat.id==item.cat ? item.title : ""' v-on:input="inputHundler" :class="
               { 
                 active: item.date!='' && item.date!=undefined && cat.id==item.cat, 
                 inactive: (item.date=='' || item.date==undefined) && cat.id==item.cat, inputDone: item.done,
@@ -131,38 +137,76 @@
                 evaluation_2: item.evaluation=='◎',
                 evaluation_3: item.evaluation=='⚪︎'
               }" class="txt" v-on:focus="activateCat(cat.id, $event)" @blur="blurRow($event)"
-                :placeholder="item.title != '' ? '' : '行動' " :style="styles(item)" />
-              <span class="textMetrics" aria-hidden="true"></span>
-            </div>
-          </td>
-          <td v-on:click="deleteItemWithBtn" class="deleteBtn">
-            <img src="img/remove-button.png" />
-          </td>
-        </tr>
-        <tr>
-          <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">
-            行を追加 ＋
-          </td>
-        </tr>
-      </table>
-      <!-- <p class="note">
-        ① 実施する<b>「行動」</b>を追加<br>
-        ② 行動は1行に<b>1つのみ</b><br>
-        ③「実施する日」設定 → <b>自動ソート</b>
-      </p> -->
+                  :placeholder="item.title != '' ? '' : '行動' " :style="styles(item)" />
+                <span class="textMetrics" aria-hidden="true"></span>
+              </div>
+            </td>
+            <td v-on:click="deleteItemWithBtn" class="deleteBtn">
+              <img src="img/remove-button.png" />
+            </td>
+          </tr>
+          <tr>
+            <td :colspan="4" class="plusBtn plus_item" v-on:click="addItem">
+              行を追加 ＋
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
+    <div class="sp-only">
+      <div class="content">
+        <table id="table">
+          <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
+            <td :class="{ hasItem: item.title != ''}" class="center">
+              <input type="checkbox" name="" id="" :checked="item.done" v-on:change="updateDone(true, $event)"
+                class="doneBtn-sp" />
+            </td>
+            <td class="date-td">
+              <vuejs-datepicker v-model="item.date" :format="DatePickerFormat" class="dateField datepicker"
+                @closed="updateDate(item)">
+              </vuejs-datepicker>
 
-    <!-- <input type="text" id="target"> -->
+              <!-- Clear Button -->
+              <span class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate(item)">
+                <span v-if="clearButtonIcon" :class="clearButtonIcon">&times;</span>
+              </span>
+            </td>
+            <td>
+              <select class="evaluationSelect-sp" name="" id="" v-on:change="updateEvaluation(true, $event)"
+                :value="item.evaluation" style="text-align: center;">
+                <option value=" "> </option>
+                <option value="◉">◉</option>
+                <option value="◎">◎</option>
+                <option value="⚪︎">⚪︎</option>
+                <option value="△">△</option>
+                <option value="×">×</option>
+              </select>
+            </td>
+            <!-- <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id"> -->
+            <td>
+              <div class="container" v-if="true">
+                <input type="text" :value='item.title' v-on:input="inputHundler" :class="
+                        { 
+                          active: item.date!='' && item.date!=undefined, 
+                          inactive: (item.date=='' || item.date==undefined), 
+                          inputDone: item.done,
+                          evaluation_1: item.evaluation=='◉',
+                          evaluation_2: item.evaluation=='◎',
+                          evaluation_3: item.evaluation=='⚪︎'
+                        }" class="txt" v-on:focus="activateCat(cat.id, $event)" @blur="blurRow($event)"
+                  :placeholder="item.title != '' ? '' : '行動' " :style="styles(item)" />
+                <span class="textMetrics" aria-hidden="true"></span>
+              </div>
+            </td>
+            <!-- <td v-on:click="deleteItemWithBtn" class="deleteBtn">
+              <img src="img/remove-button.png" />
+            </td> -->
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
-  <!-- <script>
-    $(function () {
-      $('#target').datepicker({
-        defaultDate: new Date(2020, 7, 5), // 2020/8/5を表示
-        numberOfMonths: 2,                // 表示される月の数:2
-        dateFormat: 'yy年mm月dd日',      // yyyy年mm月dd日
-      });
-    });
-  </script> -->
+
   <!-- <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script> -->
 
@@ -243,7 +287,7 @@
             title: "ブログを書く",
             active: false,
             width: 0,
-            editing: false
+            editing: false,
           },
         ],
         categories: [
@@ -434,7 +478,7 @@
           saveData();
         },
         inputHundler: function (e) {
-          console.log('inputHundler!');
+          console.log("inputHundler!");
           var cat = 0;
           const curInput = e.target;
           const tr = curInput.parentNode.parentNode.parentNode;
@@ -477,7 +521,8 @@
           let tr = this.trForInput(activeInput);
           tr.classList.add("editingRow");
         },
-        blurRow: function (e) { // フォーカスから外れる
+        blurRow: function (e) {
+          // フォーカスから外れる
           let tr = this.trForInput(activeInput);
           tr.classList.remove("editingRow");
         },
@@ -517,9 +562,10 @@
           // writeItems();
           saveData();
         },
-        updateDone: function (e) {
+        updateDone: function (sp, e) {
           var btn = e.target;
-          var elements = document.getElementsByClassName("doneBtn");
+          let str = sp ? "doneBtn-sp" : "doneBtn";
+          var elements = document.getElementsByClassName(str);
           elements = [].slice.call(elements);
           var itemIndex = elements.indexOf(btn);
           const item = app.items[itemIndex];
@@ -560,9 +606,10 @@
             return false;
           }
         },
-        updateEvaluation: function (e) {
+        updateEvaluation: function (sp, e) {
           var select = e.target;
-          var item = this.itemForElement("evaluationSelect", e);
+          let str = sp ? "evaluationSelect-sp" : "evaluationSelect";
+          var item = this.itemForElement(str, e);
           item.evaluation = select.value;
           // writeItems();
           saveData();
