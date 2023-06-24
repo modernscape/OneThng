@@ -183,7 +183,7 @@
               </select>
             </td>
             <!-- <td v-for="cat in categories" :class="cat.title" :key="cat.id" :data-id="cat.id"> -->
-            <td>
+            <td class="td-sp">
               <div class="container" v-if="true">
                 <input type="text" :value='item.title' v-on:input="inputHundler" :class="
                         { 
@@ -198,6 +198,7 @@
                 <span class="textMetrics" aria-hidden="true"></span>
               </div>
             </td>
+            <td class="cat-title-sp">{{ categories[item.cat].title }}</td>
             <!-- <td v-on:click="deleteItemWithBtn" class="deleteBtn">
               <img src="img/remove-button.png" />
             </td> -->

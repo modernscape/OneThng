@@ -732,3 +732,14 @@ td.date-td {
   padding: 0 3px;
   display: none;
 }
+
+.cat-title-sp{
+  padding: 0 2px;
+  color: #999;
+  font-size: 70%;
+  border-left: none;
+}
+
+.td-sp {
+  border-right: dashed 1px #444;
+}
