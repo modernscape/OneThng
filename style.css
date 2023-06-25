@@ -770,3 +770,7 @@ td.date-td {
   border: 3px solid rgb(190, 0, 136);
 }
 
+.sp-only .content {
+  padding: 1em 0;
+}
+
