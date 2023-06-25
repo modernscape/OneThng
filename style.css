@@ -750,20 +750,15 @@ td.date-td {
   transform: translateY(-50%);
   position: absolute;
   top: 50%;
-  /* padding: 0 5px; */
 }
 
-
 .sp-only tr.itemRow td.date-td {
-  /* background: #444; */
   border: 0;
 }
 
 .sp-only tr.itemRow:nth-child(2n) td.date-td {
   background: #444;
-  /* border: 0; */
 }
-
 
 .sp-only td.date-td {
   position: relative;
@@ -771,7 +766,3 @@ td.date-td {
   padding: 0 5px;
 }
 
-/* .vdp-datepicker__clear-button {
-  height: 100%;
-}
- */
