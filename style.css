@@ -780,7 +780,8 @@ td.date-td {
 }
 
 .cat-name-wrap {
-  margin: 1em auto;
+  margin: 2em auto;
+  color: #aaa;
 }
 
 .cat-name {
