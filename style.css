@@ -766,3 +766,7 @@ td.date-td {
   padding: 0 5px;
 }
 
+.sp-only table {
+  border: 3px solid rgb(190, 0, 136);
+}
+
