@@ -101,7 +101,7 @@
 {{ cat.tool }}</textarea>
             </td>
           </tr>
-          <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow">
+          <tr v-for="item in items" :key="item.id" :data-id="item.id" class="itemRow overflow-visible">
             <td :class="{ hasItem: item.title != ''}" class="center">
               <input type="checkbox" name="" id="" :checked="item.done" v-on:change="updateDone(false, $event)"
                 class="doneBtn sticky" />
