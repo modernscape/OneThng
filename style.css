@@ -741,5 +741,25 @@ td.date-td {
 
 .td-sp {
   border-right: dashed 1px #444;
+  text-align: right;
+}
+
+.sp-only input[type="text"] {
+   height:100%;
+}
+
+.sp-only tr.itemRow {
+  /* position: relative; */
+}
+
+.sp-only td.date-td {
+  /* transform: translateY(-50%);
+  position: absolute;
+  top: 50%; */
+   height:48px;
+}
+
+.vdp-datepicker__clear-button {
+  height: 100%;
 }
 

@@ -195,11 +195,12 @@
                           evaluation_2: item.evaluation=='◎',
                           evaluation_3: item.evaluation=='⚪︎'
                         }" class="txt" v-on:focus="activateCat(cat.id, $event)" @blur="blurRow($event)"
-                  :placeholder="item.title != '' ? '' : '行動' " :style="styles(item)" />
+                  :placeholder="item.title != '' ? '' : '行動' " :style="styles(item)" /><br>
+                <span class="cat-title-sp">{{ item.title == '' ? "" : categories[item.cat].title }}</span>
                 <span class="textMetrics" aria-hidden="true"></span>
               </div>
             </td>
-            <td class="cat-title-sp">{{ item.title == '' ? "" : categories[item.cat].title }}</td>
+            <!-- <td class="cat-title-sp">{{ item.title == '' ? "" : categories[item.cat].title }}</td> -->
             <!-- <td v-on:click="deleteItemWithBtn" class="deleteBtn">
               <img src="img/remove-button.png" />
             </td> -->
