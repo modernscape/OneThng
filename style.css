@@ -485,11 +485,34 @@ p.note {
 #contextmenu_out li {
   cursor: pointer;
   list-style-type: none;
-  color: #fff;
+  color: #fff; 
 }
+
+.sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: #292929;
+}
+
+.z-index_2 {
+    z-index: 2;
+}
+
+.overflow-visible {
+  overflow: visible !important;
+}
+
+/* .tr_category {
+  position: sticky;
+  top: 0;
+  background: red;
+} */
 
 .td_category {
   position: relative;
+  z-index: 1;
 }
 
 .input_category {
