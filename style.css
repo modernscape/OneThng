@@ -754,14 +754,14 @@ td.date-td {
 }
 
 
-/* .sp-only tr.itemRow td.date-td {
-  background: #444;
+.sp-only tr.itemRow td.date-td {
+  /* background: #444; */
   border: 0;
-} */
+}
 
 .sp-only tr.itemRow:nth-child(2n) td.date-td {
   background: #444;
-  border: 0;
+  /* border: 0; */
 }
 
 
