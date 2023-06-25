@@ -778,3 +778,11 @@ td.date-td {
 .content {
   box-sizing: border-box;
 }
+
+.cat-name-wrap {
+  margin: 1em auto;
+}
+
+.cat-name {
+  display: block;
+}

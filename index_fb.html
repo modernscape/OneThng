@@ -206,6 +206,10 @@
             </td> -->
           </tr>
         </table>
+
+        <div class="cat-name-wrap">
+          <span v-for="cat in categories" class="cat-name" :key="cat.id" :data-id="cat.id">{{ cat.title }}</span><br>
+        </div>
       </div>
     </div>
   </div>
