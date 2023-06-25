@@ -748,7 +748,8 @@ td.date-td {
    height:100%;
 }
 
-.sp-only tr.itemRow {
+.sp-only tr.itemRow td.date-td {
+  background: #444;
   /* position: relative; */
 }
 
@@ -757,9 +758,10 @@ td.date-td {
   position: absolute;
   top: 50%; */
    height:48px;
+   /* border: 0; */
 }
 
-.vdp-datepicker__clear-button {
+/* .vdp-datepicker__clear-button {
   height: 100%;
 }
-
+ */
