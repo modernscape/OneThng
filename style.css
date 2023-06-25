@@ -710,7 +710,8 @@ td.date-td {
   display: none;
 }
 
-@media screen and (max-width: 500px) {
+/* @media screen and (max-width: 500px) { */
+@media screen and (orientation: portrait) {
   .pc-only {
     display: none;
   }
