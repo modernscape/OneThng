@@ -774,3 +774,7 @@ td.date-td {
   padding: 1em 0;
 }
 
+
+.content {
+  box-sizing: border-box;
+}
