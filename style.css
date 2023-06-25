@@ -732,7 +732,7 @@ td.date-td {
   display: none;
 }
 
-.cat-title-sp{
+.cat-title-sp {
   padding: 0 5px;
   color: #777;
   font-size: 70%;
@@ -781,9 +781,13 @@ td.date-td {
 
 .cat-name-wrap {
   margin: 2em auto;
-  color: #aaa;
+  color: #777;
 }
 
 .cat-name {
   display: block;
+}
+
+.sp-only #table {
+  width: 100%;
 }
