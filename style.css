@@ -744,21 +744,25 @@ td.date-td {
   text-align: right;
 }
 
-.sp-only input[type="text"] {
-   height:100%;
+.sp-only td.date-td input[type="text"],
+.sp-only .class-clearBtn
+{
+  transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  /* padding: 0 5px; */
 }
+
 
 .sp-only tr.itemRow td.date-td {
   background: #444;
-  /* position: relative; */
+  border: 0;
 }
 
 .sp-only td.date-td {
-  /* transform: translateY(-50%);
-  position: absolute;
-  top: 50%; */
-   height:48px;
-   /* border: 0; */
+  position: relative;
+  height:50px;
+  padding: 0 5px;
 }
 
 /* .vdp-datepicker__clear-button {
