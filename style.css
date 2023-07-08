@@ -687,8 +687,15 @@ h1.title {
   background: rgba(0, 153, 255, 0.6);
 }
 
+.vdp-datepicker__calendar{
+  
+
+}
+
 div.vdp-datepicker__calendar > div {
   background-color: rgb(47, 47, 47);
+  left: 132px;
+
 }
 
 td.date-td {
